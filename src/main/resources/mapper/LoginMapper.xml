@@ -13,11 +13,15 @@
             use_yn AS "useYn",
             COALESCE(D.site_name,C.cust_nm) AS "siteName"
         FROM ems.user_bas A
-            LEFT JOIN ems.role_bas B  ON A.user_type = B.role_no
-            LEFT JOIN ems.cyber_kepco_info C ON A.ismart_id = C.cust_no
-            LEFT JOIN ems.total_Info D ON A.ismart_id = D.cust_no
+             LEFT JOIN ems.role_bas B  ON A.user_type = B.role_no
+             LEFT JOIN ems.cyber_kepco_info C ON A.ismart_id = C.cust_no
+             LEFT JOIN ems.total_Info D ON A.ismart_id = D.cust_no
         WHERE A.user_id = #{username}
-        AND A.user_pw = CRYPT(#{password}, user_pw)
-        LIMIT 1
+            AND A.user_pw = CRYPT(#{password}, user_pw)
+            AND C.end_month = (
+                SELECT MAX(end_month) FROM ems.cyber_kepco_info WHERE cust_no = (
+                    SELECT ismart_id FROM ems.user_bas WHERE user_id = #{username}
+                )
+            )
     </select>
 </mapper>

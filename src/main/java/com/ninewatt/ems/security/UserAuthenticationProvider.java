@@ -20,14 +20,14 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     LoginService loginService;
 
     @Override
-    public Authentication authenticate(Authentication authentication)
-            throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
 
         UserVO userVO = loginService.authenticate(username, password);
-        if (userVO == null)
+        if (userVO == null) {
             throw new BadCredentialsException("Login Error !!");
+        }
         userVO.setPassword(null);
 
         ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
