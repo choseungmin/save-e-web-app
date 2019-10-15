@@ -31,7 +31,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         userVO.setPassword(null);
 
         ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        authorities.add(new SimpleGrantedAuthority(userVO.getRoleName())); //role 설정
         return new UsernamePasswordAuthenticationToken(userVO, null, authorities);
     }
 

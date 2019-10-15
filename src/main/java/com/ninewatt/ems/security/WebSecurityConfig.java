@@ -1,8 +1,10 @@
-import com.ninewatt.ems.security.UserAuthenticationProvider;
+package com.ninewatt.ems.security;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -25,13 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login") // default
                 .loginProcessingUrl("/authenticate")
                 .failureUrl("/login?error") // default
-                .defaultSuccessUrl("/home")
+                .defaultSuccessUrl("/")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll();
 
         http.logout()
-                .logoutUrl("/logout") // default
+//                .logoutUrl("/logout") // default
                 .logoutSuccessUrl("/login")
                 .permitAll();
     }
@@ -39,5 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/favicon.ico", "/css/**", "/image/**", "/js/**");
     }
 }

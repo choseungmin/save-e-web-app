@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<form action="#" th:action="@{/authenticate}" method="post" th:object="${loginVO}">
+    <p>Please sign in</p>
+    <div>
+        Username: <input id="username" name="username" class="username" type="username" th:field="*{username}" autofocus />
+    </div>
+    <div>
+        Password: <input id="password" name="password" class="password" type="password" th:field="*{password}" />
+    </div>
+    <div>
+        <input type="submit" value="Log in" />
+    </div>
+    <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+</form>
+</body>
+</html>
