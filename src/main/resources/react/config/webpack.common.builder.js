@@ -7,7 +7,7 @@ const autoprefixer = require('autoprefixer');
 const isProduction =
   process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV === 'production';
 const sourcePath = path.join(__dirname, '../src');
-const outPath = path.join(__dirname, '../../static');
+const outPath = path.join(__dirname, '../../static/build');
 
 // plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -72,15 +72,6 @@ function build({ devOptions = {} }, env) {
                 ident: 'postcss',
                 plugins: () => [
                   require('postcss-flexbugs-fixes'),
-                  autoprefixer({
-                    browsers: [
-                      '>1%',
-                      'last 4 versions',
-                      'Firefox ESR',
-                      'not ie < 9', // React doesn't support IE8 anyway
-                    ],
-                    flexbox: 'no-2009',
-                  }),
                 ],
               },
             },

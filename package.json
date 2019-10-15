@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "start": "cd src/main/resources/react && yarn start",
+    "build": "cd src/main/resources/react && yarn build"
+  }
+}

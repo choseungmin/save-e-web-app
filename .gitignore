@@ -34,3 +34,4 @@ gradle/
 log/
 src/main/resources/react/yarn.lock
 src/main/resources/react/.babelrc
+src/main/resources/static/build/
