@@ -32,3 +32,5 @@ out/
 .vscode/
 gradle/
 log/
+src/main/resources/react/yarn.lock
+src/main/resources/react/.babelrc
