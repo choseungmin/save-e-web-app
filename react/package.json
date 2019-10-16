@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --config config/webpack.dev.config.js --hot --open --port 3000",
     "build": "webpack --config config/webpack.dev.config.js -p --progress --colors",
-    "clean": "rm -rf build",
+    "clean": "rm -rf ../src/main/resources/build",
     "lint": "eslint src"
   },
   "repository": {

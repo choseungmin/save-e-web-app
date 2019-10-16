@@ -7,7 +7,7 @@ const autoprefixer = require('autoprefixer');
 const isProduction =
   process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV === 'production';
 const sourcePath = path.join(__dirname, '../src');
-const outPath = path.join(__dirname, '../../static/build');
+const outPath = path.join(__dirname, '../../src/main/resources/build');
 
 // plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -24,8 +24,8 @@ function build({ devOptions = {} }, env) {
     ],
     output: {
       path: path.resolve(__dirname, outPath),
-      filename: isProduction ? '[contenthash].js' : '[hash].js',
-      chunkFilename: isProduction ? '[name].[contenthash].js' : '[name].[hash].js',
+      filename: isProduction ? 'js/[contenthash].js' : 'js/[hash].js',
+      chunkFilename: isProduction ? 'js/[name].[contenthash].js' : 'js/[name].[hash].js',
       publicPath: '/'
     },
     plugins: [
@@ -35,7 +35,7 @@ function build({ devOptions = {} }, env) {
       }),
       new WebpackCleanupPlugin(),
       new MiniCssExtractPlugin({
-        filename: isProduction ? '[contenthash].css' : '[hash].css',
+        filename: isProduction ? 'css/[contenthash].css' : 'css/[hash].css',
         disable: !isProduction
       }),
       new HtmlWebpackPlugin({

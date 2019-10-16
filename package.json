@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "start": "cd src/main/resources/react && yarn start",
-    "build": "cd src/main/resources/react && yarn build"
+    "start": "cd react && yarn start",
+    "build": "cd react && yarn build",
+    "clean": "cd react && yarn clean",
+    "lint": "cd react && yarn lint"
   }
 }
