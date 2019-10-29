@@ -1,18 +1,55 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'mobx-react'; // MobX 에서 사용하는 Provider
-import './resources/style/index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import RootStore from './app/stores';
+/*!
 
-const root = new RootStore(); // *** 루트 스토어 생성
+=========================================================
+* Material Dashboard PRO React - v1.8.0
+=========================================================
 
-ReactDOM.render(
-  <Provider {...root}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+import React from "react";
+import ReactDOM from "react-dom";
+import { createBrowserHistory } from "history";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
+
+import AuthLayout from "layouts/Auth.js";
+import RtlLayout from "layouts/RTL.js";
+import AnalysisLayout from "layouts/Analysis.js";
+
+import { AnalysisProvider } from "contexts/analysisModule.js";
+
+import "assets/scss/material-dashboard-pro-react.scss?v=1.8.0";
+
+import "./style.css";
+
+const hist = createBrowserHistory();
+
+const AppProvider = ({ contexts, children }) => contexts.reduce(
+  (prev, context) => React.createElement(context, {
+    children: prev
+  }),
+  children
 );
 
-// registerServiceWorker();
+ReactDOM.render(
+  <AppProvider
+    contexts={[AnalysisProvider]}
+  >
+    <Router history={hist}>
+      <Switch>
+        <Route path="/rtl" component={RtlLayout} />
+        <Route path="/auth" component={AuthLayout} />
+        <Route path="/analysis" component={AnalysisLayout} />
+        <Redirect from="/" to="/analysis/dashboard" />
+      </Switch>
+    </Router>
+  </AppProvider>,
+  document.getElementById("root")
+);

@@ -1,7 +1,9 @@
 {
   "scripts": {
+    "install": "cd react && yarn install",
     "start": "cd react && yarn start",
     "build": "cd react && yarn build",
+    "build-mv": "rm -rf src/main/resources/build && cd react && yarn build && mv build ../src/main/resources/build",
     "clean": "cd react && yarn clean",
     "lint": "cd react && yarn lint"
   }
