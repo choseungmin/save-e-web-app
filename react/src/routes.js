@@ -2,6 +2,7 @@ import Buttons from "views/Components/Buttons.js";
 import Calendar from "views/Calendar/Calendar.js";
 import Charts from "views/Charts/Charts.js";
 import Dashboard from "views/Analysis/Dashboard.js";
+import DataAnalysis from "views/Analysis/DataAnalysis.js";
 import Advisor from "views/Analysis/Advisor";
 import ErrorPage from "views/Pages/ErrorPage.js";
 import ExtendedForms from "views/Forms/ExtendedForms.js";
@@ -48,6 +49,14 @@ var dashRoutes = [
     rtlName: "لوحة القيادة",
     icon: DashboardIcon,
     component: Dashboard,
+    layout: "/analysis"
+  },
+  {
+    path: "/dataAnalysis",
+    name: "School Data Analysis",
+    rtlName: "",
+    icon: Business,
+    component: DataAnalysis,
     layout: "/analysis"
   },
   {

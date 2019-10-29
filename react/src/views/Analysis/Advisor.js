@@ -43,6 +43,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Muted from "components/Typography/Muted.js";
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
+import SchoolSelectButton from "views/Analysis/SchoolSelectButton.js";
 
 // context API
 import { useAnalysis } from '../../contexts/analysisModule';
@@ -89,36 +90,12 @@ var mapData = {
 const useStyles = makeStyles({ ...extendedStyles, ...styles });
 
 const Advisor = (props) => {
-  const { analysisSchoolList, analysisDateList } = props;
   const classes = useStyles();
 
-  const schoolList = [...analysisSchoolList];
-  const dateList = [...analysisDateList];
-  const [schoolSelect, setSchoolSelect] = React.useState(analysisSchoolList[0]);
-  const [dateSelect, setDateSelect] = React.useState({value: '-', name: '-'});
 
   React.useEffect(() => {
-    console.log('advisor useEffect')
-    if(dateSelect.value == '-' && analysisDateList.length > 0) {
-      setDateSelect(analysisDateList[0]);
-    }
 
   });
-
-  const selectSchoolName = name => {
-    schoolList.map((v,i) => {
-      if(v.name == name) {
-        setSchoolSelect(v);
-      }
-    })
-  };
-  const selectDateName = name => {
-    dateList.map((v,i) => {
-      if(v.name == name) {
-        setDateSelect(v);
-      }
-    })
-  };
 
   return (
     <div>
@@ -126,12 +103,11 @@ const Advisor = (props) => {
         <GridItem xs={12} sm={12} md={12} lg={12}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12} lg={12}>
-              select
+              <SchoolSelectButton/>
             </GridItem>
             <GridItem xs={12} sm={12} md={12} lg={12}>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6} lg={4}>
-
                   <Card>
                     <CardHeader color="info" icon>
                       <h4 className={`${classes.cardIconTitle} ${classes.fontWeight500}`}>
@@ -140,7 +116,6 @@ const Advisor = (props) => {
                       </h4>
                     </CardHeader>
                   </Card>
-
                 </GridItem>
               </GridContainer>
             </GridItem>
@@ -259,9 +234,6 @@ const Advisor = (props) => {
 }
 export default useAnalysis(
   ({ state, actions }) => ({
-    number: state.number,
-    analysisSchoolList: state.analysisSchoolList,
     analysisDateList: state.analysisDateList,
-    increment: actions.increment,
   })
 )(Advisor);
