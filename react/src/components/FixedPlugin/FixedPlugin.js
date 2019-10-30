@@ -46,7 +46,7 @@ export default function FixedPlugin(props) {
   const classesObj = useStyles();
   return (
     <div
-      className={"fixed-plugin" + (props.rtlActive ? " fixed-plugin-rtl" : "")}
+      className={"fixed-plugin"}
     >
       <div id="fixedPluginClasses" className={props.fixedClasses}>
         <div onClick={handleClick}>
@@ -315,5 +315,4 @@ FixedPlugin.propTypes = {
   handleColorClick: PropTypes.func,
   handleImageClick: PropTypes.func,
   sidebarMinimize: PropTypes.func,
-  rtlActive: PropTypes.bool
 };

@@ -14,7 +14,7 @@ const useStyles = makeStyles(styles);
 
 export default function Footer(props) {
   const classes = useStyles();
-  const { fluid, white, rtlActive } = props;
+  const { fluid, white } = props;
   var container = cx({
     [classes.container]: !fluid,
     [classes.containerFluid]: fluid,
@@ -36,22 +36,22 @@ export default function Footer(props) {
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
               <a href="#home" className={block}>
-                {rtlActive ? "الصفحة الرئيسية" : "Home"}
+                {"Home"}
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a href="#company" className={block}>
-                {rtlActive ? "شركة" : "Company"}
+                {"Company"}
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a href="#portfolio" className={block}>
-                {rtlActive ? "بعدسة" : "Portfolio"}
+                {"Portfolio"}
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a href="#blog" className={block}>
-                {rtlActive ? "مدونة" : "Blog"}
+                {"Blog"}
               </a>
             </ListItem>
           </List>
@@ -63,11 +63,9 @@ export default function Footer(props) {
             className={anchor}
             target="_blank"
           >
-            {rtlActive ? "توقيت الإبداعية" : "9WATT"}
+            {"9WATT"}
           </a>
-          {rtlActive
-            ? ", مصنوعة مع الحب لشبكة الإنترنت أفضل"
-            : ", 에너지 비용을 줄이는 가장 손쉬운 방법"}
+          {"에너지 비용을 줄이는 가장 손쉬운 방법"}
         </p>
       </div>
     </footer>
@@ -77,5 +75,4 @@ export default function Footer(props) {
 Footer.propTypes = {
   fluid: PropTypes.bool,
   white: PropTypes.bool,
-  rtlActive: PropTypes.bool
 };

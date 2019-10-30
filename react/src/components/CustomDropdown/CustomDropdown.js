@@ -52,7 +52,6 @@ export default function CustomDropdown(props) {
     caret,
     hoverColor,
     dropPlacement,
-    rtlActive,
     noLiPadding,
     innerDropDown,
     navDropdown,
@@ -62,13 +61,11 @@ export default function CustomDropdown(props) {
     [classes.caret]: true,
     [classes.caretDropup]: dropup && !anchorEl,
     [classes.caretActive]: Boolean(anchorEl) && !dropup,
-    [classes.caretRTL]: rtlActive
   });
   const dropdownItem = classNames({
     [classes.dropdownItem]: true,
     [classes[hoverColor + "Hover"]]: true,
     [classes.noLiPadding]: noLiPadding,
-    [classes.dropdownItemRTL]: rtlActive
   });
   const dropDownMenu = (
     <MenuList role="menu" className={classes.menuList}>
@@ -195,7 +192,6 @@ CustomDropdown.propTypes = {
   buttonProps: PropTypes.object,
   dropup: PropTypes.bool,
   dropdownHeader: PropTypes.node,
-  rtlActive: PropTypes.bool,
   caret: PropTypes.bool,
   dropPlacement: PropTypes.oneOf([
     "bottom",

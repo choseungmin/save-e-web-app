@@ -71,7 +71,7 @@ export default function NavPills(props) {
   const tabContent = (
     <div className={classes.contentWrapper}>
       <SwipeableViews
-        axis={direction === "rtl" ? "x-reverse" : "x"}
+        axis={"x"}
         index={active}
         onChangeIndex={handleChangeIndex}
         style={{ overflowY: "hidden" }}

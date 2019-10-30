@@ -24,16 +24,11 @@ const useStyles = makeStyles(styles);
 
 export default function AnalysisNavbar(props) {
   const classes = useStyles();
-  const { color, rtlActive, brandText } = props;
+  const { color, brandText } = props;
   const appBarClasses = cx({
     [" " + classes[color]]: color
   });
-  const sidebarMinimize =
-    classes.sidebarMinimize +
-    " " +
-    cx({
-      [classes.sidebarMinimizeRTL]: rtlActive
-    });
+  const sidebarMinimize = classes.sidebarMinimize;
   return (
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
@@ -68,7 +63,7 @@ export default function AnalysisNavbar(props) {
         </div>
         {/*우측 nav (홈, 개인정보)*/}
         <Hidden smDown implementation="css">
-          <AnalysisNavbarLinks rtlActive={rtlActive} />
+          <AnalysisNavbarLinks />
         </Hidden>
         <Hidden mdUp implementation="css">
           <Button
@@ -88,7 +83,6 @@ export default function AnalysisNavbar(props) {
 
 AnalysisNavbar.propTypes = {
   color: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"]),
-  rtlActive: PropTypes.bool,
   brandText: PropTypes.string,
   miniActive: PropTypes.bool,
   handleDrawerToggle: PropTypes.func,

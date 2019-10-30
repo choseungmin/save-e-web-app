@@ -15,29 +15,6 @@
   border-radius: 8px 0 0 8px;
   text-align: center;
 
-  &.fixed-plugin-rtl {
-    right: auto;
-    left: 0;
-    border-radius: 0 8px 8px 0;
-    direction: ltr;
-    .dropdown.show .dropdown-menu {
-      right: auto;
-      left: 80px;
-      &:before {
-        border-left: none;
-        border-right: 16px solid rgba(0, 0, 0, 0.2);
-        left: -17px;
-        right: auto;
-      }
-      &:after {
-        border-left: none;
-        border-right: 16px solid #ffffff;
-        left: -16px;
-        right: auto;
-      }
-    }
-  }
-
   .dropdown-menu {
     text-align: center;
     position: absolute;
