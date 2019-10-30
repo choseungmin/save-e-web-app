@@ -5,6 +5,8 @@
     "build": "cd react && yarn build",
     "build-mv": "rm -rf src/main/resources/build && yarn build && mv react/build src/main/resources/build",
     "build-move": "rmdir /s /q src\\main\\resources\\build && yarn build && move react\\build src\\main\\resources\\build",
+    "mv": "rm -rf src/main/resources/build && mv react/build src/main/resources/build",
+    "move": "rmdir /s /q src\\main\\resources\\build && move react\\build src\\main\\resources\\build",
     "clean": "cd react && yarn clean",
     "lint": "cd react && yarn lint"
   }
