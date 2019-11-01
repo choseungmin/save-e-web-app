@@ -9,5 +9,8 @@
     "move": "rmdir /s /q src\\main\\resources\\build && move react\\build src\\main\\resources\\build",
     "clean": "cd react && yarn clean",
     "lint": "cd react && yarn lint"
+  },
+  "dependencies": {
+    "highcharts-more": "^0.1.7"
   }
 }
