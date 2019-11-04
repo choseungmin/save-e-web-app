@@ -47,7 +47,7 @@ const Analysis = (props) => {
   const [bgColor, setBgColor] = React.useState("white");
   // const [hasImage, setHasImage] = React.useState(false);
   const [fixedClasses, setFixedClasses] = React.useState("dropdown");
-  const [logo, setLogo] = React.useState(require("assets/img/logo-white.svg"));
+  const [logo, setLogo] = React.useState(require("assets/img/ninewatt/ninewatt_logo.png"));
   const [test, setTest] = React.useState(null);
   // styles
   const classes = useStyles();
@@ -174,7 +174,7 @@ const Analysis = (props) => {
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={"Creative Tim"}
+        logoText={"Creative Tim2"}
         logo={logo}
         image={image}
         handleDrawerToggle={handleDrawerToggle}
@@ -211,7 +211,7 @@ const Analysis = (props) => {
           </div>
         )}
         {getRoute() ? <Footer fluid /> : null}
-        <FixedPlugin
+        {/*<FixedPlugin
           handleImageClick={handleImageClick}
           handleColorClick={handleColorClick}
           handleBgColorClick={handleBgColorClick}
@@ -222,7 +222,7 @@ const Analysis = (props) => {
           fixedClasses={fixedClasses}
           sidebarMinimize={sidebarMinimize.bind(this)}
           miniActive={miniActive}
-        />
+        />*/}
       </div>
     </div>
   );

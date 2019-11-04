@@ -300,7 +300,7 @@ class Sidebar extends React.Component {
     var user = (
       <div className={userWrapperClass}>
         <div className={photo}>
-          <img src={avatar} className={classes.avatarImg} alt="..." />
+          {/*<img src={avatar} className={classes.avatarImg} alt="..." />*/}
         </div>
         <List className={classes.list}>
           <ListItem className={classes.item + " " + classes.userItem}>
@@ -310,7 +310,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary={"Tania Andrew"}
+                primary={"인천동부교육청"}
                 secondary={
                   <b
                     className={
@@ -336,10 +336,10 @@ class Sidebar extends React.Component {
                     }
                   >
                     <span className={collapseItemMini}>
-                      {"MP"}
+                      {"P"}
                     </span>
                     <ListItemText
-                      primary={"My Profile"}
+                      primary={"Profile"}
                       disableTypography={true}
                       className={collapseItemText}
                     />
@@ -353,10 +353,10 @@ class Sidebar extends React.Component {
                     }
                   >
                     <span className={collapseItemMini}>
-                      {"EP"}
+                      {"S"}
                     </span>
                     <ListItemText
-                      primary={"Edit Profile"}
+                      primary={"Settings"}
                       disableTypography={true}
                       className={collapseItemText}
                     />
@@ -407,18 +407,17 @@ class Sidebar extends React.Component {
     var brand = (
       <div className={logoClasses}>
         <a
-          href="https://www.creative-tim.com?ref=mdpr-sidebar"
+          href="/alanysis/dasobord"
           target="_blank"
-          className={logoMini}
+          className={logo}
         >
-          <img src={logo} alt="logo" className={classes.img} />
         </a>
         <a
-          href="https://www.creative-tim.com?ref=mdpr-sidebar"
+          href="/alanysis/dasobord"
           target="_blank"
           className={logoNormal}
         >
-          {logoText}
+          <img src={logo} alt="logo" className={classes.img} />
         </a>
       </div>
     );

@@ -166,7 +166,8 @@ const sidebarStyle = theme => ({
     transform: "translate3d(25px, 0, 0)"
   },
   img: {
-    width: "35px",
+    width: "75px",
+    marginLeft: "25px",
     verticalAlign: "middle",
     border: "0"
   },
@@ -265,7 +266,8 @@ const sidebarStyle = theme => ({
     padding: "0 16px !important"
   },
   userItemText: {
-    lineHeight: "22px"
+    lineHeight: "22px",
+    fontWeight: "bold"
   },
   itemTextRTL: {
     marginRight: "45px",
@@ -498,13 +500,15 @@ const sidebarStyle = theme => ({
     }
   },
   photo: {
+    backgroundColor: "#d0d0d0",
     transition: "all 300ms linear",
-    width: "34px",
-    height: "34px",
+    width: "25px",
+    height: "25px",
     overflow: "hidden",
     float: "left",
     zIndex: "5",
     marginRight: "11px",
+    marginTop: "4px",
     borderRadius: "50%",
     marginLeft: "23px",
     ...boxShadow
