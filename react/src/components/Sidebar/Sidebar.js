@@ -370,10 +370,10 @@ class Sidebar extends React.Component {
                     }
                   >
                     <span className={collapseItemMini}>
-                      {"S"}
+                      {"LO"}
                     </span>
                     <ListItemText
-                      primary={"Settings"}
+                      primary={"Log Out"}
                       disableTypography={true}
                       className={collapseItemText}
                     />

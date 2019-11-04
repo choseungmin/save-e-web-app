@@ -75,14 +75,6 @@ export default function HeaderLinks(props) {
             }
           />
           <span className={classes.notifications}>5</span>
-          <Hidden mdUp implementation="css">
-            <span
-              onClick={handleClickNotification}
-              className={classes.linkText}
-            >
-              {"Notification"}
-            </span>
-          </Hidden>
         </Button>
         <Popper
           open={Boolean(openNotification)}
