@@ -376,6 +376,7 @@ class Sidebar extends React.Component {
                       primary={"Log Out"}
                       disableTypography={true}
                       className={collapseItemText}
+                      onClick={() => {window.location = "/logout"}}
                     />
                   </NavLink>
                 </ListItem>

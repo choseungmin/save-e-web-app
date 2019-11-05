@@ -9,8 +9,8 @@
 
     "mv": "rm -rf src/main/resources/build && mv react/build src/main/resources/build",
     "move": "rmdir /s /q src\\main\\resources\\build && move react\\build src\\main\\resources\\build",
-    "cp-lib": "cp -r src/main/resources/html/css/ src/main/resources/build/static/css/",
-    "copy-lib": "copy /e src\\main\\resources\\html\\css src\\main\\resources\\build\\static\\css",
+    "cp-lib": "cp -r src/main/resources/html/lib/ src/main/resources/build/static/lib/",
+    "copy-lib": "xcopy /e /s src\\main\\resources\\html\\lib src\\main\\resources\\build\\static\\lib",
     "clean": "cd react && yarn clean",
     "lint": "cd react && yarn lint"
   },
