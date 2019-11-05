@@ -26,7 +26,7 @@ public class LoginController {
     @RequestMapping(value = "/logout", method= RequestMethod.GET)
     public String logout() { return "../html/logout"; }
 
-    @GetMapping("/")
+    @RequestMapping(value = "/", method= RequestMethod.GET)
     public String index(@ModelAttribute("loginVO") LoginVO loginVO, Model model) {
         // 시큐리티 컨텍스트 객체를 얻습니다.
          SecurityContext context = SecurityContextHolder.getContext();
