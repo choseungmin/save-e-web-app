@@ -17,6 +17,7 @@ import Divider from "@material-ui/core/Divider";
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
+import Home from "@material-ui/icons/Home";
 import Dashboard from "@material-ui/icons/Dashboard";
 import Search from "@material-ui/icons/Search";
 
@@ -34,7 +35,7 @@ export default function HeaderLinks(props) {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
     } else {
-      setOpenNotification(event.currentTarget);
+      setOpenNotification(event.currentTarget       );
     }
   };
   const handleCloseNotification = () => {
@@ -69,70 +70,12 @@ export default function HeaderLinks(props) {
           onClick={handleClickNotification}
           className={classes.buttonLink}
         >
-          <Notifications
+          <Home
             className={
               classes.headerLinksSvg + " " + classes.links
             }
           />
-          <span className={classes.notifications}>5</span>
         </Button>
-        <Popper
-          open={Boolean(openNotification)}
-          anchorEl={openNotification}
-          transition
-          disablePortal
-          placement="bottom"
-          className={classNames({
-            [classes.popperClose]: !openNotification,
-            [classes.popperResponsive]: true,
-            [classes.popperNav]: true
-          })}
-        >
-          {({ TransitionProps }) => (
-            <Grow
-              {...TransitionProps}
-              id="notification-menu-list"
-              style={{ transformOrigin: "0 0 0" }}
-            >
-              <Paper className={classes.dropdown}>
-                <ClickAwayListener onClickAway={handleCloseNotification}>
-                  <MenuList role="menu">
-                    <MenuItem
-                      onClick={handleCloseNotification}
-                      className={dropdownItem}
-                    >
-                      {"Mike John responded to your email"}
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseNotification}
-                      className={dropdownItem}
-                    >
-                      {"You have 5 new tasks"}
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseNotification}
-                      className={dropdownItem}
-                    >
-                      {"You're now friend with Andrew"}
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseNotification}
-                      className={dropdownItem}
-                    >
-                      {"Another Notification"}
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseNotification}
-                      className={dropdownItem}
-                    >
-                      {"Another One"}
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
       </div>
 
       <div className={managerClasses}>

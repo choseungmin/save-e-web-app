@@ -13,6 +13,15 @@ module.exports = function(app) {
         changeOrigin: true
       })
     );
+    app.use(
+      proxy('/analysis', {
+        target: 'http://localhost:8090',
+        /*onProxyReq: function(proxyReq, req, res) {
+          proxyReq.setHeader('Origin','https://web.dev.vitality.aia.co.kr:8443')
+        },*/
+        changeOrigin: true
+      })
+    );
   }
 };
 

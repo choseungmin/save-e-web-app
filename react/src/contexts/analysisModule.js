@@ -1,6 +1,10 @@
 import React, { Component, createContext } from 'react';
 import createUseConsumer from './lib/createUseConsumer';
-import { getAnalysisSchoolList, getAnalysisDateList } from '../api/analysisApi';
+import {
+  getLoginUserInfo,
+  getAnalysisSchoolList,
+  getAnalysisDateList
+} from '../api/analysisApi';
 
 const Context = createContext();
 
@@ -26,6 +30,10 @@ class AnalysisProvider extends Component {
       this.setState(
         () => ({analysisSchoolList: [ ...param ]})
       )
+    },
+    getLoginUserInfo: async () => {
+      const response = await getLoginUserInfo();
+      return response;
     },
     getAnalysisSchoolList: async(param) => {
       const response = await getAnalysisSchoolList(param);

@@ -18,7 +18,7 @@
 
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.springframework.org/schema/beans">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -30,6 +30,10 @@
           manifest.json provides metadata used when your web app is added to the
           homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
         -->
+
+    <!-- default header name is X-CSRF-TOKEN -->
+    <!--<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+    <!--<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>-->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <link

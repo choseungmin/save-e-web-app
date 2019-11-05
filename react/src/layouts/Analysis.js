@@ -33,6 +33,7 @@ const Analysis = (props) => {
   const { ...rest} = props;
   //context api
   const {
+    getLoginUserInfo,
     setAnalysisSchoolList,
     setAnalysisDateList,
     getAnalysisSchoolList,
@@ -161,6 +162,10 @@ const Analysis = (props) => {
   const initFunc = async () => {
     console.log('initFunc Run !!');
 
+    await getLoginUserInfo().then(response => {
+      console.log(response);
+    })
+
     await getAnalysisSchoolList().then((response) => {
       setAnalysisSchoolList(response.result);
     });
@@ -230,6 +235,7 @@ const Analysis = (props) => {
 
 export default useAnalysis(
   ({ state, actions }) => ({
+    getLoginUserInfo: actions.getLoginUserInfo,
     setAnalysisSchoolList: actions.setAnalysisSchoolList,
     setAnalysisDateList: actions.setAnalysisDateList,
     getAnalysisSchoolList: actions.getAnalysisSchoolList,
