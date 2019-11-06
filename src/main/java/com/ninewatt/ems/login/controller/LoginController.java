@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Collection;
 
@@ -26,20 +27,26 @@ public class LoginController {
     @RequestMapping(value = "/logout", method= RequestMethod.GET)
     public String logout() { return "../html/logout"; }
 
-    @RequestMapping(value = "/", method= RequestMethod.GET)
-    public String index(@ModelAttribute("loginVO") LoginVO loginVO, Model model) {
-        // 시큐리티 컨텍스트 객체를 얻습니다.
-         SecurityContext context = SecurityContextHolder.getContext();
-        // 인증 객체를 얻습니다.
-         Authentication authentication = context.getAuthentication();
-        // 로그인한 사용자정보를 가진 객체를 얻습니다.
-        UserVO vo = (UserVO) authentication.getPrincipal();
-        // 로그인한 사용자 권한을 가진 객체럴 얻습니다.
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+//    @RequestMapping(value = "/", method= RequestMethod.GET)
+//    public String index(@ModelAttribute("loginVO") LoginVO loginVO, Model model) {
+//        /*
+//        // 시큐리티 컨텍스트 객체를 얻습니다.
+//         SecurityContext context = SecurityContextHolder.getContext();
+//        // 인증 객체를 얻습니다.
+//         Authentication authentication = context.getAuthentication();
+//        // 로그인한 사용자정보를 가진 객체를 얻습니다.
+//        UserVO vo = (UserVO) authentication.getPrincipal();
+//        // 로그인한 사용자 권한을 가진 객체럴 얻습니다.
+//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+//
+//        Boolean roleFlag =  authorities.stream().filter(o -> o.getAuthority().equals("BASIC_USER")).findAny().isPresent();
+//        */
+//
+//        return "index";
+//    }
 
-        Boolean roleFlag =  authorities.stream().filter(o -> o.getAuthority().equals("BASIC_USER")).findAny().isPresent();
-
-
-        return "index";
-    }
+//    @RequestMapping(value = "/notFound", method= RequestMethod.GET)
+//    public RedirectView notFound() {
+//        return new RedirectView("/");
+//    }
 }

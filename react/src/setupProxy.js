@@ -14,11 +14,11 @@ module.exports = function(app) {
       })
     );
     app.use(
-      proxy('/analysis', {
+      proxy('/api/analysis', {
         target: 'http://localhost:8090',
-        /*onProxyReq: function(proxyReq, req, res) {
-          proxyReq.setHeader('Origin','https://web.dev.vitality.aia.co.kr:8443')
-        },*/
+        onProxyReq: function(proxyReq, req, res) {
+          proxyReq.setHeader('Origin','http://localhost:8090')
+        },
         changeOrigin: true
       })
     );

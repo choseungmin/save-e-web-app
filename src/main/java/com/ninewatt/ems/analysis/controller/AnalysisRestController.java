@@ -16,7 +16,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/analysis")
+@RequestMapping(value = "/api/analysis")
 public class AnalysisRestController {
 
     @GetMapping("/test")
@@ -28,7 +28,7 @@ public class AnalysisRestController {
     }
 
     @PostMapping("/getLoginUserInfo")
-    public UserVO getLoginUserInfo() {
+    public @ResponseBody UserVO getLoginUserInfo() {
 
         // 시큐리티 컨텍스트 객체를 얻습니다.
         SecurityContext context = SecurityContextHolder.getContext();

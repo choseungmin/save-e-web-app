@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// Add a request interceptor
 axios.interceptors.request.use(function (config) {
-  // Do something before request is sent
+
+  // csrf
   const metas = document.getElementsByTagName('meta');
   let _csrf;
   let _csrf_header;

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getLoginUserInfo = async () => {
   try {
-    const response = await axios.post('/analysis/getLoginUserInfo', {});
+    const response = await axios.post('/api/analysis/getLoginUserInfo', {});
     console.log(">>>>>>>>>>>>>", response)
     return response;
   } catch (e) {
