@@ -308,7 +308,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary={"인천동부교육청"}
+                primary={this.props.loginUserInfo && this.props.loginUserInfo.userName}
                 secondary={
                   <b
                     className={

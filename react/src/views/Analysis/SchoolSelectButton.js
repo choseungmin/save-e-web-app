@@ -18,20 +18,21 @@ const SchoolSelectButton = (props) => {
     analysisSchoolList,
     analysisDateList,
     selectedSchoolList,
-    setSelectedSchoolList
+    setSelectedSchoolList,
+    setSelectedDate,
+    selectedDate
   } = props;
   const classes = useStyles();
 
   const schoolList = [...analysisSchoolList];
   const dateList = [...analysisDateList];
-  const [dateSelect, setDateSelect] = React.useState({value: '-', name: '-'});
 
   React.useEffect(() => {
-    if(dateSelect.value === '-' && analysisDateList.length > 0) {
-      setDateSelect(analysisDateList[0]);
+    if(selectedDate === '-' && analysisDateList.length > 0) {
+      setSelectedDate(analysisDateList[0].name);
     }
 
-  },[dateSelect.value, analysisDateList]);
+  },[selectedDate, analysisDateList]);
 
   const selectSchool = target => {
     if(target === 'all') {
@@ -72,7 +73,8 @@ const SchoolSelectButton = (props) => {
   const selectDateName = name => {
     dateList.map((v,i) => {
       if(v.name === name) {
-        setDateSelect(v);
+        // setDateSelect(v);
+        setSelectedDate(v.name)
       }
       return null;
     });
@@ -115,14 +117,12 @@ const SchoolSelectButton = (props) => {
             onClick={name => {selectDateName(name)}}
             dropup
             className="defaultButton"
-            buttonText={dateSelect.name}
+            buttonText={selectedDate}
             hoverColor="info"
             dropPlacement="top"
             buttonProps={{
               round: false,
               fullWidth: true,
-              // style: { marginBottom: "0" },
-              // color: "default",
               size: "sm"
             }}
             dropdownHeader="날짜 선택"
@@ -141,7 +141,9 @@ export default useAnalysis(
     analysisSchoolList: state.analysisSchoolList,
     analysisDateList: state.analysisDateList,
     selectedSchoolList: state.selectedSchoolList,
+    selectedDate: state.selectedDate,
     //actions
     setSelectedSchoolList: actions.setSelectedSchoolList,
+    setSelectedDate: actions.setSelectedDate,
   })
 )(SchoolSelectButton);

@@ -27,7 +27,6 @@ const useStyles = makeStyles(styles);
 
 const Analysis = (props) => {
   const { ...rest} = props;
-  console.log("props" , props)
   //context api
   const {
     getLoginUserInfo,
@@ -42,6 +41,7 @@ const Analysis = (props) => {
   const [color, setColor] = React.useState("blue");
   const [bgColor, setBgColor] = React.useState("white");
   const [logo, setLogo] = React.useState(require("assets/img/ninewatt/ninewatt_logo.png"));
+  const [loginUserInfo, setLoginUserInfo] = React.useState(null);
   // styles
   const classes = useStyles();
   const mainPanelClasses =
@@ -127,6 +127,7 @@ const Analysis = (props) => {
     console.log('analysis Init Func Run !!');
 
     await getLoginUserInfo().then(response => {
+      setLoginUserInfo(response.data);
       console.log(response);
     })
 
@@ -149,6 +150,7 @@ const Analysis = (props) => {
         color={color}
         bgColor={bgColor}
         miniActive={miniActive}
+        loginUserInfo={loginUserInfo}
         {...rest}
       />
       <div className={mainPanelClasses} ref={mainPanel}>

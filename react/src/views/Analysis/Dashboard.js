@@ -58,12 +58,17 @@ var mapData = {
 const useStyles = makeStyles({ ...extendedStyles, ...styles });
 
 const Dashboard = (props) => {
-  console.log("dashboard props" , props)
   const classes = useStyles();
 
-  React.useEffect(() => {
+  const {
+    selectedSchoolList,
+    selectedDate
+  } = props;
 
-  });
+  React.useEffect(() => {
+    console.log("dashboard userEffect")
+    console.log(selectedSchoolList, selectedDate)
+  },[selectedSchoolList, selectedDate]);
 
   return (
     <div>
@@ -403,6 +408,8 @@ const Dashboard = (props) => {
 export default useAnalysis(
   ({ state, actions }) => ({
     //state
+    selectedSchoolList: state.selectedSchoolList,
     analysisDateList: state.analysisDateList,
+    selectedDate: state.selectedDate,
   })
 )(Dashboard);

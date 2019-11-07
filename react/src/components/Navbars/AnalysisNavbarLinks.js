@@ -71,6 +71,11 @@ export default function HeaderLinks(props) {
               classes.headerLinksSvg + " " + classes.links
             }
           />
+          <Hidden mdUp implementation="css">
+            <span  className={classes.linkText}>
+              {"Home"}
+            </span>
+          </Hidden>
         </Button>
       </div>
 

@@ -19,6 +19,7 @@ class AnalysisProvider extends Component {
     analysisSchoolList: [{value: 'all', name: '전체'}],
     analysisDateList: [{value: '-', name: '-'}],
     selectedSchoolList: [ 'elementary', 'middle', 'high' ],
+    selectedDate: '-'
   };
   actions = {
     increment: () => {
@@ -52,8 +53,13 @@ class AnalysisProvider extends Component {
       this.setState(
         () => ({selectedSchoolList: [...param]})
       )
-    }
-  }
+    },
+    setSelectedDate: (param) => {
+      this.setState(
+        () => ({selectedDate: param})
+      )
+    },
+  };
   render() {
     const { state, actions } = this;
     const value = { state, actions };
