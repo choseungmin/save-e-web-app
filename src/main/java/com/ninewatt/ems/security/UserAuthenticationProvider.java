@@ -9,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,6 +26,37 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
 
+        return getAuthentication(username, password);
+    }
+
+    public void doAutoLogin(String nm, String pw) {
+
+    }
+
+    public void devAuthenticate() throws AuthenticationException {
+        String username = "test";
+        String password = "test";
+
+        // do auto login
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) getAuthentication(username, password);
+        AuthenticationProvider authenticationProvider = new AuthenticationProvider() {
+            @Override
+            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+                return (UsernamePasswordAuthenticationToken) getAuthentication(username, password);
+            }
+
+            @Override
+            public boolean supports(Class<?> authentication) {
+                return false;
+            }
+        };
+        Authentication authentication = authenticationProvider.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+//        return getAuthentication(username, password);
+    }
+
+    private Authentication getAuthentication(String username, String password) {
         UserVO userVO = loginService.authenticate(username, password);
         if (userVO == null) {
             throw new BadCredentialsException("Login Error !!");

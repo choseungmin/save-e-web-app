@@ -5,7 +5,6 @@ import {
   tooltip,
   cardTitle,
   grayColor,
-  whiteColor
 } from "assets/jss/material-dashboard-pro-react.js";
 import analysisCommonStyle from "assets/jss/material-dashboard-pro-react/views/analysis/analysisCommonStyle.js";
 

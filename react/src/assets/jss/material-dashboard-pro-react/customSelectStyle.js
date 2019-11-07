@@ -1,7 +1,5 @@
 import {
   infoColor,
-  primaryColor,
-  primaryBoxShadow,
   infoBoxShadow,
   whiteColor,
   blackColor,

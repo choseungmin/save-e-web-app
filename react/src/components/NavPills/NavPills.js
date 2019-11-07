@@ -27,7 +27,7 @@ export default function NavPills(props) {
     setActive(index);
   };
   const classes = useStyles();
-  const { tabs, direction, color, horizontal, alignCenter } = props;
+  const { tabs, color, horizontal, alignCenter } = props;
   const flexContainerClasses = classNames({
     [classes.flexContainer]: true,
     [classes.horizontalDisplay]: horizontal !== undefined

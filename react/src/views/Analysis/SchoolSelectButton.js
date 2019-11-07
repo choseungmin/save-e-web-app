@@ -24,27 +24,25 @@ const SchoolSelectButton = (props) => {
 
   const schoolList = [...analysisSchoolList];
   const dateList = [...analysisDateList];
-  const [schoolSelect, setSchoolSelect] = React.useState(analysisSchoolList[0]);
   const [dateSelect, setDateSelect] = React.useState({value: '-', name: '-'});
 
   React.useEffect(() => {
-    console.log('SchoolSelectButton useEffect')
-    if(dateSelect.value == '-' && analysisDateList.length > 0) {
+    if(dateSelect.value === '-' && analysisDateList.length > 0) {
       setDateSelect(analysisDateList[0]);
     }
 
-  });
+  },[dateSelect.value, analysisDateList]);
 
   const selectSchool = target => {
-    if(target == 'all') {
-      if(selectedSchoolList.length == 3) {
+    if(target === 'all') {
+      if(selectedSchoolList.length === 3) {
         setSelectedSchoolList([])
       } else {
         setSelectedSchoolList(schoolList.map((v) => {return v.value}))
       }
     } else {
-      if(selectedSchoolList.filter((v) => {return v == target}).length > 0) {
-        const list = selectedSchoolList.filter((v) => {return v != target})
+      if(selectedSchoolList.filter((v) => {return v === target}).length > 0) {
+        const list = selectedSchoolList.filter((v) => {return v !== target})
         setSelectedSchoolList([...list])
       } else {
         setSelectedSchoolList([...selectedSchoolList, target]);
@@ -53,17 +51,17 @@ const SchoolSelectButton = (props) => {
   };
 
   const getSchoolButtonColor = target => {
-    if(target == 'all') {
-      return selectedSchoolList.length == 3 ? "info" : null;
+    if(target === 'all') {
+      return selectedSchoolList.length === 3 ? "info" : null;
     } else {
-      return selectedSchoolList.filter(v => {return v == target}).length > 0 ? 'info' : null;
+      return selectedSchoolList.filter(v => {return v === target}).length > 0 ? 'info' : null;
     }
   };
   const getSchoolButtonClass = target => {
-    if(target == 'all') {
+    if(target === 'all') {
       return `${classes.marginRight} totalButton`;
     } else {
-      if(selectedSchoolList.filter((v) => {return v == target}).length > 0) {
+      if(selectedSchoolList.filter((v) => {return v === target}).length > 0) {
         return `${classes.marginRight}`;
       } else {
         return `${classes.marginRight} defaultButton`;
@@ -71,19 +69,13 @@ const SchoolSelectButton = (props) => {
     }
   }
 
-  const selectSchoolName = name => {
-    schoolList.map((v,i) => {
-      if(v.name == name) {
-        setSchoolSelect(v);
-      }
-    })
-  };
   const selectDateName = name => {
     dateList.map((v,i) => {
-      if(v.name == name) {
+      if(v.name === name) {
         setDateSelect(v);
       }
-    })
+      return null;
+    });
   };
 
   return (

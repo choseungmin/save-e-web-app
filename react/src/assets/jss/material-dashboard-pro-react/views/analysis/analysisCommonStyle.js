@@ -1,11 +1,7 @@
 import {
-  successColor,
-  tooltip,
   cardTitle,
-  grayColor,
   whiteColor
 } from "assets/jss/material-dashboard-pro-react.js";
-import {infoColor} from "../../../material-dashboard-pro-react";
 
 const analysisCommonStyle = {
   cardFooterItems: {

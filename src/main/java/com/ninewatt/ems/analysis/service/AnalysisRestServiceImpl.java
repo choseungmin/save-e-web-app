@@ -1,6 +1,10 @@
 package com.ninewatt.ems.analysis.service;
 
 import com.ninewatt.ems.login.vo.UserVO;
+import com.ninewatt.ems.security.UserAuthenticationProvider;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -11,11 +15,26 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Service("com.ninewatt.ems.analysis.service.AnalysisRestServiceImpl")
 public class AnalysisRestServiceImpl implements AnalysisRestService {
+
+    @Value("${spring.profiles.active}")
+    private String serverEnv;
+
+    @Autowired
+    UserAuthenticationProvider auth;
+
     @Override
     public Map<String, Object> getLoginUserInfo() {
 
+        Map<String, Object> returnMap = new HashMap<>();
+
+        if(serverEnv.equals("dev")) {
+            auth.devAuthenticate();
+
+
+        }
         // 시큐리티 컨텍스트 객체를 얻습니다.
         SecurityContext context = SecurityContextHolder.getContext();
         // 인증 객체를 얻습니다.
@@ -27,11 +46,13 @@ public class AnalysisRestServiceImpl implements AnalysisRestService {
 
         Boolean roleFlag =  authorities.stream().filter(o -> o.getAuthority().equals("BASIC_USER")).findAny().isPresent();
 
-        //return map
-        Map<String, Object> returnMap = new HashMap<>();
         returnMap.put("ismartId", vo.getIsmartId());
         returnMap.put("siteName", vo.getSiteName());
         returnMap.put("userName", vo.getUserNm());
+
+        //return map
+
+
 
         return returnMap;
     }

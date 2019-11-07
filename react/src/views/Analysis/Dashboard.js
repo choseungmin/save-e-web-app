@@ -10,14 +10,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-// import ContentCopy from "@material-ui/icons/ContentCopy";
-import Store from "@material-ui/icons/Store";
-// import InfoOutline from "@material-ui/icons/InfoOutline";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
-import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Refresh from "@material-ui/icons/Refresh";
 import Edit from "@material-ui/icons/Edit";
@@ -30,15 +22,12 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Table from "components/Table/Table.js";
 import Button from "components/CustomButtons/Button.js";
-import Danger from "components/Typography/Danger.js";
-import White from  "components/Typography/White.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Muted from "components/Typography/Muted.js";
-import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 
 import SchoolSelectButton from "views/Analysis/SchoolSelectButton.js";
 
@@ -47,28 +36,10 @@ import { useAnalysis } from '../../contexts/analysisModule';
 
 import {
   dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart
 } from "variables/charts";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/analysis/dashboardStyle.js";
 import extendedStyles from "assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.js";
-
-import priceImage1 from "assets/img/card-2.jpeg";
-import priceImage2 from "assets/img/card-3.jpeg";
-import priceImage3 from "assets/img/card-1.jpeg";
-import InputLabel from "@material-ui/core/InputLabel/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem/MenuItem";
-// import FormControl from "@material-ui/core/FormControl/FormControl";
-import FormControl from "@material-ui/core/FormControl";
-
-const us_flag = require("assets/img/flags/US.png");
-const de_flag = require("assets/img/flags/DE.png");
-const au_flag = require("assets/img/flags/AU.png");
-const gb_flag = require("assets/img/flags/GB.png");
-const ro_flag = require("assets/img/flags/RO.png");
-const br_flag = require("assets/img/flags/BR.png");
 
 var mapData = {
   AU: 760,
@@ -102,134 +73,6 @@ const Dashboard = (props) => {
         <br/>
         <br/>
         <br/>
-
-        {/*<GridItem xs={12} sm={12} md={12} lg={12}>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={6} lg={3}>
-              <FormControl
-                fullWidth
-                className={classes.selectFormControl}
-              >
-                <InputLabel
-                  htmlFor="multiple-select"
-                  className={`${classes.selectLabel} ${classes.selectCategoryLabel}`}
-                >
-                  학교 선택
-                </InputLabel>
-                <Select
-                  multiple
-                  value={multipleSelect}
-                  onChange={handleMultiple}
-                  MenuProps={{ className: classes.selectMenu }}
-                  classes={{ select: classes.select }}
-                  inputProps={{
-                    name: "multipleSelect",
-                    id: "multiple-select"
-                  }}
-                >
-                  <MenuItem
-                    disabled
-                    classes={{
-                      root: classes.selectMenuItem
-                    }}
-                  >
-                    학교 선택
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelectedMultiple
-                    }}
-                    value="1"
-                  >
-                    초등학교
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelectedMultiple
-                    }}
-                    value="2"
-                  >
-                    중학교
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelectedMultiple
-                    }}
-                    value="3"
-                  >
-                    고등학교
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={6} lg={3}>
-              <FormControl
-                fullWidth
-                className={classes.selectFormControl}
-              >
-                <InputLabel
-                  htmlFor="simple-select"
-                  className={`${classes.selectLabel} ${classes.selectCategoryLabel}`}
-                >
-                  날짜 선택
-                </InputLabel>
-                <Select
-                  MenuProps={{
-                    className: classes.selectMenu
-                  }}
-                  classes={{
-                    select: classes.select
-                  }}
-                  value={simpleSelect}
-                  onChange={handleSimple}
-                  inputProps={{
-                    name: "simpleSelect",
-                    id: "simple-select"
-                  }}
-                >
-                  <MenuItem
-                    disabled
-                    classes={{
-                      root: classes.selectMenuItem
-                    }}
-                  >
-                    날짜 선택
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelected
-                    }}
-                    value="201910"
-                  >
-                    2019년 10월
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelected
-                    }}
-                    value="201909"
-                  >
-                    2019년 09월
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelected
-                    }}
-                    value="201908"
-                  >
-                    2019년 08월
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </GridItem>
-          </GridContainer>
-        </GridItem>*/}
         <GridItem xs={12} sm={12} md={12} lg={10}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12} lg={12}>
