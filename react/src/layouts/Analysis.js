@@ -27,6 +27,7 @@ const useStyles = makeStyles(styles);
 
 const Analysis = (props) => {
   const { ...rest} = props;
+  console.log("props" , props)
   //context api
   const {
     getLoginUserInfo,
@@ -105,7 +106,6 @@ const Analysis = (props) => {
           <Route
             path={prop.layout + prop.path}
             component={prop.component}
-            props={"aaa"}
             key={key}
           />
         );

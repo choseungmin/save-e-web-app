@@ -38,13 +38,11 @@ const AppProvider = ({ contexts, children }) => contexts.reduce(
 );
 
 ReactDOM.render(
-  <AppProvider
-    contexts={[AnalysisProvider]}
-  >
+  <AppProvider contexts={[AnalysisProvider]} >
     <Router history={hist}>
       <Switch>
         <Route path="/auth" component={AuthLayout} />
-        <Route path="/analysis" component={AnalysisLayout} />
+        <Route path="/analysis" component={AnalysisLayout} test={"test"}/>
         <Redirect from="/" to="/analysis/dashboard" />
       </Switch>
     </Router>

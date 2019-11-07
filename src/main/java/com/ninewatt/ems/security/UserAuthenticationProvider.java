@@ -33,9 +33,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
     }
 
-    public void devAuthenticate() throws AuthenticationException {
-        String username = "test";
-        String password = "test";
+    public void devAuthenticate(String username, String password) throws AuthenticationException {
 
         // do auto login
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) getAuthentication(username, password);
@@ -52,8 +50,6 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         };
         Authentication authentication = authenticationProvider.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-//        return getAuthentication(username, password);
     }
 
     private Authentication getAuthentication(String username, String password) {

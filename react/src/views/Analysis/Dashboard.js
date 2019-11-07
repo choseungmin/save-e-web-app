@@ -58,6 +58,7 @@ var mapData = {
 const useStyles = makeStyles({ ...extendedStyles, ...styles });
 
 const Dashboard = (props) => {
+  console.log("dashboard props" , props)
   const classes = useStyles();
 
   React.useEffect(() => {

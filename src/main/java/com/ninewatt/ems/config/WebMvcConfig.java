@@ -1,5 +1,6 @@
 package com.ninewatt.ems.config;
 
+import com.ninewatt.ems.interceptor.DefaultInterceptor;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
@@ -7,11 +8,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new DefaultInterceptor())
+                .addPathPatterns("/**");
+//                .excludePathPatterns("/users/login"); //로그인 쪽은 예외처리를 한다.
+    }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {

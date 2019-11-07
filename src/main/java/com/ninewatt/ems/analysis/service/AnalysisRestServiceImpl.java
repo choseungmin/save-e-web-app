@@ -19,22 +19,12 @@ import java.util.Map;
 @Service("com.ninewatt.ems.analysis.service.AnalysisRestServiceImpl")
 public class AnalysisRestServiceImpl implements AnalysisRestService {
 
-    @Value("${spring.profiles.active}")
-    private String serverEnv;
-
-    @Autowired
-    UserAuthenticationProvider auth;
-
     @Override
     public Map<String, Object> getLoginUserInfo() {
 
         Map<String, Object> returnMap = new HashMap<>();
 
-        if(serverEnv.equals("dev")) {
-            auth.devAuthenticate();
 
-
-        }
         // 시큐리티 컨텍스트 객체를 얻습니다.
         SecurityContext context = SecurityContextHolder.getContext();
         // 인증 객체를 얻습니다.
