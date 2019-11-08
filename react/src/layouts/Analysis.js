@@ -29,7 +29,10 @@ const Analysis = (props) => {
   const { ...rest} = props;
   //context api
   const {
+    //action
+    selectedSchoolList,
     getLoginUserInfo,
+    selectAnalysisTargetList,
     setAnalysisSchoolList,
     setAnalysisDateList,
     getAnalysisSchoolList,
@@ -56,7 +59,12 @@ const Analysis = (props) => {
   const mainPanel = React.createRef();
   // effect instead of componentDidMount, componentDidUpdate and componentWillUnmount
   React.useEffect(() => {
-    analysisInitFunc();
+
+    if(!loginUserInfo) {
+      analysisInitFunc();
+    }
+    analysisUpdateFunc();
+
 
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current, {
@@ -74,7 +82,7 @@ const Analysis = (props) => {
       }
       window.removeEventListener("resize", resizeFunction);
     };
-  },[]);
+  },[selectedSchoolList]);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -128,8 +136,8 @@ const Analysis = (props) => {
 
     await getLoginUserInfo().then(response => {
       setLoginUserInfo(response.data);
-      console.log(response);
-    })
+      console.log(response.data);
+    });
 
     await getAnalysisSchoolList().then((response) => {
       setAnalysisSchoolList(response.result);
@@ -137,8 +145,15 @@ const Analysis = (props) => {
     await getAnalysisDateList().then((response) => {
       setAnalysisDateList(response.result);
     });
+  };
 
-  }
+  const analysisUpdateFunc = async () => {
+    await selectAnalysisTargetList(selectedSchoolList).then(response => {
+      console.log(response.data);
+    });
+  };
+
+
 
   return (
     <div className={classes.wrapper}>
@@ -177,7 +192,11 @@ const Analysis = (props) => {
 
 export default useAnalysis(
   ({ state, actions }) => ({
+    //state
+    selectedSchoolList: state.selectedSchoolList,
+    //action
     getLoginUserInfo: actions.getLoginUserInfo,
+    selectAnalysisTargetList: actions.selectAnalysisTargetList,
     setAnalysisSchoolList: actions.setAnalysisSchoolList,
     setAnalysisDateList: actions.setAnalysisDateList,
     getAnalysisSchoolList: actions.getAnalysisSchoolList,

@@ -23,8 +23,8 @@ public class CommonServiceImpl implements CommonService {
     UserAuthenticationProvider auth;
 
     public void autoLogin() {
-        String username = "test";
-        String password = "test";
+        String username = "동부교육지원청";
+        String password = "1234";
         if(serverEnv.equals("dev")) {
 
             // 시큐리티 컨텍스트 객체를 얻습니다.

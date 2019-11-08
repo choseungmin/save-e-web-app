@@ -66,8 +66,8 @@ const Dashboard = (props) => {
   } = props;
 
   React.useEffect(() => {
-    console.log("dashboard userEffect")
-    console.log(selectedSchoolList, selectedDate)
+    // console.log("dashboard userEffect")
+    // console.log(selectedSchoolList, selectedDate)
   },[selectedSchoolList, selectedDate]);
 
   return (

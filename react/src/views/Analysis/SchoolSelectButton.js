@@ -91,24 +91,24 @@ const SchoolSelectButton = (props) => {
             전체
           </Button>
           <Button
-            onClick={() => selectSchool('elementary')}
-            color={getSchoolButtonColor('elementary')}
+            onClick={() => selectSchool('1')}
+            color="info"
             size="sm"
-            className={getSchoolButtonClass('elementary')}>
+            className={getSchoolButtonClass('1')}>
             초등학교
           </Button>
           <Button
-            onClick={() => selectSchool('middle')}
-            color={getSchoolButtonColor('middle')}
+            onClick={() => selectSchool('2')}
+            color="info"
             size="sm"
-            className={getSchoolButtonClass('middle')}>
+            className={getSchoolButtonClass('2')}>
             중학교
           </Button>
           <Button
-            onClick={() => selectSchool('high')}
+            onClick={() => selectSchool('3')}
             color="info"
             size="sm"
-            className={getSchoolButtonClass('high')}>
+            className={getSchoolButtonClass('3')}>
             고등학교
           </Button>
         </div>

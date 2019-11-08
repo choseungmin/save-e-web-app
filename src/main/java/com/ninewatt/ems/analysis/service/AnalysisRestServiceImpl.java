@@ -1,5 +1,6 @@
 package com.ninewatt.ems.analysis.service;
 
+import com.ninewatt.ems.analysis.mapper.AnalysisMapper;
 import com.ninewatt.ems.login.vo.UserVO;
 import com.ninewatt.ems.security.UserAuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +14,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @Service("com.ninewatt.ems.analysis.service.AnalysisRestServiceImpl")
 public class AnalysisRestServiceImpl implements AnalysisRestService {
+
+    @Autowired
+    AnalysisMapper mapper;
 
     @Override
     public Map<String, Object> getLoginUserInfo() {
@@ -45,5 +50,17 @@ public class AnalysisRestServiceImpl implements AnalysisRestService {
 
 
         return returnMap;
+    }
+
+    @Override
+    public List<Map<String, Object>> selectAnalysisTargetList(Map<String, Object> request) {
+
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        UserVO vo = (UserVO) authentication.getPrincipal();
+
+        request.put("ismartId", vo.getIsmartId());
+
+        return mapper.selectAnalysisTargetList(request);
     }
 }

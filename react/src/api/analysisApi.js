@@ -9,13 +9,22 @@ const getLoginUserInfo = async () => {
   }
 };
 
+const selectAnalysisTargetList = async (selectedSchoolList) => {
+  try {
+    const response = await axios.post('/api/analysis/selectAnalysisTargetList', {sclDiv: selectedSchoolList});
+    return response;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 const getAnalysisSchoolList = async(param) => {
   try {
     const response = await {
       result: [
-        {value: 'elementary', name: '초등학교'},
-        {value: 'middle', name: '중학교'},
-        {value: 'high', name: '고등학교'},
+        {value: '1', name: '초등학교'},
+        {value: '2', name: '중학교'},
+        {value: '3', name: '고등학교'},
       ]};
     return response;
   } catch(e) {
@@ -46,4 +55,5 @@ export {
   getLoginUserInfo,
   getAnalysisSchoolList,
   getAnalysisDateList,
+  selectAnalysisTargetList
 };

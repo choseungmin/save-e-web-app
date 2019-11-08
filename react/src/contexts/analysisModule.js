@@ -2,6 +2,7 @@ import React, { Component, createContext } from 'react';
 import createUseConsumer from './lib/createUseConsumer';
 import {
   getLoginUserInfo,
+  selectAnalysisTargetList,
   getAnalysisSchoolList,
   getAnalysisDateList
 } from '../api/analysisApi';
@@ -15,18 +16,12 @@ const {
 
 class AnalysisProvider extends Component {
   state = {
-    number: 1,
     analysisSchoolList: [{value: 'all', name: '전체'}],
     analysisDateList: [{value: '-', name: '-'}],
-    selectedSchoolList: [ 'elementary', 'middle', 'high' ],
+    selectedSchoolList: [ '1', '2', '3' ],
     selectedDate: '-'
   };
   actions = {
-    increment: () => {
-      this.setState(
-        ({ number }) => ({ number: number + 1 })
-      );
-    },
     setAnalysisSchoolList: (param) => {
       this.setState(
         () => ({analysisSchoolList: [ ...param ]})
@@ -36,28 +31,26 @@ class AnalysisProvider extends Component {
       const response = await getLoginUserInfo();
       return response;
     },
+    selectAnalysisTargetList: async (selectedSchoolList) => {
+      const response =await selectAnalysisTargetList(selectedSchoolList);
+      return response
+    },
     getAnalysisSchoolList: async(param) => {
       const response = await getAnalysisSchoolList(param);
       return response;
     },
     setAnalysisDateList: (param) => {
-      this.setState(
-        () => ({analysisDateList: [...param]})
-      )
+      this.setState( () => ({analysisDateList: [...param]}) )
     },
     getAnalysisDateList: async(param) => {
       const response = await getAnalysisDateList(param);
       return response;
     },
     setSelectedSchoolList: (param) => {
-      this.setState(
-        () => ({selectedSchoolList: [...param]})
-      )
+      this.setState( () => ({selectedSchoolList: [...param]}) )
     },
     setSelectedDate: (param) => {
-      this.setState(
-        () => ({selectedDate: param})
-      )
+      this.setState( () => ({selectedDate: param}) )
     },
   };
   render() {
