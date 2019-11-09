@@ -23,6 +23,7 @@ import AuthLayout from "layouts/Auth.js";
 import AnalysisLayout from "layouts/Analysis.js";
 
 import { AnalysisProvider } from "contexts/analysisModule.js";
+import { DashboardProvider } from "contexts/dashboardModule.js";
 
 import "assets/scss/material-dashboard-pro-react.scss?v=1.8.0";
 
@@ -38,7 +39,7 @@ const AppProvider = ({ contexts, children }) => contexts.reduce(
 );
 
 ReactDOM.render(
-  <AppProvider contexts={[AnalysisProvider]} >
+  <AppProvider contexts={[AnalysisProvider, DashboardProvider]} >
     <Router history={hist}>
       <Switch>
         <Route path="/auth" component={AuthLayout} />

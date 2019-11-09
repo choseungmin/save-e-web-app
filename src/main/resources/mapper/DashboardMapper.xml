@@ -2,31 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ninewatt.ems.dashboard.mapper.DashboardMapper">
-    <select id="selectDashboardSchoolList" resultType="Map">
+    <select id="selectDashboardHeaderSummary" resultType="Map">
 SELECT
-    *
-FROM (
-         SELECT
-             D.ismart_no AS "ismartId",
-             CASE
-                 WHEN E.site_name IS NOT NULL THEN E.site_name
-                 ELSE F.user_id
-                 END AS "siteName",
-             D.latt AS "latt",
-             D.lngt AS "lngt",
-             D.scl_div AS "sclDiv"
-         FROM ems.group_bas A
-                  INNER JOIN ems.group_ismart_rel B ON B.group_no = A.group_no
-                  INNER JOIN ems.group_user_rel C ON C.group_no = A.group_no
-                  INNER JOIN ems.ismart_bas D ON D.ismart_no = B.ismart_id
-                  LEFT JOIN ems.total_info E ON E.cust_no = B.ismart_id
-                  LEFT JOIN ems.user_bas F ON F.ismart_id = B.ismart_id
-         WHERE A.use_yn = 'Y'
-           AND C.ismart_no = '1116054286'
-           AND F.user_id NOT LIKE '%test%'
-           AND D.scl_div NOTNULL
-           --AND D.scl_div in ()
-     ) AS AA
+    DISTINCT(A.end_month),
+            SUM(D.pwr_qty) AS "pwrQty",
+            SUM(D.total_bill) AS "totalBill",
+            SUM(C.max_power) AS "maxPower"
+FROM ems.cyber_kepco_cost A
+       INNER JOIN ems.cyber_kepco_info B
+         ON A.cust_no = B.cust_no AND B.end_month = A.end_month AND B.sel_cost = A.sel_cost
+       LEFT JOIN ems.real_time_info C
+         ON A.cust_no = C.cust_no AND mr_ym = A.end_month
+       LEFT JOIN ems.cyber_kepco_cost_detail D
+         ON A.cust_no = D.cust_no AND bill_ym = A.end_month AND D.sel_cost like '%'||A.sel_cost||'%'
+WHERE A.end_month between '201810' and #{tgtDate}
+
+        <choose>
+            <when test="ismartList==null || ismartList.isEmpty()">
+                AND A.cust_no = null
+            </when>
+            <otherwise>
+                AND A.cust_no in
+                <foreach item="item" open="(" separator="," close=")" collection="ismartList">
+                    #{item.ismartId}
+                </foreach>
+            </otherwise>
+        </choose>
+GROUP BY A.end_month
+ORDER BY 1 desc
 
     </select>
 

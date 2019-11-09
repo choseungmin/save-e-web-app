@@ -40,6 +40,7 @@ import {
 
 import styles from "assets/jss/material-dashboard-pro-react/views/analysis/dashboardStyle.js";
 import extendedStyles from "assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.js";
+import SummaryHeader from "./dashboard/SummaryHeader";
 
 var mapData = {
   AU: 760,
@@ -79,127 +80,12 @@ const Dashboard = (props) => {
         <br/>
         <br/>
         <br/>
-        <GridItem xs={12} sm={12} md={12} lg={10}>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={12} lg={12}>
-              <div className={classes.targetCount}>
-                <div className="totalCount">전체 학교 수 30</div>
-                <Muted>( 데이터 수집 29개 학교 / 미수집 1개 학교 )</Muted>
-              </div>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6} lg={3}>
-              <Card>
-                <CardHeader className={classes.textRight} color="info" icon>
-                  <CardIcon color="info">
-                    <OfflineBoltOutlined/>
-                  </CardIcon>
-                  <h6 className={classes.cardCategory}>탄소 배출량</h6>
-                  <h4 className={`${classes.cardTitle}`}>200,000 tCO2</h4>
-                </CardHeader>
-                <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
-                  <div className={`${classes.stats} ${classes.roseText} percent`}>
-                    <div className="arrowDown">
-                      <Icon>keyboard_arrow_down</Icon>
-                    </div>
-                    20%
-                  </div>
-                  <div className={classes.stats}>
-                    전월동월대비<br/>(2019.09)
-                  </div>
-                </CardFooter>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6} lg={3}>
-              <Card>
-                <CardHeader className={classes.textRight} color="info" icon>
-                  <CardIcon color="info">
-                    <Icon>highlight</Icon>
-                  </CardIcon>
-                  <h6 className={classes.cardCategory}>탄소 배출량</h6>
-                  <h4 className={`${classes.cardTitle}`}>200,000 tCO2</h4>
-                </CardHeader>
-                <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
-                  <div className={`${classes.stats} ${classes.infoText} percent`}>
-                    {/*<ArrowUpward className={classes.upArrowCardCategory} />*/}
-                    <div className="arrowUp">
-                      <Icon>keyboard_arrow_up</Icon>
-                    </div>
-                    20%
-                  </div>
-                  <div className={classes.stats}>
-                    전월동월대비<br/>(2019.09)
-                  </div>
-                </CardFooter>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6} lg={3}>
-              <Card>
-                <CardHeader className={classes.textRight} color="info" icon>
-                  <CardIcon color="info">
-                    <Icon>trending_up</Icon>
-                  </CardIcon>
-                  <h6 className={classes.cardCategory}>탄소 배출량</h6>
-                  <h4 className={`${classes.cardTitle}`}>200,000 tCO2</h4>
-                </CardHeader>
-                <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
-                  <div className={`${classes.stats} ${classes.infoText} percent`}>
-                    {/*<ArrowUpward className={classes.upArrowCardCategory} />*/}
-                    <div className="arrowUp">
-                      <Icon>keyboard_arrow_up</Icon>
-                    </div>
-                    20%
-                  </div>
-                  <div className={classes.stats}>
-                    전월동월대비<br/>(2019.09)
-                  </div>
-                </CardFooter>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6} lg={3}>
-              <Card>
-                <CardHeader className={classes.textRight} color="info" icon>
-                  <CardIcon color="info">
-                    <Icon>settings_input_svideo</Icon>
-                  </CardIcon>
-                  <h6 className={classes.cardCategory}>탄소 배출량</h6>
-                  <h4 className={`${classes.cardTitle}`}>200,000 tCO2</h4>
-                </CardHeader>
-                <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
-                  <div className={`${classes.stats} ${classes.infoText} percent`}>
-                    {/*<ArrowUpward className={classes.upArrowCardCategory} />*/}
-                    <div className="arrowUp">
-                      <Icon>keyboard_arrow_up</Icon>
-                    </div>
-                    20%
-                  </div>
-                  <div className={classes.stats}>
-                    전월동월대비<br/>(2019.09)
-                  </div>
-                </CardFooter>
-              </Card>
-            </GridItem>
-          </GridContainer>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={2}>
-          <Card color="info">
-            <CardHeader color="info" icon>
-              <p className={`${classes.cardCategory} ${classes.textCenter}`}>
-                <span className={`${classes.whiteText}  ${classes.fontWeight500}`}>
-                  <Icon className={`${classes.totalTitleIcon}`}>assignment_turned_in</Icon>
-                  TOTAL
-                </span>
-              </p>
-            </CardHeader>
-            <CardFooter className={`${classes.textCenter} ${classes.displayBlock}`} stats>
-              <p className={`${classes.stats} ${classes.textCenter} ${classes.whiteText} ${classes.fontWeight500}`}>
-                9WATT 관리 시<br/>줄일 수 있는 연간 전기요금
-              </p>
-              <h3 className={`${classes.cardTitle} ${classes.whiteText}`}>
-                500,000,000 원
-              </h3>
-            </CardFooter>
-          </Card>
-        </GridItem>
+
+        <SummaryHeader
+          selectedSchoolList={selectedSchoolList}
+          selectedDate={selectedDate}
+        />
+
       </GridContainer>
       <GridContainer>
         <GridItem xs={12}>
@@ -404,7 +290,8 @@ const Dashboard = (props) => {
       </GridContainer>
     </div>
   );
-}
+};
+
 export default useAnalysis(
   ({ state, actions }) => ({
     //state

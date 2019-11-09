@@ -22,6 +22,15 @@ module.exports = function(app) {
         changeOrigin: true
       })
     );
+    app.use(
+      proxy('/api/dashboard', {
+        target: 'http://localhost:8090',
+        onProxyReq: function(proxyReq, req, res) {
+          proxyReq.setHeader('Origin','http://localhost:8090')
+        },
+        changeOrigin: true
+      })
+    );
   }
 };
 

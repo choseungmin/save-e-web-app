@@ -17,9 +17,9 @@ const {
 class AnalysisProvider extends Component {
   state = {
     analysisSchoolList: [{value: 'all', name: '전체'}],
-    analysisDateList: [{value: '-', name: '-'}],
+    analysisDateList: [{value: '', name: ''}],
     selectedSchoolList: [ '1', '2', '3' ],
-    selectedDate: '-'
+    selectedDate: ''
   };
   actions = {
     setAnalysisSchoolList: (param) => {

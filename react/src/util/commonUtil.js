@@ -1,4 +1,4 @@
-export const numberWithCommas = (param) => {
+export const comma = (param) => {
   if(param === null || param === undefined) return ;
   return param.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
@@ -14,7 +14,7 @@ export const numberFixed = (param,n) => {
 };
 
 export const millionCost = (param) => {
-  return numberWithCommas(numberFixed(param,10000));
+  return comma(numberFixed(param,10000));
 };
 
 export const dateFormat = (param) => {

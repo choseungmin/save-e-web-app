@@ -28,8 +28,8 @@ const SchoolSelectButton = (props) => {
   const dateList = [...analysisDateList];
 
   React.useEffect(() => {
-    if(selectedDate === '-' && analysisDateList.length > 0) {
-      setSelectedDate(analysisDateList[0].name);
+    if(selectedDate === '' && analysisDateList.length > 0) {
+      setSelectedDate(analysisDateList[0].value);
     }
 
   },[selectedDate, analysisDateList]);
@@ -74,7 +74,7 @@ const SchoolSelectButton = (props) => {
     dateList.map((v,i) => {
       if(v.name === name) {
         // setDateSelect(v);
-        setSelectedDate(v.name)
+        setSelectedDate(v.value)
       }
       return null;
     });
