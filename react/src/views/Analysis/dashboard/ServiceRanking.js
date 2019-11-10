@@ -72,7 +72,10 @@ const ServiceRanking = (props) => {
               />
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
-              <SiteMap/>
+              <SiteMap
+                serviceRanking={serviceRanking}
+                classes={classes}
+              />
             </GridItem>
           </GridContainer>
         </CardBody>

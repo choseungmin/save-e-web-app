@@ -1,53 +1,141 @@
 import React, {Fragment} from "react";
-// react plugin for creating vector maps
-import { VectorMap } from "react-jvectormap";
-
-var mapData = {
-  AU: 760,
-  BR: 550,
-  CA: 120,
-  DE: 1300,
-  FR: 540,
-  GB: 690,
-  GE: 200,
-  IN: 200,
-  RO: 600,
-  RU: 300,
-  US: 2920
-};
+import { mapMakrer } from "./MapMarker";
 
 
 const SiteMap = (props) => {
 
-  return(
-    <VectorMap
-      map={"world_mill"}
-      backgroundColor="transparent"
-      zoomOnScroll={false}
-      containerStyle={{
-        width: "100%",
-        height: "280px"
-      }}
-      containerClassName="map"
-      regionStyle={{
-        initial: {
-          fill: "#e4e4e4",
-          "fill-opacity": 0.9,
-          stroke: "none",
-          "stroke-width": 0,
-          "stroke-opacity": 0
+  const { serviceRanking, classes } = props;
+
+  let naverMap=null;
+  let markers=[];
+  let infoWindows=[];
+
+  React.useEffect(() => {
+
+    if(!!window.naver && !naverMap) {
+      var position = new window.naver.maps.LatLng(37.41595810,126.68029040);
+      naverMap = new window.naver.maps.Map('map', {
+        center: position,
+        zoom: 7
+      });
+    }
+
+    if(naverMap) {
+      setMarker(serviceRanking)
+    }
+
+  },[serviceRanking]);
+
+  const setMarker = (ismartList) => {
+    if(null === ismartList) return;
+
+    for(var i = 0; i < markers.length; i++){
+      markers[i].setMap(null);
+    }
+
+    var latLngBounds= {
+      minLat: 37.374336,
+      maxLat: 37.4598709,
+      minLng: 126.62957,
+      maxLng: 126.7402198,
+    }
+
+    ismartList.map((v,i) => {
+      const markerOptions = {
+        position: new window.naver.maps.LatLng(v.latt,v.lngt),
+        title: v,
+        map: naverMap,
+        icon: {
+          content: mapMakrer(v.rnum,i).join(''),
+          anchor: new window.naver.maps.Point(12, 37),
+          origin: new window.naver.maps.Point(v.latt,v.lngt),
+        },
+      };
+
+      const infoWindow = new window.naver.maps.InfoWindow({
+        content: '<div style="width:100%;height:100%;text-align:center;padding:10px;padding-top:0px;padding-bottom: 0px; border-radius:10px; color:#000000">'+ v.siteName +'</div>'
+      });
+
+      markers.push(new window.naver.maps.Marker(markerOptions));
+      infoWindows.push(infoWindow);
+
+      if (i===0) {
+        latLngBounds.minLat= v.latt;
+        latLngBounds.maxLat= v.latt;
+        latLngBounds.minLng= v.lngt;
+        latLngBounds.maxLng= v.lngt;
+      } else{
+        if(latLngBounds.minLat > v.latt) {
+          latLngBounds.minLat= v.latt;
+        }else if(latLngBounds.maxLat < v.latt) {
+          latLngBounds.maxLat= v.latt;
         }
-      }}
-      series={{
-        regions: [
-          {
-            values: mapData,
-            scale: ["#AAAAAA", "#444444"],
-            normalizeFunction: "polynomial"
-          }
-        ]
-      }}
-    />
+
+        if(latLngBounds.minLng > v.lngt) {
+          latLngBounds.minLng= v.lngt;
+        }else if(latLngBounds.maxLng < v.lngt) {
+          latLngBounds.maxLng= v.lngt
+        }
+
+      }
+    })
+
+
+    window.naver.maps.Event.addListener(naverMap, 'idle', function() {
+      if(this===null) return ;
+      updateMarkers(naverMap, markers);
+    });
+
+
+    for (var i=0, ii=markers.length; i<ii; i++) {
+      // window.naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+    }
+
+    // #중심선
+    // var jeju = new window.naver.maps.LatLng((latLngBounds.minLat+latLngBounds.maxLat)/2, (latLngBounds.minLng+latLngBounds.maxLng)/2);
+    // naverMap.setCenter(jeju);
+
+    // #바운드
+    var bounds = new window.naver.maps.LatLngBounds(
+      new window.naver.maps.LatLng(latLngBounds.minLat, latLngBounds.minLng),
+      new window.naver.maps.LatLng(latLngBounds.maxLat, latLngBounds.maxLng));
+    naverMap.fitBounds(bounds); // 좌표 경계 이동
+  }
+
+  const updateMarkers = (map, markers) => {
+
+    const mapBounds = map.getBounds();
+    let marker, position;
+
+    for (let i = 0; i < markers.length; i++) {
+
+      marker = markers[i];
+      position = marker.getPosition();
+
+      if (mapBounds.hasLatLng(position)) {
+        showMarker(map, marker);
+      } else {
+        hideMarker(map, marker);
+      }
+    }
+  }
+
+  const showMarker = (map, marker) => {
+
+    if (marker.setMap()) return;
+    marker.setMap(map);
+  }
+
+  const hideMarker = (map, marker) => {
+
+    if (!marker.setMap()) return;
+    marker.setMap(null);
+  }
+
+
+  return(
+    <div id="map" className={classes.mapMakrer} style={{height: "400px"}}>
+    </div>
   )
 }
 

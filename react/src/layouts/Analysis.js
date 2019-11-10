@@ -149,6 +149,7 @@ const Analysis = (props) => {
 
   const analysisUpdateFunc = async () => {
     await selectAnalysisTargetList(selectedSchoolList).then(response => {
+      if(!!response)
       console.log(response.data);
     });
   };

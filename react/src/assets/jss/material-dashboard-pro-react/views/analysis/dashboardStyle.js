@@ -42,6 +42,9 @@ const dashboardStyle = {
     "& thead th": {
       fontWeight: "500",
     },
+    "& th, td": {
+      textAlign: "center"
+    }
   },
   fullWidth: {
     width: "100%"
@@ -112,6 +115,17 @@ const dashboardStyle = {
       marginTop: "0px"
     }
   },
+  mapMakrer: {
+    "& .map-marker": {
+      background: "#fff",
+      borderRadius: "100%",
+      border: "1px solid red",
+      width: "20px",
+      height: "20px",
+      paddingLeft: "5px",
+    }
+  }
+
 };
 
 export default dashboardStyle;

@@ -90,56 +90,39 @@ SELECT
        (ROW_NUMBER() OVER(ORDER BY "pwrQty" asc)) AS "rnum" ,
        *
 FROM (
-
-
-     SELECT
-            D.ismart_no AS "ismartId",
-            CASE
-                   WHEN E.site_name IS NOT NULL THEN E.site_name
-                   ELSE F.user_id
-                END AS "siteName",
-            D.latt AS "latt",
-            D.lngt AS "lngt",
-            H.pwr_qty AS "pwrQty",
-            CASE
-                   WHEN D.class_cnt is null THEN null
-                   ELSE ROUND(H.pwr_qty / D.class_cnt,2)
-                END AS "pwrPerClass"
-
-
-     FROM  ems.ismart_bas D
-                  LEFT JOIN ems.total_info E ON E.cust_no = D.ismart_no
-                  LEFT JOIN ems.user_bas F ON F.ismart_id = D.ismart_no
-                  INNER JOIN ems.cyber_kepco_info G ON D.ismart_no = G.cust_no AND G.end_month = (SELECT max(end_month) from ems.cyber_kepco_info WHERE cust_no = G.cust_no)
-                  INNER JOIN ems.cyber_kepco_cost H ON D.ismart_no = H.cust_no AND H.sel_cost = G.sel_cost
-                                                              AND H.end_month = (SELECT MAX(end_month) FROM ems.cyber_kepco_cost WHERE cust_no = D.ismart_no)
-
-     WHERE D.ismart_no in (
-         '1109003728',
-         '1116010467',
-         '1116054295',
-         '1140847685',
-         '1103056996',
-         '1122117582',
-         '1116125441',
-         '1112498047',
-         '1126464430',
-         '1126114951',
-         '1127471894',
-         '1122823051',
-         '1124466549',
-         '1129313749',
-         '1123083143',
-         '1128658628',
-         '1123954461',
-         '1128392273',
-         '1116089105'
-         )
-       AND F.user_id NOT LIKE '%test%'
-       AND D.scl_div in ( '1', '2', '3')
-     ) AS AA
-ORDER BY "pwrQty"
-    asc
+    SELECT
+           D.ismart_no AS "ismartId",
+           CASE
+                  WHEN E.site_name IS NOT NULL THEN E.site_name
+                  ELSE F.user_id
+               END AS "siteName",
+           D.latt AS "latt",
+           D.lngt AS "lngt",
+           H.pwr_qty AS "pwrQty",
+           CASE
+                  WHEN D.class_cnt is null THEN null
+                  ELSE ROUND(H.pwr_qty / D.class_cnt,2)
+               END AS "pwrPerClass"
+    FROM  ems.ismart_bas D
+                 LEFT JOIN ems.total_info E ON E.cust_no = D.ismart_no
+                 LEFT JOIN ems.user_bas F ON F.ismart_id = D.ismart_no
+                 INNER JOIN ems.cyber_kepco_info G ON D.ismart_no = G.cust_no AND G.end_month = (SELECT max(end_month) from ems.cyber_kepco_info WHERE cust_no = G.cust_no)
+                 INNER JOIN ems.cyber_kepco_cost H ON D.ismart_no = H.cust_no AND H.sel_cost = G.sel_cost
+                                                             AND H.end_month = (SELECT MAX(end_month) FROM ems.cyber_kepco_cost WHERE cust_no = D.ismart_no)
+    WHERE F.user_id NOT LIKE '%test%'
+    <choose>
+        <when test="ismartList==null || ismartList.isEmpty()">
+            AND D.ismart_no = null
+        </when>
+        <otherwise>
+            AND D.ismart_no in
+            <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
+                #{item.ismartId}
+            </foreach>
+        </otherwise>
+    </choose>
+    ) AS AA
+ORDER BY "pwrQty" asc
     </select>
 
 </mapper>
