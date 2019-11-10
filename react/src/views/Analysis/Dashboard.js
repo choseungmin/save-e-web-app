@@ -33,6 +33,7 @@ import SchoolSelectButton from "views/Analysis/SchoolSelectButton.js";
 
 // context API
 import { useAnalysis } from '../../contexts/analysisModule';
+import {useDashboard} from "../../contexts/dashboardModule";
 
 import {
   dailySalesChart,
@@ -41,6 +42,7 @@ import {
 import styles from "assets/jss/material-dashboard-pro-react/views/analysis/dashboardStyle.js";
 import extendedStyles from "assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.js";
 import SummaryHeader from "./dashboard/SummaryHeader";
+import ServiceRanking from "./dashboard/ServiceRanking";
 
 var mapData = {
   AU: 760,
@@ -67,8 +69,6 @@ const Dashboard = (props) => {
   } = props;
 
   React.useEffect(() => {
-    // console.log("dashboard userEffect")
-    // console.log(selectedSchoolList, selectedDate)
   },[selectedSchoolList, selectedDate]);
 
   return (
@@ -84,69 +84,18 @@ const Dashboard = (props) => {
         <SummaryHeader
           selectedSchoolList={selectedSchoolList}
           selectedDate={selectedDate}
+          classes={classes}
         />
 
       </GridContainer>
       <GridContainer>
-        <GridItem xs={12}>
-          <Card>
-            <CardHeader color="info" icon>
-              <CardIcon color="info">
-                <AssessmentOutlined/>
-              </CardIcon>
-              <h4 className={`${classes.cardIconTitle} ${classes.fontWeight500}`}>
-                전기 사용 랭킹
-              </h4>
-            </CardHeader>
-            <CardBody>
-              <GridContainer justify="space-between">
-                <GridItem xs={12} sm={12} md={6}>
-                  <Table
-                    className={classes.rankTable}
-                    tableHead={["순위", "학교명", "학급당 전기사용량(kwh)", "학교전체 전기사용량(kwh)"]}
-                    tableData={[
-                      ["1위", "** 초등학교", "200 ( 전체학급 : 10 )", "100,00 (연면적 : 15,000㎥)"],
-                      ["2위", "** 초등학교", "200 ( 전체학급 : 10 )", "100,00 (연면적 : 15,000㎥)"],
-                      ["3위", "** 초등학교", "200 ( 전체학급 : 10 )", "100,00 (연면적 : 15,000㎥)"],
-                      ["4위", "** 초등학교", "200 ( 전체학급 : 10 )", "100,00 (연면적 : 15,000㎥)"],
-                      ["5위", "** 초등학교", "200 ( 전체학급 : 10 )", "100,00 (연면적 : 15,000㎥)"],
-                    ]}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <VectorMap
-                    map={"world_mill"}
-                    backgroundColor="transparent"
-                    zoomOnScroll={false}
-                    containerStyle={{
-                      width: "100%",
-                      height: "280px"
-                    }}
-                    containerClassName="map"
-                    regionStyle={{
-                      initial: {
-                        fill: "#e4e4e4",
-                        "fill-opacity": 0.9,
-                        stroke: "none",
-                        "stroke-width": 0,
-                        "stroke-opacity": 0
-                      }
-                    }}
-                    series={{
-                      regions: [
-                        {
-                          values: mapData,
-                          scale: ["#AAAAAA", "#444444"],
-                          normalizeFunction: "polynomial"
-                        }
-                      ]
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-            </CardBody>
-          </Card>
-        </GridItem>
+
+        <ServiceRanking
+          selectedSchoolList={selectedSchoolList}
+          selectedDate={selectedDate}
+          classes={classes}
+        />
+
       </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={4}>

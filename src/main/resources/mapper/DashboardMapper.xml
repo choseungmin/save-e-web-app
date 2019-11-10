@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ninewatt.ems.dashboard.mapper.DashboardMapper">
+
     <select id="selectDashboardHeaderSummary" resultType="Map">
 SELECT
     DISTINCT(A.end_month),
             SUM(D.pwr_qty) AS "pwrQty",
             SUM(D.total_bill) AS "totalBill",
-            SUM(C.max_power) AS "maxPower"
+            SUM(C.max_power) AS "maxPower",
+            (<include refid="selectDashboardSummarySummaryTotal"/>) AS "savingTotalBill"
 FROM ems.cyber_kepco_cost A
        INNER JOIN ems.cyber_kepco_info B
          ON A.cust_no = B.cust_no AND B.end_month = A.end_month AND B.sel_cost = A.sel_cost
@@ -31,6 +33,113 @@ WHERE A.end_month between '201810' and #{tgtDate}
 GROUP BY A.end_month
 ORDER BY 1 desc
 
+    </select>
+
+    <sql id="selectDashboardSummarySummaryTotal">
+SELECT ROUND(sum(saving_cost)+sum(saving_cpower)+sum(total_cost)+sum(opt_cost_save)+sum(lagg_pwrfact)+sum(lead_pwrfact)) AS dis_cost_sum FROM (
+    SELECT
+    A.ismart_no, B.saving_cost,
+    C.saving_cpower, D.reading_date,
+    (E.total_cost-E2.total_cost) AS total_cost,
+    F.opt_cost_save,
+    ((95-G.lagg_pwrfact)*0.002)*H.base_bill AS lagg_pwrfact,
+    ((95-G.lead_pwrfact)*0.002)*H.base_bill AS lead_pwrfact
+    FROM ems.ismart_bas A
+    LEFT JOIN ems.opt_peak B ON A.ismart_no = B.cust_no
+    LEFT JOIN ems.opt_cpower C ON A.ismart_no = C.cust_no
+    LEFT JOIN ems.equip_ab D ON A.ismart_no = D.cust_no
+    LEFT JOIN ems.opt_readday E ON A.ismart_no = E.cust_no
+    LEFT JOIN ems.opt_readday E2 ON A.ismart_no = E2.cust_no
+    LEFT JOIN ems.opt_guide F ON A.ismart_no = F.cust_no
+    LEFT JOIN ems.opt_pwrfact G ON A.ismart_no = G.cust_no
+    LEFT JOIN ems.cyber_kepco_cost H ON A.ismart_no = H.cust_no
+    INNER JOIN ems.cyber_kepco_info I ON A.ismart_no = I.cust_no AND H.end_month = I.end_month AND H.sel_cost = I.sel_cost
+
+
+    WHERE LPAD(B.tgt_month,2,'0') = SUBSTRING(#{tgtDate},5,2)
+    <choose>
+        <when test="ismartList==null || ismartList.isEmpty()">
+            AND A.ismart_no = null
+        </when>
+        <otherwise>
+            AND A.ismart_no in
+            <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
+                #{item.ismartId}
+            </foreach>
+        </otherwise>
+    </choose>
+    AND B.anals_date = (SELECT MAX(anals_date) from ems.opt_peak WHERE cust_no = A.ismart_no)
+    AND C.anals_date = (SELECT MAX(anals_date) from ems.opt_cpower WHERE cust_no = A.ismart_no)
+    AND C.tgt_month = B.tgt_month
+    AND D.scrap_date = (SELECT MAX(scrap_date) from ems.equip_ab WHERE cust_no = A.ismart_no)
+    AND E.anals_date = (SELECT MAX(anals_date) from ems.opt_readday WHERE cust_no = A.ismart_no)
+    AND E.read_day = D.reading_date::NUMERIC
+    AND E2.anals_date = (SELECT MAX(anals_date) from ems.opt_readday WHERE cust_no = A.ismart_no)
+    AND E2.total_cost = (SELECT MIN(total_cost) FROM ems.opt_readday WHERE cust_no= A.ismart_no)
+    AND F.anals_date = (SELECT MAX(anals_date) from ems.opt_guide WHERE cust_no = A.ismart_no)
+    AND G.anals_date = (SELECT MAX(anals_date) from ems.opt_pwrfact WHERE cust_no = A.ismart_no)
+    AND G.tgt_month = LPAD(B.tgt_month,2,'0')
+
+    AND H.end_month = (select max(end_month) from ems.cyber_kepco_cost where cust_no = A.ismart_no)
+) AA
+    </sql>
+
+    <select id="selectDashboardServiceRanking" resultType="Map">
+
+SELECT
+       (ROW_NUMBER() OVER(ORDER BY "pwrQty" asc)) AS "rnum" ,
+       *
+FROM (
+
+
+     SELECT
+            D.ismart_no AS "ismartId",
+            CASE
+                   WHEN E.site_name IS NOT NULL THEN E.site_name
+                   ELSE F.user_id
+                END AS "siteName",
+            D.latt AS "latt",
+            D.lngt AS "lngt",
+            H.pwr_qty AS "pwrQty",
+            CASE
+                   WHEN D.class_cnt is null THEN null
+                   ELSE ROUND(H.pwr_qty / D.class_cnt,2)
+                END AS "pwrPerClass"
+
+
+     FROM  ems.ismart_bas D
+                  LEFT JOIN ems.total_info E ON E.cust_no = D.ismart_no
+                  LEFT JOIN ems.user_bas F ON F.ismart_id = D.ismart_no
+                  INNER JOIN ems.cyber_kepco_info G ON D.ismart_no = G.cust_no AND G.end_month = (SELECT max(end_month) from ems.cyber_kepco_info WHERE cust_no = G.cust_no)
+                  INNER JOIN ems.cyber_kepco_cost H ON D.ismart_no = H.cust_no AND H.sel_cost = G.sel_cost
+                                                              AND H.end_month = (SELECT MAX(end_month) FROM ems.cyber_kepco_cost WHERE cust_no = D.ismart_no)
+
+     WHERE D.ismart_no in (
+         '1109003728',
+         '1116010467',
+         '1116054295',
+         '1140847685',
+         '1103056996',
+         '1122117582',
+         '1116125441',
+         '1112498047',
+         '1126464430',
+         '1126114951',
+         '1127471894',
+         '1122823051',
+         '1124466549',
+         '1129313749',
+         '1123083143',
+         '1128658628',
+         '1123954461',
+         '1128392273',
+         '1116089105'
+         )
+       AND F.user_id NOT LIKE '%test%'
+       AND D.scl_div in ( '1', '2', '3')
+     ) AS AA
+ORDER BY "pwrQty"
+    asc
     </select>
 
 </mapper>

@@ -31,4 +31,13 @@ public class DashboardRestController {
         return service.selectDashboardHeaderSummary(param);
     }
 
+    @PostMapping("/selectDashboardServiceRanking")
+    public List<Map<String, Object>> selectDashboardServiceRanking(@RequestBody Map<String, Object> request) {
+        List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
+        Map<String, Object> param = new HashMap<>();
+        param.put("ismartList", ismartList);
+        param.put("tgtDate", request.get("tgtDate"));
+        return service.selectDashboardServiceRanking(param);
+    }
+
 }

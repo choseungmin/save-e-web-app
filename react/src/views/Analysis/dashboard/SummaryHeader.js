@@ -17,14 +17,10 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Muted from "components/Typography/Muted.js";
 
-import styles from "assets/jss/material-dashboard-pro-react/views/analysis/dashboardStyle.js";
-import extendedStyles from "assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.js";
-import {useAnalysis} from "../../../contexts/analysisModule";
 import {useDashboard} from "../../../contexts/dashboardModule";
 import {comma} from "util/commonUtil.js"
 
 
-const useStyles = makeStyles({ ...extendedStyles, ...styles });
 
 const SummaryHeader = (props) => {
 
@@ -32,6 +28,7 @@ const SummaryHeader = (props) => {
     //props
     selectedSchoolList,
     selectedDate,
+    classes,
 
     //state
     headerSummaryInfo,
@@ -40,7 +37,6 @@ const SummaryHeader = (props) => {
     selectDashboardHeaderSummary
   } = props;
 
-  const classes = useStyles();
 
   React.useEffect(() => {
     console.log("SummaryHeader Init!!", props)
@@ -197,7 +193,12 @@ const SummaryHeader = (props) => {
               9WATT 관리 시<br/>줄일 수 있는 연간 전기요금
             </p>
             <h3 className={`${classes.cardTitle} ${classes.whiteText}`}>
-              500,000,000 원
+              {
+                headerSummaryInfo[0]
+                  ? comma(headerSummaryInfo[0].savingTotalBill)
+                  : 0
+              }
+              {' 원'}
             </h3>
           </CardFooter>
         </Card>

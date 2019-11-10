@@ -38,9 +38,10 @@ const dashboardStyle = {
     color: grayColor[0]
   },
   rankTable: {
+    width: '100%',
     "& thead th": {
-      fontWeight: "500"
-    }
+      fontWeight: "500",
+    },
   },
   fullWidth: {
     width: "100%"

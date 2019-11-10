@@ -8,4 +8,5 @@ import java.util.Map;
 @Mapper
 public interface DashboardMapper {
     List<Map<String, Object>> selectDashboardHeaderSummary(Map<String, Object> param);
+    List<Map<String, Object>> selectDashboardServiceRanking(Map<String, Object> param);
 }
