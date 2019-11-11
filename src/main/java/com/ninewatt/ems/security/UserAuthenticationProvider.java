@@ -21,6 +21,9 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     LoginService loginService;
 
+    /*
+    * 로그인-운영환경(수동 로그인)
+    * */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
@@ -33,6 +36,9 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
     }
 
+    /*
+    * 로그인-개발환경(자동 로그인)
+    * */
     public void devAuthenticate(String username, String password) throws AuthenticationException {
 
         // do auto login
@@ -52,6 +58,9 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
+    /*
+    * 사용자 정보 획득
+    * */
     private Authentication getAuthentication(String username, String password) {
         UserVO userVO = loginService.authenticate(username, password);
         if (userVO == null) {

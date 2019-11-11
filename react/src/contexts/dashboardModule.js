@@ -3,6 +3,7 @@ import createUseConsumer from './lib/createUseConsumer';
 import {
   selectDashboardHeaderSummary,
   selectDashboardServiceRanking,
+  selectDashboardChart
 } from '../api/dashboardApi';
 
 const Context = createContext();
@@ -16,6 +17,7 @@ class DashboardProvider extends Component {
   state = {
     headerSummaryInfo: [],
     serviceRanking: [],
+    dashboardChart: null,
   };
   actions = {
     selectDashboardHeaderSummary: async (selectedSchoolList, selectedDate) => {
@@ -33,6 +35,15 @@ class DashboardProvider extends Component {
           this.setState(() => ({serviceRanking: [...result]}));
         } else {
           this.setState(() => ({serviceRanking: []}));
+        }
+      });
+    },
+    selectDashboardChart: async (selectedSchoolList, selectedDate) => {
+      await selectDashboardChart(selectedSchoolList, selectedDate).then((result) => {
+        if(result ) {
+          this.setState(() => ({dashboardChart: result}));
+        } else {
+          this.setState(() => ({serviceRanking: null}));
         }
       });
     },

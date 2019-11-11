@@ -135,15 +135,15 @@ const Analysis = (props) => {
     console.log('analysis Init Func Run !!');
 
     await getLoginUserInfo().then(response => {
-      setLoginUserInfo(response.data);
-      console.log(response.data);
+      setLoginUserInfo(response);
+      console.log(response);
     });
 
     await getAnalysisSchoolList().then((response) => {
-      setAnalysisSchoolList(response.result);
+      setAnalysisSchoolList(response);
     });
     await getAnalysisDateList().then((response) => {
-      setAnalysisDateList(response.result);
+      setAnalysisDateList(response);
     });
   };
 
