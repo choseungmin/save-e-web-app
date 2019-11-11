@@ -106,7 +106,7 @@ FROM (
                                                              AND H.end_month = (SELECT MAX(end_month) FROM ems.cyber_kepco_cost WHERE cust_no = D.ismart_no)
     WHERE F.user_id NOT LIKE '%test%'
     <choose>
-        <when test="ismartList==null || ismartList.isEmpty()">
+        <when test="ismartList==null || ismartList.isEmpty() ">
             AND D.ismart_no = null
         </when>
         <otherwise>
@@ -125,7 +125,7 @@ SELECT
     distinct(mr_hhmi) AS "category",
     SUM(pwr_qty) AS "value"
 FROM ems.trend_time
-WHERE mr_ymd like '201910%'
+WHERE mr_ymd like #{tgtDate} || '%'
     <choose>
         <when test="ismartList==null || ismartList.isEmpty()">
             AND cust_no= null
@@ -160,7 +160,7 @@ FROM (
         distinct(day_of_week) AS "category",
         SUM(pwr_qty) AS "value"
     FROM ems.trend_time
-    WHERE mr_ymd like '201910%'
+    WHERE mr_ymd like #{tgtDate} || '%'
         <choose>
             <when test="ismartList==null || ismartList.isEmpty()">
                 AND cust_no= null
@@ -183,8 +183,8 @@ SELECT
     distinct(substring(mr_ymd,1,6)) AS "category",
     SUM(pwr_qty) AS "value"
 FROM ems.trend_time
-WHERE substring(mr_ymd, 1, 6) &lt; '201910'
-    AND substring(mr_ymd, 1, 6) >= '201810'
+WHERE substring(mr_ymd, 1, 6) &lt; #{tgtDate} || '%'
+    AND substring(mr_ymd, 1, 6) >= TO_CHAR(TO_DATE(#{tgtDate}, 'YYYYMM') -INTERVAL '1 YEAR', 'YYYYMM') || '%'
     <choose>
         <when test="ismartList==null || ismartList.isEmpty()">
             AND cust_no= null

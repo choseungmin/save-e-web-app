@@ -12,11 +12,14 @@ const SiteMap = (props) => {
 
   React.useEffect(() => {
 
+    // init naver map
     if(!!window.naver && !naverMap) {
       var position = new window.naver.maps.LatLng(37.41595810,126.68029040);
       naverMap = new window.naver.maps.Map('map', {
         center: position,
-        zoom: 7
+        zoom: 7,
+        minZoom: 7,
+        maxZoom: 12
       });
     }
 
@@ -38,7 +41,7 @@ const SiteMap = (props) => {
       maxLat: 37.4598709,
       minLng: 126.62957,
       maxLng: 126.7402198,
-    }
+    };
 
     ismartList.map((v,i) => {
       const markerOptions = {
@@ -78,7 +81,7 @@ const SiteMap = (props) => {
         }
 
       }
-    })
+    });
 
 
     window.naver.maps.Event.addListener(naverMap, 'idle', function() {
@@ -100,7 +103,7 @@ const SiteMap = (props) => {
       new window.naver.maps.LatLng(latLngBounds.minLat, latLngBounds.minLng),
       new window.naver.maps.LatLng(latLngBounds.maxLat, latLngBounds.maxLng));
     naverMap.fitBounds(bounds); // 좌표 경계 이동
-  }
+  };
 
   const updateMarkers = (map, markers) => {
 
@@ -118,25 +121,25 @@ const SiteMap = (props) => {
         hideMarker(map, marker);
       }
     }
-  }
+  };
 
   const showMarker = (map, marker) => {
 
     if (marker.setMap()) return;
     marker.setMap(map);
-  }
+  };
 
   const hideMarker = (map, marker) => {
 
     if (!marker.setMap()) return;
     marker.setMap(null);
-  }
+  };
 
 
   return(
     <div id="map" className={classes.mapMakrer} style={{height: "400px"}}>
     </div>
   )
-}
+};
 
 export default SiteMap

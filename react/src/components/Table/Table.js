@@ -42,7 +42,7 @@ export default function CustomTable(props) {
               {colgroup.map((prop, key) => {
 
                 return (
-                  <col width={`${prop}%`}/>
+                  <col key={key} width={`${prop}%`}/>
                 )
               })}
             </colgroup>
@@ -81,7 +81,7 @@ export default function CustomTable(props) {
               {colgroup.map((prop, key) => {
 
                 return (
-                  <col width={`${prop}%`}/>
+                  <col key={key} width={`${prop}%`}/>
                 )
               })}
             </colgroup>

@@ -1,7 +1,6 @@
 const columnChart = (param, division, chartType) => {
 
-  if(null == param || undefined == param) return {};
-  console.log(param)
+  if(null == param || undefined == param) return nullChart;
 
   const seriesData = [];
   const categories = [];
@@ -51,7 +50,7 @@ const columnChart = (param, division, chartType) => {
     },
 
     series: [{
-      name: 'Installation',
+      name: '전기 사용량',
       data: seriesData,
       color: '#fff'
     }],
@@ -80,7 +79,68 @@ const columnChart = (param, division, chartType) => {
   }
 };
 
+const nullChart = {
 
+  title: {
+    text: ''
+  },
+  chart: {
+    backgroundColor: 'none',
+    height: '200px'
+  },
+  xAxis: {
+    categories: [],
+    labels: {
+      style: {
+        color: '#fff'
+      }
+    }
+  },
+  yAxis: {
+    title: '',
+    labels: {
+      style: {
+        color: '#fff'
+      }
+    }
+  },
+  legend: {
+    enabled: false,
+    align: 'right',
+    verticalAlign: 'bottom',
+    itemStyle: {
+      color: '#fff'
+    }
+  },
+
+  series: [{
+    name: '',
+    data: [],
+    color: '#fff'
+  }],
+
+  responsive: {
+    rules: [{
+      condition: {
+        maxWidth: 500
+      },
+      chartOptions: {
+        legend: {
+          layout: 'horizontal',
+          align: 'center',
+          verticalAlign: 'bottom'
+        }
+      }
+    }]
+  },
+  exporting: {
+    enabled: false
+  },
+  credits: {
+    enabled: false
+  }
+
+}
 
 
 

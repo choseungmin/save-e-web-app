@@ -1,11 +1,7 @@
-import React, {Fragment} from "react";
-
-
-
+import React from "react";
 
 // @material-ui/icons
 import AssessmentOutlined from "@material-ui/icons/AssessmentOutlined";
-
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -36,8 +32,7 @@ const ServiceRanking = (props) => {
   } = props;
 
   React.useEffect(() => {
-    console.log("ServiceRanking Init!!", props)
-    if(selectedSchoolList!=null && selectedDate != '') {
+    if(selectedSchoolList !== null && selectedDate !== '') {
       selectDashboardServiceRanking(selectedSchoolList, selectedDate);
     }
 
@@ -62,8 +57,8 @@ const ServiceRanking = (props) => {
                 className={classes.rankTable}
                 tableHead={["순위", "학교명", "학급당 전기사용량(kwh)", "학교전체 전기사용량(kwh)"]}
                 tableData={
-                  serviceRanking.length >0
-                    ? serviceRanking.map((v,i) => {
+                  serviceRanking && serviceRanking.length >0
+                    ? serviceRanking.map((v) => {
                       return [v.rnum, v.siteName, v.pwrQty, v.pwrPerClass]
                     })
                     : []

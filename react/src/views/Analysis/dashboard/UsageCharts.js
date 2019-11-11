@@ -13,7 +13,6 @@ import GridItem from "components/Grid/GridItem.js";
 
 // @material-ui/core components
 import Tooltip from "@material-ui/core/Tooltip";
-import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
 import AccessTime from "@material-ui/icons/AccessTime";
@@ -41,7 +40,9 @@ const UsageCharts =(props) => {
   } = props;
 
   React.useEffect(() => {
+    //api call
     selectDashboardChart(selectedSchoolList, selectedDate);
+
   }, [selectedSchoolList, selectedDate]);
 
   return(

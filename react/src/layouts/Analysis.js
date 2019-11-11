@@ -132,11 +132,9 @@ const Analysis = (props) => {
   };
 
   const analysisInitFunc = async () => {
-    console.log('analysis Init Func Run !!');
 
     await getLoginUserInfo().then(response => {
       setLoginUserInfo(response);
-      console.log(response);
     });
 
     await getAnalysisSchoolList().then((response) => {
@@ -150,7 +148,7 @@ const Analysis = (props) => {
   const analysisUpdateFunc = async () => {
     await selectAnalysisTargetList(selectedSchoolList).then(response => {
       if(!!response)
-      console.log(response.data);
+      console.log('TODO 추후 제거',response.data);
     });
   };
 

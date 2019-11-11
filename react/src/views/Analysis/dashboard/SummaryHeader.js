@@ -39,7 +39,6 @@ const SummaryHeader = (props) => {
 
 
   React.useEffect(() => {
-    console.log("SummaryHeader Init!!", props)
     if(selectedSchoolList!=null && selectedDate != '') {
       selectDashboardHeaderSummary(selectedSchoolList, selectedDate);
     }

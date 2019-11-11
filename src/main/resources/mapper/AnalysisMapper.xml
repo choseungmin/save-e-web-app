@@ -22,13 +22,21 @@ FROM (
                   LEFT JOIN ems.total_info E ON E.cust_no = B.ismart_id
                   LEFT JOIN ems.user_bas F ON F.ismart_id = B.ismart_id
          WHERE A.use_yn = 'Y'
-           AND C.ismart_no = #{ismartId}
-           AND F.user_id NOT LIKE '%test%'
-           AND D.scl_div NOTNULL
-           AND D.scl_div in
-           <foreach collection="sclDiv" item="item"  open="(" close=")" separator=",">
-               #{item}
-           </foreach>
+            AND C.ismart_no = #{ismartId}
+            AND F.user_id NOT LIKE '%test%'
+            AND D.scl_div NOTNULL
+
+            <choose>
+                <when test="sclDiv==null || sclDiv.isEmpty() ">
+                    AND D.scl_div = null
+                </when>
+                <otherwise>
+                    AND D.scl_div in
+                    <foreach collection="sclDiv" item="item"  open="(" close=")" separator=",">
+                    #{item}
+                    </foreach>
+                </otherwise>
+            </choose>
      ) AS AA
 
     </select>
