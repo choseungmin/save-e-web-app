@@ -67,8 +67,9 @@ const ServiceRanking = (props) => {
                       return [v.rnum, v.siteName, v.pwrQty, v.pwrPerClass]
                     })
                     : []
-
                   }
+                colgroup={[10,30,30,30]}
+                height={"330px"}
               />
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>

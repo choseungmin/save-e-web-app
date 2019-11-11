@@ -44,7 +44,7 @@ const dashboardStyle = {
     },
     "& th, td": {
       textAlign: "center"
-    }
+    },
   },
   fullWidth: {
     width: "100%"
