@@ -160,7 +160,16 @@ SELECT
         WHEN "category" like 'satur%' THEN '6'
         ELSE '0'
     END,
-    "category",
+        CASE
+        WHEN "category" like 'sun%' THEN '일'
+        WHEN "category" like 'mon%' THEN '월'
+        WHEN "category" like 'tues%' THEN '화'
+        WHEN "category" like 'wednes%' THEN '수'
+        WHEN "category" like 'thurs%' THEN '목'
+        WHEN "category" like 'fri%' THEN '금'
+        WHEN "category" like 'satur%' THEN '토'
+        ELSE '0'
+        END AS "category",
     "value",
     "cretDt"
 FROM (

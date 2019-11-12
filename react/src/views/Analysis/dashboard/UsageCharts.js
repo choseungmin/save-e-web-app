@@ -103,7 +103,7 @@ const UsageCharts =(props) => {
           </div>
           <h4 className={classes.cardTitle}>시간별 전기 사용량 ({selectedDate})</h4>
           <p className={classes.cardCategory}>
-            전기사용량은 { getMaxValue(dashboardChart, 'hourChart') }시에 가장 많았음
+            전기사용량은 <b>{ getMaxValue(dashboardChart, 'hourChart') }시</b>에 가장 많았음
           </p>
         </CardBody>
         <CardFooter chart>
@@ -144,9 +144,9 @@ const UsageCharts =(props) => {
                 </Button>
               </Tooltip>
             </div>
-            <h4 className={classes.cardTitle}>시간별 전기 사용량 ({selectedDate})</h4>
+            <h4 className={classes.cardTitle}>요일별 전기 사용량 ({selectedDate})</h4>
             <p className={classes.cardCategory}>
-              전기사용량은 { getMaxValue(dashboardChart,'dayChart') }에 가장 많았음
+              전기사용량은 <b>{ getMaxValue(dashboardChart,'dayChart') }요일</b>에 가장 많았음
             </p>
           </CardBody>
           <CardFooter chart>
@@ -187,9 +187,9 @@ const UsageCharts =(props) => {
                 </Button>
               </Tooltip>
             </div>
-            <h4 className={classes.cardTitle}>시간별 전기 사용량 ({`${parseInt(selectedDate)-100} ~ ${selectedDate}`})</h4>
+            <h4 className={classes.cardTitle}>최근 12개월간 전기 사용량 ({`${parseInt(selectedDate)-100} ~ ${selectedDate}`})</h4>
             <p className={classes.cardCategory}>
-              전기사용량은 { getMaxValue(dashboardChart,'monthChart').substring(4,6) }월에 가장 많았음
+              전기사용량은 <b>{ getMaxValue(dashboardChart,'monthChart').substring(4,6) }월</b>에 가장 많았음
             </p>
           </CardBody>
           <CardFooter chart>
