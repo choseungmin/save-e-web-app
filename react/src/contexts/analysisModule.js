@@ -39,8 +39,14 @@ class AnalysisProvider extends Component {
       const response = await getAnalysisSchoolList(param);
       return response;
     },
-    setAnalysisDateList: (param) => {
-      this.setState( () => ({analysisDateList: [...param]}) )
+    setAnalysisDateList: async (param) => {
+      if(typeof param == 'object') {
+        const resultData = param.map((v => {
+          return {value: v.month, name: v.month}
+        }));
+        this.setState( () => ({analysisDateList: [...resultData]}) )
+      }
+
     },
     getAnalysisDateList: async(param) => {
       const response = await getAnalysisDateList(param);

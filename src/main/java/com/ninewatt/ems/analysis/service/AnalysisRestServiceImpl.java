@@ -63,4 +63,9 @@ public class AnalysisRestServiceImpl implements AnalysisRestService {
 
         return mapper.selectAnalysisTargetList(request);
     }
+
+    @Override
+    public List<Map<String, Object>> selectTargetDate() {
+        return mapper.selectTargetDate();
+    }
 }

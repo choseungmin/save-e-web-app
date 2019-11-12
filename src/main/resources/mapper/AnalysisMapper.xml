@@ -30,7 +30,20 @@ FROM (
                #{item}
            </foreach>
      ) AS AA
-
+    </select>
+    <select id="selectTargetDate" resultType="Map">
+SELECT
+    DISTINCT(A.end_month) AS "month"
+FROM ems.cyber_kepco_cost A
+       INNER JOIN ems.cyber_kepco_info B
+         ON A.cust_no = B.cust_no AND B.end_month = A.end_month AND B.sel_cost = A.sel_cost
+       LEFT JOIN ems.real_time_info C
+         ON A.cust_no = C.cust_no AND mr_ym = A.end_month
+       LEFT JOIN ems.cyber_kepco_cost_detail D
+         ON A.cust_no = D.cust_no AND bill_ym = A.end_month AND D.sel_cost like '%'||A.sel_cost||'%'
+WHERE A.end_month between TO_CHAR(NOW() - INTERVAL '6 MONTH', 'YYYYMM') and TO_CHAR(NOW(),'YYYYMM')
+GROUP BY A.end_month
+ORDER BY 1 DESC
     </select>
 
 </mapper>

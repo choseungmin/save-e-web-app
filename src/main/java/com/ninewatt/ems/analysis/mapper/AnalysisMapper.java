@@ -8,4 +8,5 @@ import java.util.Map;
 @Mapper
 public interface AnalysisMapper {
     List<Map<String, Object>> selectAnalysisTargetList(Map<String, Object> param);
+    List<Map<String, Object>> selectTargetDate();
 }

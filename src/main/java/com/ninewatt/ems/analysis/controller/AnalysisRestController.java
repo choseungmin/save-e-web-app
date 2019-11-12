@@ -41,4 +41,11 @@ public class AnalysisRestController {
     public @ResponseBody List<Map<String, Object>> selectAnalysisTargetList(@RequestBody Map<String, Object> request) {
         return service.selectAnalysisTargetList(request);
     }
+
+    @PostMapping("/selectTargetDate")
+    public @ResponseBody List<Map<String, Object>> selectTargetDate() {
+        return service.selectTargetDate();
+    }
+
+
 }
