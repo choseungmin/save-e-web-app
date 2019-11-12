@@ -27,11 +27,6 @@ public class AnalysisRestController {
     @Resource(name="com.ninewatt.ems.analysis.service.AnalysisRestServiceImpl")
     private AnalysisRestService service;
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
-
     @PostMapping("/getLoginUserInfo")
     public @ResponseBody Map<String, Object> getLoginUserInfo() {
         return service.getLoginUserInfo();

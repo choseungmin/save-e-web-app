@@ -18,7 +18,12 @@ const getLoginUserInfo = async () => {
 const selectAnalysisTargetList = async (selectedSchoolList) => {
   try {
     const response = await axios.post('/api/analysis/selectAnalysisTargetList', {sclDiv: selectedSchoolList});
-    return response;
+    if(response.data) {
+      return response.data;
+    } else {
+      return [];
+    }
+
   } catch (e) {
     console.error(e);
   }

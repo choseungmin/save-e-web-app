@@ -6,6 +6,10 @@ import {
   selectDashboardChart
 } from '../api/dashboardApi';
 
+import {
+  selectAnalysisTargetList,
+} from '../api/analysisApi';
+
 const Context = createContext();
 
 const {
@@ -18,6 +22,7 @@ class DashboardProvider extends Component {
     headerSummaryInfo: [],
     serviceRanking: [],
     dashboardChart: null,
+    analysisTargetList: [],
   };
   actions = {
     selectDashboardHeaderSummary: async (selectedSchoolList, selectedDate) => {
@@ -47,7 +52,15 @@ class DashboardProvider extends Component {
         }
       });
     },
-
+    selectAnalysisTargetList: async (selectedSchoolList) => {
+      await selectAnalysisTargetList(selectedSchoolList).then((result) => {
+        if(result) {
+          this.setState(() =>({analysisTargetList: result}));
+        } else {
+          this.setState(() =>({analysisTargetList: []}));
+        }
+      });
+    },
   };
   render() {
     const { state, actions } = this;

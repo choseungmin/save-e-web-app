@@ -32,16 +32,18 @@ const SummaryHeader = (props) => {
 
     //state
     headerSummaryInfo,
+    analysisTargetList,
 
     //actions
-    selectDashboardHeaderSummary
+    selectDashboardHeaderSummary,
+    selectAnalysisTargetList,
   } = props;
-
 
   React.useEffect(() => {
     console.log("SummaryHeader Init!!", props)
     if(selectedSchoolList!=null && selectedDate != '') {
       selectDashboardHeaderSummary(selectedSchoolList, selectedDate);
+      selectAnalysisTargetList(selectedSchoolList)
     }
 
   },[selectedSchoolList, selectedDate]);
@@ -52,8 +54,8 @@ const SummaryHeader = (props) => {
         <GridContainer>
           <GridItem xs={12} sm={12} md={12} lg={12}>
             <div className={classes.targetCount}>
-              <div className="totalCount">전체 학교 수 30</div>
-              <Muted>( 데이터 수집 29개 학교 / 미수집 1개 학교 )</Muted>
+              <div className="totalCount">전체 학교 수 {analysisTargetList.length}</div>
+              <Muted>( 데이터 수집 {analysisTargetList.length}개 학교 / 미수집 0개 학교 )</Muted>
             </div>
           </GridItem>
           <GridItem xs={12} sm={6} md={6} lg={3}>
@@ -211,7 +213,9 @@ export default useDashboard(
   ({ state, actions }) => ({
     //state
     headerSummaryInfo: state.headerSummaryInfo,
+    analysisTargetList: state.analysisTargetList,
     //actions
-    selectDashboardHeaderSummary: actions.selectDashboardHeaderSummary
+    selectDashboardHeaderSummary: actions.selectDashboardHeaderSummary,
+    selectAnalysisTargetList: actions.selectAnalysisTargetList,
   })
 )(SummaryHeader);
