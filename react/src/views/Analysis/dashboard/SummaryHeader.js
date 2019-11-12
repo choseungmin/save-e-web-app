@@ -34,6 +34,7 @@ const SummaryHeader = (props) => {
     //state
     headerSummaryInfo,
     analysisTargetList,
+    serviceRanking,
 
     //actions
     selectDashboardHeaderSummary,
@@ -76,8 +77,8 @@ const SummaryHeader = (props) => {
         <GridContainer>
           <GridItem xs={12} sm={12} md={12} lg={12}>
             <div className={classes.targetCount}>
-              <div className="totalCount">전체 학교 수 {analysisTargetList.length}</div>
-              <Muted>( 데이터 수집 {analysisTargetList.length}개 학교 / 미수집 0개 학교 )</Muted>
+              <div className="totalCount">전체 학교 수 {serviceRanking.length}</div>
+              <Muted>( 데이터 수집 {serviceRanking.length}개 학교 / 미수집 {serviceRanking.filter((v) => {return v.pwrQty == null}).length}개 학교 )</Muted>
             </div>
           </GridItem>
           <GridItem xs={12} sm={6} md={6} lg={3}>
@@ -229,6 +230,7 @@ export default useDashboard(
     //state
     headerSummaryInfo: state.headerSummaryInfo,
     analysisTargetList: state.analysisTargetList,
+    serviceRanking: state.serviceRanking, //ServiceRanking 에서 api call
     //actions
     selectDashboardHeaderSummary: actions.selectDashboardHeaderSummary,
     selectAnalysisTargetList: actions.selectAnalysisTargetList,

@@ -62,6 +62,12 @@ const UsageCharts =(props) => {
     return max.category;
   };
 
+  const getCretDt = (chart, name) => {
+    if(null == chart || chart[name].length == 0) return '';
+
+    return chart[name][chart[name].length-1].cretDt;
+  };
+
   return(
     <Fragment>
     <GridItem xs={12} sm={12} md={4}>
@@ -102,7 +108,7 @@ const UsageCharts =(props) => {
         </CardBody>
         <CardFooter chart>
           <div className={classes.stats}>
-            <AccessTime /> 최근 업데이트 시간 표시
+            <AccessTime /> { getCretDt(dashboardChart, 'hourChart') }
           </div>
         </CardFooter>
       </Card>
@@ -145,7 +151,7 @@ const UsageCharts =(props) => {
           </CardBody>
           <CardFooter chart>
             <div className={classes.stats}>
-              <AccessTime /> 최근 업데이트 시간 표시
+              <AccessTime /> { getCretDt(dashboardChart,'dayChart') }
             </div>
           </CardFooter>
         </Card>
@@ -188,7 +194,7 @@ const UsageCharts =(props) => {
           </CardBody>
           <CardFooter chart>
             <div className={classes.stats}>
-              <AccessTime /> 최근 업데이트 시간 표시
+              <AccessTime /> { getCretDt(dashboardChart,'monthChart') }
             </div>
           </CardFooter>
         </Card>

@@ -129,7 +129,8 @@ ORDER BY "pwrQty" asc
     <select id="selectDashboardChartByHour" resultType="Map">
 SELECT
     distinct(mr_hhmi) AS "category",
-    SUM(pwr_qty) AS "value"
+    SUM(pwr_qty) AS "value",
+    TO_CHAR(MAX(cret_dt), 'YYYY-MM-DD hh:mi:ss') AS "cretDt"
 FROM ems.trend_time
 WHERE mr_ymd like #{tgtDate} || '%'
     <choose>
@@ -160,11 +161,13 @@ SELECT
         ELSE '0'
     END,
     "category",
-    "value"
+    "value",
+    "cretDt"
 FROM (
     SELECT
         distinct(day_of_week) AS "category",
-        SUM(pwr_qty) AS "value"
+        SUM(pwr_qty) AS "value",
+        TO_CHAR(MAX(cret_dt), 'YYYY-MM-DD hh:mi:ss') AS "cretDt"
     FROM ems.trend_time
     WHERE mr_ymd like #{tgtDate} || '%'
         <choose>
@@ -187,7 +190,8 @@ ORDER BY 1
     <select id="selectDashboardChartByMonth" resultType="Map">
 SELECT
     distinct(substring(mr_ymd,1,6)) AS "category",
-    SUM(pwr_qty) AS "value"
+    SUM(pwr_qty) AS "value",
+    TO_CHAR(MAX(cret_dt), 'YYYY-MM-DD hh:mi:ss') AS "cretDt"
 FROM ems.trend_time
 WHERE substring(mr_ymd, 1, 6) &lt; #{tgtDate} || '%'
     AND substring(mr_ymd, 1, 6) >= TO_CHAR(TO_DATE(#{tgtDate}, 'YYYYMM') -INTERVAL '1 YEAR', 'YYYYMM') || '%'
