@@ -71,6 +71,10 @@ const SummaryHeader = (props) => {
     }
   };
 
+  const dateFormat = (selectedDate) => {
+    return `${selectedDate.substring(0,4)}.${selectedDate.substring(4,6)}`
+  };
+
   return (
     <Fragment>
       <GridItem xs={12} sm={12} md={12} lg={10}>
@@ -104,7 +108,7 @@ const SummaryHeader = (props) => {
                   name={'totalBill'}
                 />
                 <div className={classes.stats}>
-                  전월대비<br/>({selectedDate})
+                  전월대비<br/>({dateFormat(selectedDate)})
                 </div>
               </CardFooter>
             </Card>
@@ -132,7 +136,7 @@ const SummaryHeader = (props) => {
                   name={'pwrQty'}
                 />
                 <div className={classes.stats}>
-                  전월대비<br/>({selectedDate})
+                  전월대비<br/>({dateFormat(selectedDate)})
                 </div>
               </CardFooter>
             </Card>
@@ -160,7 +164,7 @@ const SummaryHeader = (props) => {
                   name={'maxPower'}
                 />
                 <div className={classes.stats}>
-                  전월대비<br/>({selectedDate})
+                  전월대비<br/>({dateFormat(selectedDate)})
                 </div>
               </CardFooter>
             </Card>
@@ -188,7 +192,7 @@ const SummaryHeader = (props) => {
                   name={'pwrQty'}
                 />
                 <div className={classes.stats}>
-                  전월대비<br/>({selectedDate})
+                  전월대비<br/>({dateFormat(selectedDate)})
                 </div>
               </CardFooter>
             </Card>

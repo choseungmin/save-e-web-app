@@ -72,7 +72,7 @@ const SchoolSelectButton = (props) => {
 
   const selectDateName = name => {
     dateList.map((v,i) => {
-      if(v.name === name) {
+      if(v.name === name.replace('.','')) {
         // setDateSelect(v);
         setSelectedDate(v.value)
       }
@@ -117,7 +117,7 @@ const SchoolSelectButton = (props) => {
             onClick={name => {selectDateName(name)}}
             dropup
             className="defaultButton"
-            buttonText={selectedDate}
+            buttonText={`${selectedDate.substring(0,4)}.${selectedDate.substring(4,6)}`}
             hoverColor="info"
             dropPlacement="top"
             buttonProps={{
@@ -127,7 +127,7 @@ const SchoolSelectButton = (props) => {
             }}
             dropdownHeader="날짜 선택"
             dropdownList={
-              dateList.map((v,i) =>{return v.name})
+              dateList.map((v,i) =>{return `${v.name.substring(0,4)}.${v.name.substring(4,6)}` })
             }
           />
         </div>
