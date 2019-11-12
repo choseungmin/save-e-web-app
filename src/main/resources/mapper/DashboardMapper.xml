@@ -99,11 +99,17 @@ FROM (
                   ELSE ROUND(H.pwr_qty / D.class_cnt,2)
                END AS "pwrPerClass"
     FROM  ems.ismart_bas D
-                 LEFT JOIN ems.total_info E ON E.cust_no = D.ismart_no
-                 LEFT JOIN ems.user_bas F ON F.ismart_id = D.ismart_no
-                 INNER JOIN ems.cyber_kepco_info G ON D.ismart_no = G.cust_no AND G.end_month = (SELECT max(end_month) from ems.cyber_kepco_info WHERE cust_no = G.cust_no)
-                 INNER JOIN ems.cyber_kepco_cost H ON D.ismart_no = H.cust_no AND H.sel_cost = G.sel_cost
-                                                             AND H.end_month = (SELECT MAX(end_month) FROM ems.cyber_kepco_cost WHERE cust_no = D.ismart_no)
+        LEFT JOIN ems.total_info E
+            ON E.cust_no = D.ismart_no
+        LEFT JOIN ems.user_bas F
+            ON F.ismart_id = D.ismart_no
+        LEFT JOIN ems.cyber_kepco_info G
+            ON D.ismart_no = G.cust_no
+            AND G.end_month = #{tgtDate}
+        LEFT JOIN ems.cyber_kepco_cost H
+            ON D.ismart_no = H.cust_no
+            AND H.sel_cost = G.sel_cost
+            AND H.end_month = #{tgtDate}
     WHERE F.user_id NOT LIKE '%test%'
     <choose>
         <when test="ismartList==null || ismartList.isEmpty() ">

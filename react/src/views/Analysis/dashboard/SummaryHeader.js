@@ -19,6 +19,7 @@ import Muted from "components/Typography/Muted.js";
 
 import {useDashboard} from "../../../contexts/dashboardModule";
 import {comma} from "util/commonUtil.js"
+import PercentValue from "./PercentValue";
 
 
 
@@ -32,18 +33,42 @@ const SummaryHeader = (props) => {
 
     //state
     headerSummaryInfo,
+    analysisTargetList,
 
     //actions
-    selectDashboardHeaderSummary
+    selectDashboardHeaderSummary,
+    selectAnalysisTargetList,
   } = props;
-
 
   React.useEffect(() => {
     if(selectedSchoolList!=null && selectedDate != '') {
       selectDashboardHeaderSummary(selectedSchoolList, selectedDate);
+      selectAnalysisTargetList(selectedSchoolList)
     }
 
   },[selectedSchoolList, selectedDate]);
+
+  const ratioPerPastValue = (data, name) => {
+    if(!data[0]) return 0;
+    return Math.round(100 - (data[0][name] / data[1][name]) * 100)
+  };
+
+  const incrementArrow = (data, name) => {
+    if(!data[0]) return '';
+    if(data[0][name] > data[1][name]) {
+      return (
+        <div className="arrowDown">
+          <Icon>keyboard_arrow_down</Icon>
+        </div>
+      );
+    } else {
+      return (
+        <div className="arrowUp">
+          <Icon>keyboard_arrow_up</Icon>
+        </div>
+      );
+    }
+  };
 
   return (
     <Fragment>
@@ -51,8 +76,8 @@ const SummaryHeader = (props) => {
         <GridContainer>
           <GridItem xs={12} sm={12} md={12} lg={12}>
             <div className={classes.targetCount}>
-              <div className="totalCount">전체 학교 수 30</div>
-              <Muted>( 데이터 수집 29개 학교 / 미수집 1개 학교 )</Muted>
+              <div className="totalCount">전체 학교 수 {analysisTargetList.length}</div>
+              <Muted>( 데이터 수집 {analysisTargetList.length}개 학교 / 미수집 0개 학교 )</Muted>
             </div>
           </GridItem>
           <GridItem xs={12} sm={6} md={6} lg={3}>
@@ -72,14 +97,13 @@ const SummaryHeader = (props) => {
                 </h4>
               </CardHeader>
               <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
-                <div className={`${classes.stats} ${classes.roseText} percent`}>
-                  <div className="arrowDown">
-                    <Icon>keyboard_arrow_down</Icon>
-                  </div>
-                  20%
-                </div>
+                <PercentValue
+                  classes={classes}
+                  headerSummaryInfo={headerSummaryInfo}
+                  name={'totalBill'}
+                />
                 <div className={classes.stats}>
-                  전월동월대비<br/>(2019.09)
+                  전월대비<br/>({selectedDate})
                 </div>
               </CardFooter>
             </Card>
@@ -101,15 +125,13 @@ const SummaryHeader = (props) => {
                 </h4>
               </CardHeader>
               <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
-                <div className={`${classes.stats} ${classes.infoText} percent`}>
-                  {/*<ArrowUpward className={classes.upArrowCardCategory} />*/}
-                  <div className="arrowUp">
-                    <Icon>keyboard_arrow_up</Icon>
-                  </div>
-                  20%
-                </div>
+                <PercentValue
+                  classes={classes}
+                  headerSummaryInfo={headerSummaryInfo}
+                  name={'pwrQty'}
+                />
                 <div className={classes.stats}>
-                  전월동월대비<br/>(2019.09)
+                  전월대비<br/>({selectedDate})
                 </div>
               </CardFooter>
             </Card>
@@ -131,15 +153,13 @@ const SummaryHeader = (props) => {
                 </h4>
               </CardHeader>
               <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
-                <div className={`${classes.stats} ${classes.infoText} percent`}>
-                  {/*<ArrowUpward className={classes.upArrowCardCategory} />*/}
-                  <div className="arrowUp">
-                    <Icon>keyboard_arrow_up</Icon>
-                  </div>
-                  20%
-                </div>
+                <PercentValue
+                  classes={classes}
+                  headerSummaryInfo={headerSummaryInfo}
+                  name={'maxPower'}
+                />
                 <div className={classes.stats}>
-                  전월동월대비<br/>(2019.09)
+                  전월대비<br/>({selectedDate})
                 </div>
               </CardFooter>
             </Card>
@@ -161,15 +181,13 @@ const SummaryHeader = (props) => {
                 </h4>
               </CardHeader>
               <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
-                <div className={`${classes.stats} ${classes.infoText} percent`}>
-                  {/*<ArrowUpward className={classes.upArrowCardCategory} />*/}
-                  <div className="arrowUp">
-                    <Icon>keyboard_arrow_up</Icon>
-                  </div>
-                  20%
-                </div>
+                <PercentValue
+                  classes={classes}
+                  headerSummaryInfo={headerSummaryInfo}
+                  name={'pwrQty'}
+                />
                 <div className={classes.stats}>
-                  전월동월대비<br/>(2019.09)
+                  전월대비<br/>({selectedDate})
                 </div>
               </CardFooter>
             </Card>
@@ -210,7 +228,9 @@ export default useDashboard(
   ({ state, actions }) => ({
     //state
     headerSummaryInfo: state.headerSummaryInfo,
+    analysisTargetList: state.analysisTargetList,
     //actions
-    selectDashboardHeaderSummary: actions.selectDashboardHeaderSummary
+    selectDashboardHeaderSummary: actions.selectDashboardHeaderSummary,
+    selectAnalysisTargetList: actions.selectAnalysisTargetList,
   })
 )(SummaryHeader);
