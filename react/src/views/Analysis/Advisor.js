@@ -22,7 +22,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import SchoolSelectButton from "views/Analysis/SchoolSelectButton.js";
+import SearchInfoButton from "views/Analysis/SearchInfoButton.js";
 
 // context API
 import { useAnalysis } from '../../contexts/analysisModule';
@@ -46,7 +46,7 @@ const Advisor = (props) => {
         <GridItem xs={12} sm={12} md={12} lg={12}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12} lg={12}>
-              <SchoolSelectButton/>
+              <SearchInfoButton/>
             </GridItem>
             <GridItem xs={12} sm={12} md={12} lg={12}>
               <GridContainer>

@@ -216,7 +216,7 @@ const SummaryHeader = (props) => {
             </p>
             <h3 className={`${classes.cardTitle} ${classes.whiteText}`}>
               {
-                headerSummaryInfo[0]
+                headerSummaryInfo[0] && headerSummaryInfo[0].savingTotalBill
                   ? comma(headerSummaryInfo[0].savingTotalBill)
                   : 0
               }

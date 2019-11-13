@@ -1,5 +1,5 @@
 import Dashboard from "views/Analysis/Dashboard.js";
-import DataAnalysis from "views/Analysis/DataAnalysis.js";
+import SchoolData from "views/Analysis/SchoolData.js";
 import Advisor from "views/Analysis/Advisor";
 
 // @material-ui/icons
@@ -32,7 +32,7 @@ var dashRoutes = [
     path: "/dataAnalysis",
     name: "School Data Analysis",
     icon: Business,
-    component: DataAnalysis,
+    component: SchoolData,
     layout: "/analysis"
   },
   {

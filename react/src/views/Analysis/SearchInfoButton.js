@@ -12,7 +12,7 @@ import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 
 const useStyles = makeStyles({ ...styles });
 
-const SchoolSelectButton = (props) => {
+const SearchInfoButton = (props) => {
 
   const {
     analysisSchoolList,
@@ -146,4 +146,4 @@ export default useAnalysis(
     setSelectedSchoolList: actions.setSelectedSchoolList,
     setSelectedDate: actions.setSelectedDate,
   })
-)(SchoolSelectButton);
+)(SearchInfoButton);

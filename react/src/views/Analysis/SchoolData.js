@@ -18,7 +18,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 
-import SchoolSelectButton from "views/Analysis/SchoolSelectButton.js";
+import SearchInfoButton from "views/Analysis/SearchInfoButton.js";
 
 // context API
 import { useAnalysis } from '../../contexts/analysisModule';
@@ -37,18 +37,23 @@ HighchartsMore(ReactHighcharts.Highcharts);
 
 const useStyles = makeStyles({ ...styles });
 
-const DataAnalysis = (props) => {
+const SchoolData = (props) => {
   const classes = useStyles();
+
+  const {
+    selectedSchoolList,
+    selectedDate
+  } = props;
 
   React.useEffect(() => {
 
-  });
+  },[selectedSchoolList, selectedDate]);
 
   return (
     <div>
       <GridContainer>
         <GridItem xs={12} sm={12} md={12} lg={12}>
-          <SchoolSelectButton/>
+          <SearchInfoButton/>
         </GridItem>
         <br/>
         <br/>
@@ -145,4 +150,4 @@ export default useAnalysis(
     //state
     analysisDateList: state.analysisDateList,
   })
-)(DataAnalysis);
+)(SchoolData);
