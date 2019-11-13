@@ -1,4 +1,22 @@
-const columnChart = (param) => {
+const totalBillPerClassChart = (param) => {
+
+  if(null == param || undefined == param) return nullChart;
+
+  const seriesData = [];
+  const categories = [];
+
+  if(null !== param && undefined !== param) {
+    param.map((v, i) => {
+      if(i<3) {
+        seriesData.push({y: v.value, color: '#ef534f'});
+      } else {
+        seriesData.push(v.value);
+      }
+      categories.push(v.category);
+    })
+  }
+
+  console.log(seriesData, categories)
 
   return {
     chart: {
@@ -18,15 +36,14 @@ const columnChart = (param) => {
       y: -10
     },
     xAxis: [{
-      categories: ['**초등학교', '**초등학교', '**초등학교',
-        '**초등학교', '**초등학교', '**초등학교', '**초등학교',
-        '**초등학교', '**초등학교', '**초등학교'
-      ],
+      categories: categories,
       crosshair: true
     }],
     yAxis: [{ // Primary yAxis
       labels: {
-        format: '{value} 백만 원',
+        formatter: function() {
+          return `${this.value/10000} 만원`;
+        },
         style: {
           color: '#000'
         }
@@ -39,7 +56,11 @@ const columnChart = (param) => {
       }
     }],
     tooltip: {
-      shared: true
+      // valueSuffix: '{value} 원'
+      formatter: function() {
+        console.log(this)
+        return `<span style="color:${this.color}">●</span>${this.x}<br/>${Math.floor(this.y/10000)} 만원`
+      }
     },
     legend: {
       enabled: true,
@@ -60,16 +81,15 @@ const columnChart = (param) => {
       }
     },
     series: [{
-      name: 'series1',
+      name: '학급 당 전기요금',
       type: 'column',
       yAxis: 0,
-      data: [{y: 150, color: '#ef534f'}, {y: 138, color: '#ef534f'}, {y: 132, color: '#ef534f'},
-        127, 115, 101, 97, 85, 75, 69
-      ],
+      data: seriesData,
+      // data: [{y: 150, color: '#ef534f'}, {y: 138, color: '#ef534f'}, {y: 132, color: '#ef534f'},
+      //   127, 115, 101, 97, 85, 75, 69
+      // ],
       color: '#dbdbdb',
-      tooltip: {
-        valueSuffix: ' 백만 원'
-      }
+
 
     }],
     exporting: {
@@ -389,9 +409,55 @@ const splineChart = (param) => {
   }
 };
 
+const nullChart ={
+  chart: {
+    marginBottom: 100,
+  },
+  title: {
+    text: '',
+    align: 'center',
+    verticalAlign: 'bottom',
+    y: -30
+  },
+  subtitle: {
+    text: '',
+  },
+  xAxis: [{
+    categories: [],
+    crosshair: true
+  }],
+  yAxis: [{ // Primary yAxis
+    labels: {
+      format: ''
+    },
+    title: {
+      text: ''
+    }
+  }],
+  legend: {
+    enabled: false,
+  },
+  series: [{
+    name: '',
+    type: 'column',
+    yAxis: 0,
+    data: [],
+    color: '#dbdbdb',
+    tooltip: {
+      valueSuffix: ''
+    }
+
+  }],
+  exporting: {
+    enabled: false
+  },
+  credits: {
+    enabled: false
+  }
+}
 
 export {
-  columnChart,
+  totalBillPerClassChart,
   columnLIneChart,
   bubbleChart,
   barChart,

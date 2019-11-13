@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Service("com.ninewatt.ems.analysis.service.DashboardRestServiceImpl")
+@Service("com.ninewatt.ems.dashboard.service.DashboardRestService")
 public class DashboardRestServiceImpl implements DashboardRestService {
 
     @Autowired

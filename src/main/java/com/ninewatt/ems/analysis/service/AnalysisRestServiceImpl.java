@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Service("com.ninewatt.ems.analysis.service.AnalysisRestServiceImpl")
+@Service("com.ninewatt.ems.analysis.service.AnalysisRestService")
 public class AnalysisRestServiceImpl implements AnalysisRestService {
 
     @Autowired

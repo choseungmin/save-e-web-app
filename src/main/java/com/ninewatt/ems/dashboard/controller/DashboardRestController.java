@@ -16,10 +16,10 @@ import java.util.Map;
 @RequestMapping(value = "/api/dashboard")
 public class DashboardRestController {
 
-    @Resource(name="com.ninewatt.ems.analysis.service.DashboardRestServiceImpl")
+    @Resource(name="com.ninewatt.ems.dashboard.service.DashboardRestService")
     DashboardRestService service;
 
-    @Resource(name="com.ninewatt.ems.analysis.service.AnalysisRestServiceImpl")
+    @Resource(name="com.ninewatt.ems.analysis.service.AnalysisRestService")
     private AnalysisRestService analysisService;
 
     @PostMapping("/selectDashboardHeaderSummary")

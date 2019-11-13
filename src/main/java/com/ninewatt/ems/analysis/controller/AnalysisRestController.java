@@ -24,7 +24,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/analysis")
 public class AnalysisRestController {
 
-    @Resource(name="com.ninewatt.ems.analysis.service.AnalysisRestServiceImpl")
+    @Resource(name="com.ninewatt.ems.analysis.service.AnalysisRestService")
     private AnalysisRestService service;
 
     @PostMapping("/getLoginUserInfo")

@@ -19,6 +19,7 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 
 import SearchInfoButton from "views/Analysis/SearchInfoButton.js";
+import ChartContainer from "./schoolData/ChartContainer";
 
 // context API
 import { useAnalysis } from '../../contexts/analysisModule';
@@ -29,9 +30,11 @@ import {
   bubbleChart,
   barChart,
   splineChart
-} from "charts/Analysis/analysisCharts.js"
+} from "charts/Analysis/schoolDataCharts.js"
 
 import styles from "assets/jss/material-dashboard-pro-react/views/analysis/dashboardStyle.js";
+import UsageCharts from "./dashboard/UsageCharts";
+
 
 HighchartsMore(ReactHighcharts.Highcharts);
 
@@ -41,8 +44,9 @@ const SchoolData = (props) => {
   const classes = useStyles();
 
   const {
+    //props
     selectedSchoolList,
-    selectedDate
+    selectedDate,
   } = props;
 
   React.useEffect(() => {
@@ -80,74 +84,18 @@ const SchoolData = (props) => {
           </GridContainer>
         </GridItem>
       </GridContainer>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={12} lg={6}>
-          <Card>
-            <CardHeader color="info" icon>
-            </CardHeader>
-            <CardBody>
-              <ReactHighcharts
-                highcharts={ReactHighcharts.Highcharts}
-                config={columnChart()}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={6}>
-          <Card>
-            <CardHeader color="info" icon>
-            </CardHeader>
-            <CardBody>
-              <ReactHighcharts
-                highcharts={ReactHighcharts.Highcharts}
-                config={columnLIneChart()}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={6}>
-          <Card>
-            <CardHeader color="info" icon>
-            </CardHeader>
-            <CardBody>
-              <ReactHighcharts
-                highcharts={ReactHighcharts.Highcharts}
-                config={bubbleChart()}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={6}>
-          <Card>
-            <CardHeader color="info" icon>
-            </CardHeader>
-            <CardBody>
-              <ReactHighcharts
-                highcharts={ReactHighcharts.Highcharts}
-                config={barChart()}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={6}>
-          <Card>
-            <CardHeader color="info" icon>
-            </CardHeader>
-            <CardBody>
-              <ReactHighcharts
-                highcharts={ReactHighcharts.Highcharts}
-                config={splineChart()}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
+      <ChartContainer
+        selectedSchoolList={selectedSchoolList}
+        selectedDate={selectedDate}
+        classes={classes}/>
     </div>
   );
 }
 export default useAnalysis(
   ({ state, actions }) => ({
     //state
+    selectedSchoolList: state.selectedSchoolList,
     analysisDateList: state.analysisDateList,
+    selectedDate: state.selectedDate,
   })
 )(SchoolData);

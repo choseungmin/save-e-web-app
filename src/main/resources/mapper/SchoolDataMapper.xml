@@ -1,222 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ninewatt.ems.dashboard.mapper.DashboardMapper">
+<mapper namespace="com.ninewatt.ems.schoolData.mapper.SchoolDataMapper">
 
-    <select id="selectDashboardHeaderSummary" resultType="Map">
+    <select id="selectTotalBillPerClass" resultType="Map">
 SELECT
-    DISTINCT(A.end_month),
-            SUM(D.pwr_qty) AS "pwrQty",
-            SUM(D.total_bill) AS "totalBill",
-            SUM(C.max_power) AS "maxPower",
-            (<include refid="selectDashboardSummarySummaryTotal"/>) AS "savingTotalBill"
-FROM ems.cyber_kepco_cost A
-       INNER JOIN ems.cyber_kepco_info B
-         ON A.cust_no = B.cust_no AND B.end_month = A.end_month AND B.sel_cost = A.sel_cost
-       LEFT JOIN ems.real_time_info C
-         ON A.cust_no = C.cust_no AND mr_ym = A.end_month
-       LEFT JOIN ems.cyber_kepco_cost_detail D
-         ON A.cust_no = D.cust_no AND bill_ym = A.end_month AND D.sel_cost like '%'||A.sel_cost||'%'
-WHERE A.end_month between '201810' and #{tgtDate}
-        <choose>
-            <when test="ismartList==null || ismartList.isEmpty()">
-                AND A.cust_no = null
-            </when>
-            <otherwise>
-                AND A.cust_no in
-                <foreach item="item" open="(" separator="," close=")" collection="ismartList">
-                    #{item.ismartId}
-                </foreach>
-            </otherwise>
-        </choose>
-GROUP BY A.end_month
-ORDER BY 1 desc
-    </select>
-
-    <sql id="selectDashboardSummarySummaryTotal">
-SELECT ROUND(sum(saving_cost)+sum(saving_cpower)+sum(total_cost)+sum(opt_cost_save)+sum(lagg_pwrfact)+sum(lead_pwrfact)) AS dis_cost_sum FROM (
-    SELECT
-    A.ismart_no, B.saving_cost,
-    C.saving_cpower, D.reading_date,
-    (E.total_cost-E2.total_cost) AS total_cost,
-    F.opt_cost_save,
-    ((95-G.lagg_pwrfact)*0.002)*H.base_bill AS lagg_pwrfact,
-    ((95-G.lead_pwrfact)*0.002)*H.base_bill AS lead_pwrfact
-    FROM ems.ismart_bas A
-        LEFT JOIN ems.opt_peak B ON A.ismart_no = B.cust_no
-        LEFT JOIN ems.opt_cpower C ON A.ismart_no = C.cust_no
-        LEFT JOIN ems.equip_ab D ON A.ismart_no = D.cust_no
-        LEFT JOIN ems.opt_readday E ON A.ismart_no = E.cust_no
-        LEFT JOIN ems.opt_readday E2 ON A.ismart_no = E2.cust_no
-        LEFT JOIN ems.opt_guide F ON A.ismart_no = F.cust_no
-        LEFT JOIN ems.opt_pwrfact G ON A.ismart_no = G.cust_no
-        LEFT JOIN ems.cyber_kepco_cost H ON A.ismart_no = H.cust_no
-        INNER JOIN ems.cyber_kepco_info I ON A.ismart_no = I.cust_no AND H.end_month = I.end_month AND H.sel_cost = I.sel_cost
-    <!-- WHERE LPAD(B.tgt_month,2,'0') = SUBSTRING(#{tgtDate},5,2) -->
-    WHERE B.tgt_month = (SELECT tgt_month from ems.opt_peak WHERE cust_no = A.ismart_no ORDER BY cret_dt limit 1)
-    <choose>
-        <when test="ismartList==null || ismartList.isEmpty()">
-            AND A.ismart_no = null
-        </when>
-        <otherwise>
-            AND A.ismart_no in
-            <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                #{item.ismartId}
-            </foreach>
-        </otherwise>
-    </choose>
-        AND B.anals_date = (SELECT MAX(anals_date) from ems.opt_peak WHERE cust_no = A.ismart_no)
-        AND C.anals_date = (SELECT MAX(anals_date) from ems.opt_cpower WHERE cust_no = A.ismart_no)
-        AND C.tgt_month = B.tgt_month
-        AND D.scrap_date = (SELECT MAX(scrap_date) from ems.equip_ab WHERE cust_no = A.ismart_no)
-        AND E.anals_date = (SELECT MAX(anals_date) from ems.opt_readday WHERE cust_no = A.ismart_no)
-        AND E.read_day = D.reading_date::NUMERIC
-        AND E2.anals_date = (SELECT MAX(anals_date) from ems.opt_readday WHERE cust_no = A.ismart_no)
-        AND E2.total_cost = (SELECT MIN(total_cost) FROM ems.opt_readday WHERE cust_no= A.ismart_no)
-        AND F.anals_date = (SELECT MAX(anals_date) from ems.opt_guide WHERE cust_no = A.ismart_no)
-        AND G.anals_date = (SELECT MAX(anals_date) from ems.opt_pwrfact WHERE cust_no = A.ismart_no)
-        AND G.tgt_month = LPAD(B.tgt_month,2,'0')
-        AND H.end_month = (select max(end_month) from ems.cyber_kepco_cost where cust_no = A.ismart_no)
-) AA
-    </sql>
-
-    <select id="selectDashboardServiceRanking" resultType="Map">
-SELECT
-       (ROW_NUMBER() OVER(ORDER BY "pwrQty" asc)) AS "rnum" ,
-       *
-FROM (
-    SELECT
-           D.ismart_no AS "ismartId",
-           CASE
-                  WHEN E.site_name IS NOT NULL THEN E.site_name
-                  ELSE F.user_id
-               END AS "siteName",
-           D.latt AS "latt",
-           D.lngt AS "lngt",
-           H.pwr_qty AS "pwrQty",
-           CASE
-                  WHEN D.class_cnt is null THEN null
-                  ELSE ROUND(H.pwr_qty / D.class_cnt,2)
-               END AS "pwrPerClass"
-    FROM  ems.ismart_bas D
-        LEFT JOIN ems.total_info E
-            ON E.cust_no = D.ismart_no
-        LEFT JOIN ems.user_bas F
-            ON F.ismart_id = D.ismart_no
-        LEFT JOIN ems.cyber_kepco_info G
-            ON D.ismart_no = G.cust_no
-            AND G.end_month = #{tgtDate}
-        LEFT JOIN ems.cyber_kepco_cost H
-            ON D.ismart_no = H.cust_no
-            AND H.sel_cost = G.sel_cost
-            AND H.end_month = #{tgtDate}
-    WHERE F.user_id NOT LIKE '%test%'
-    <choose>
-        <when test="ismartList==null || ismartList.isEmpty() ">
-            AND D.ismart_no = null
-        </when>
-        <otherwise>
-            AND D.ismart_no in
-            <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                #{item.ismartId}
-            </foreach>
-        </otherwise>
-    </choose>
-    ) AS AA
-ORDER BY "pwrQty" asc
-    </select>
-
-    <select id="selectDashboardChartByHour" resultType="Map">
-SELECT
-    distinct(mr_hhmi) AS "category",
-    SUM(pwr_qty) AS "value",
-    TO_CHAR(MAX(cret_dt), 'YYYY-MM-DD hh:mi:ss') AS "cretDt"
-FROM ems.trend_time
-WHERE mr_ymd like #{tgtDate} || '%'
-    <choose>
-        <when test="ismartList==null || ismartList.isEmpty()">
-            AND cust_no= null
-        </when>
-        <otherwise>
-            AND cust_no in
-            <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                #{item.ismartId}
-            </foreach>
-        </otherwise>
-    </choose>
-GROUP BY mr_hhmi
-ORDER BY 1
-    </select>
-
-    <select id="selectDashboardChartByDay" resultType="Map">
-SELECT
-    CASE
-        WHEN "category" like 'sun%' THEN '0'
-        WHEN "category" like 'mon%' THEN '1'
-        WHEN "category" like 'tues%' THEN '2'
-        WHEN "category" like 'wednes%' THEN '3'
-        WHEN "category" like 'thurs%' THEN '4'
-        WHEN "category" like 'fri%' THEN '5'
-        WHEN "category" like 'satur%' THEN '6'
-        ELSE '0'
-    END,
-        CASE
-        WHEN "category" like 'sun%' THEN '일'
-        WHEN "category" like 'mon%' THEN '월'
-        WHEN "category" like 'tues%' THEN '화'
-        WHEN "category" like 'wednes%' THEN '수'
-        WHEN "category" like 'thurs%' THEN '목'
-        WHEN "category" like 'fri%' THEN '금'
-        WHEN "category" like 'satur%' THEN '토'
-        ELSE '0'
-        END AS "category",
-    "value",
-    "cretDt"
-FROM (
-    SELECT
-        distinct(day_of_week) AS "category",
-        SUM(pwr_qty) AS "value",
-        TO_CHAR(MAX(cret_dt), 'YYYY-MM-DD hh:mi:ss') AS "cretDt"
-    FROM ems.trend_time
-    WHERE mr_ymd like #{tgtDate} || '%'
-        <choose>
-            <when test="ismartList==null || ismartList.isEmpty()">
-                AND cust_no= null
-            </when>
-            <otherwise>
-                AND cust_no in
-                <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                    #{item.ismartId}
-                </foreach>
-            </otherwise>
-        </choose>
-    GROUP BY day_of_week
-    ORDER BY 1
-) AS A
-ORDER BY 1
-    </select>
-
-    <select id="selectDashboardChartByMonth" resultType="Map">
-SELECT
-    distinct(substring(mr_ymd,1,6)) AS "category",
-    SUM(pwr_qty) AS "value",
-    TO_CHAR(MAX(cret_dt), 'YYYY-MM-DD hh:mi:ss') AS "cretDt"
-FROM ems.trend_time
-WHERE substring(mr_ymd, 1, 6) &lt; #{tgtDate} || '%'
-    AND substring(mr_ymd, 1, 6) >= TO_CHAR(TO_DATE(#{tgtDate}, 'YYYYMM') -INTERVAL '1 YEAR', 'YYYYMM') || '%'
-    <choose>
-        <when test="ismartList==null || ismartList.isEmpty()">
-            AND cust_no= null
-        </when>
-        <otherwise>
-            AND cust_no in
-            <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                #{item.ismartId}
-            </foreach>
-        </otherwise>
-    </choose>
-GROUP BY (substring(mr_ymd,1,6))
-ORDER BY 1
+       D.site_name AS "category",
+       ROUND(C.total_bill/A.class_cnt) AS "value"
+FROM ems.ismart_bas A
+INNER JOIN ems.total_info D ON A.ismart_no = D.cust_no
+LEFT JOIN ems.cyber_kepco_info B
+    ON A.ismart_no = B.cust_no
+LEFT JOIN ems.cyber_kepco_cost C
+    ON A.ismart_no = C.cust_no
+    AND C.sel_cost = B.sel_cost
+WHERE B.end_month = #{tgtDate}
+  AND B.end_month = C.end_month
+<choose>
+    <when test="ismartList==null || ismartList.isEmpty()">
+        AND A.ismart_no = null
+    </when>
+    <otherwise>
+        AND A.ismart_no in
+        <foreach item="item" open="(" separator="," close=")" collection="ismartList">
+            #{item.ismartId}
+        </foreach>
+    </otherwise>
+</choose>
+ORDER BY 2 desc
     </select>
 
 </mapper>
