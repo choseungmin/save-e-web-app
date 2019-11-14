@@ -81,8 +81,8 @@ const SummaryHeader = (props) => {
         <GridContainer>
           <GridItem xs={12} sm={12} md={12} lg={12}>
             <div className={classes.targetCount}>
-              <div className="totalCount">전체 학교 수 {serviceRanking.length}</div>
-              <Muted>( 데이터 수집 {serviceRanking.length}개 학교 / 미수집 {serviceRanking.filter((v) => {return v.pwrQty == null}).length}개 학교 )</Muted>
+              <div className="totalCount">전체 학교 수 { serviceRanking ? serviceRanking.length : '-' }</div>
+              <Muted>( 데이터 수집 { serviceRanking ? serviceRanking.length : '-' }개 학교 / 미수집 { serviceRanking ? serviceRanking.filter((v) => {return v.pwrQty == null}).length : '-' }개 학교 )</Muted>
             </div>
           </GridItem>
           <GridItem xs={12} sm={6} md={6} lg={3}>
@@ -96,7 +96,7 @@ const SummaryHeader = (props) => {
                   {
                     headerSummaryInfo[0]
                     ? comma(headerSummaryInfo[0].totalBill)
-                    : 0
+                    : '-'
                   }
                   {' 원'}
                 </h4>
@@ -124,7 +124,7 @@ const SummaryHeader = (props) => {
                   {
                     headerSummaryInfo[0]
                     ? comma(headerSummaryInfo[0].pwrQty)
-                    : 0
+                    : '-'
                   }
                   {' kWh'}
                 </h4>
@@ -152,7 +152,7 @@ const SummaryHeader = (props) => {
                   {
                     headerSummaryInfo[0]
                     ? comma(headerSummaryInfo[0].maxPower)
-                    : 0
+                    : '-'
                   }
                   {' kW'}
                 </h4>
@@ -180,7 +180,7 @@ const SummaryHeader = (props) => {
                   {
                     headerSummaryInfo[0]
                     ? comma(Math.round(headerSummaryInfo[0].pwrQty*0.000469))
-                    : 0
+                    : '-'
                   }
                   {' tCO2'}
                 </h4>
@@ -218,7 +218,7 @@ const SummaryHeader = (props) => {
               {
                 headerSummaryInfo[0] && headerSummaryInfo[0].savingTotalBill
                   ? comma(headerSummaryInfo[0].savingTotalBill)
-                  : 0
+                  : '-'
               }
               {' 원'}
             </h3>

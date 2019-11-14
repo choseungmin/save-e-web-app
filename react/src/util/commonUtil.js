@@ -1,6 +1,12 @@
 export const comma = (param) => {
-  if(param === null || param === undefined) return ;
-  return param.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  try {
+    if(param === null || param === undefined) return ;
+    return param.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  } catch (e) {
+    console.error('comma func error, param:',param,'error:',e)
+    return '0';
+  }
+
 };
 
 export const numberFixed = (param,n) => {
