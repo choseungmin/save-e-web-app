@@ -43,7 +43,7 @@ const Analysis = (props) => {
   const [miniActive, setMiniActive] = React.useState(false);
   const [color, setColor] = React.useState("blue");
   const [bgColor, setBgColor] = React.useState("white");
-  const [logo, setLogo] = React.useState(require("assets/img/ninewatt/ninewatt_logo.png"));
+  const [logo, setLogo] = React.useState(require("assets/img/ninewatt/ninewatt_logo_black.png"));
   const [loginUserInfo, setLoginUserInfo] = React.useState(null);
   // styles
   const classes = useStyles();

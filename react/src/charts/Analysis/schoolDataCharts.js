@@ -16,12 +16,11 @@ const totalBillPerClassChart = (param) => {
     })
   }
 
-  console.log(seriesData, categories)
-
   return {
     chart: {
       zoomType: 'xy',
       marginBottom: 100,
+      marginRight: 0,
     },
     title: {
       text: '<b>최근 1년간 학급 당 전기요금</b>',
@@ -32,6 +31,7 @@ const totalBillPerClassChart = (param) => {
     subtitle: {
       text: '( 2018.09 ~ 2019.08 )',
       align: 'center',
+      layout: 'vertical',
       verticalAlign: 'bottom',
       y: -10
     },
@@ -58,14 +58,13 @@ const totalBillPerClassChart = (param) => {
     tooltip: {
       // valueSuffix: '{value} 원'
       formatter: function() {
-        console.log(this)
         return `<span style="color:${this.color}">●</span>${this.x}<br/>${Math.floor(this.y/10000)} 만원`
       }
     },
     legend: {
       enabled: true,
       reversed: true,
-      align: 'left',
+      align: 'right',
       verticalAlign: 'top'
     },
     plotOptions: {
@@ -106,6 +105,7 @@ const columnLIneChart = (param) => {
   return {
     chart: {
       marginBottom: 100,
+      marginRight: 0,
     },
     title: {
       text: '<b>최근 1년간 학생 당 전기요금</b>',
@@ -128,10 +128,22 @@ const columnLIneChart = (param) => {
     }],
     yAxis: [{ // Primary yAxis
       labels: {
-        format: '{value}°C 백만 원',
+        formatter: function() {
+          return `${this.value/10000} 만원`;
+        },
         style: {
           color: '#000'
         }
+      },
+      title: {
+        text: '',
+        style: {
+          color: '#000'
+        }
+      }
+    }, {
+      labels: {
+        enabled: false
       },
       title: {
         text: '',
@@ -146,7 +158,8 @@ const columnLIneChart = (param) => {
     legend: {
       enabled: true,
       reversed: true,
-      align: 'left',
+      align: 'right',
+      layout: 'vertical',
       verticalAlign: 'top'
     },
     plotOptions: {
@@ -162,23 +175,25 @@ const columnLIneChart = (param) => {
       }
     },
     series: [{
-      name: 'series1',
+      name: '학생수',
       type: 'column',
-      yAxis: 0,
+      yAxis: 1,
       data: [{y: 150, color: '#ef534f'}, {y: 138, color: '#ef534f'}, {y: 132, color: '#ef534f'},
         127, 115, 101, 97, 85, 75, 69
       ],
       color: '#dbdbdb',
       tooltip: {
-        valueSuffix: ' 백만 원'
-      }
+        valueSuffix: ' 명'
+      },
 
     }, {
-      name: 'series2',
+      name: '전기요금',
       type: 'spline',
-      data: [159, 138, 133, 130, 120, 110, 98, 95, 83, 70],
+      data: [159000, 138000, 133000, 130000, 120000, 110000, 98000, 95000, 83000, 70000],
       tooltip: {
-        valueSuffix: ' 백만 원'
+        pointFormatter: function(value) {
+          return `<span style="color:${this.color}">●</span> 요금: <b>${Math.floor(this.y/10000)} 만원</b>`
+        }
       },
       lineWidth: 1,
       color: '#000'
@@ -200,6 +215,7 @@ const bubbleChart = (param) => {
       type: 'bubble',
       plotBorderWidth: 1,
       marginBottom: 120,
+      marginRight: 0,
     },
     title: {
       text: '<b>남녀성비에 따른 전기사용량</b>',
@@ -216,7 +232,8 @@ const bubbleChart = (param) => {
     legend: {
       enabled: true,
       reversed: true,
-      align: 'left',
+      align: 'right',
+      layout: 'vertical',
       verticalAlign: 'top'
     },
     xAxis: {
@@ -308,6 +325,7 @@ const barChart = (param) => {
     chart: {
       type: 'bar',
       marginBottom: 120,
+      marginRight: 0,
     },
     title: {
       text: '<b>학교 별 남녀성비</b>',
@@ -323,13 +341,19 @@ const barChart = (param) => {
     },
     legend: {
       enabled: true,
-      reversed: true,
-      align: 'left',
-      verticalAlign: 'top'
+      reversed: false,
+      align: 'right',
+      layout: 'vertical',
+      verticalAlign: 'top',
     },
     yAxis: {
       title: {
         text: ''
+      },
+      labels: {
+        formatter: function () {
+          return Math.abs(this.value) + '명';
+        }
       },
     },
     xAxis: {
@@ -346,13 +370,23 @@ const barChart = (param) => {
     credits: {
       enabled: false
     },
+    plotOptions: {
+      series: {
+        stacking: 'normal'
+      }
+    },
+    tooltip: {
+      formatter: function () {
+        return `${this.point.category}<br/>${this.series.name}: <b>${Math.abs(this.point.y)} 명</b>` // this.point.category  this.series.name  Math.abs(this.point.y)
+      },
+    },
     series: [{
       name: '남성',
-      data: [8,2,-4,9,9,7,-2,4,10,-8],
+      data: [-2,-8,-6,-1,-1,-3,-8,-6,-0,-2],
       color: '#4dc9f6'
     }, {
       name: '여성',
-      data: [-2,8,6,-1,-1,-3,8,-6,0,2],
+      data: [8,2,4,9,9,7,2,4,10,8],
       color: '#ef534f'
     }]
   }
@@ -364,6 +398,7 @@ const splineChart = (param) => {
     chart: {
       type: 'spline',
       marginBottom: 120,
+      marginRight: 0,
     },
     title: {
       text: '<b>학교 별 남녀성비</b>',
@@ -380,23 +415,32 @@ const splineChart = (param) => {
     xAxis: {
       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     },
-    yAxis: {
+    yAxis: [{
       title: {
         text: ''
       }
-    },
+    },{
+      title: {
+        text: ''
+      },
+      labels: {
+        enabled: false
+      },
+    }],
     legend: {
       enabled: true,
       reversed: true,
-      align: 'left',
+      align: 'right',
+      layout: 'vertical',
       verticalAlign: 'top'
     },
     series: [{
-      name: 'series1',
+      name: '교사면적',
       color: '#4dc9f6',
+      yAxis:1,
       data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
     }, {
-      name: 'series2',
+      name: '전기요금',
       color: '#ef534f',
       data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
     }],
