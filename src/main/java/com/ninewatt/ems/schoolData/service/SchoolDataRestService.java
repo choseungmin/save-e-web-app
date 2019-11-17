@@ -5,4 +5,5 @@ import java.util.Map;
 
 public interface SchoolDataRestService {
     List<Map<String, Object>> selectTotalBillPerClass(Map<String, Object> param);
+    List<Map<String, Object>> selectSexRatio(Map<String, Object> param);
 }

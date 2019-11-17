@@ -30,4 +30,26 @@ WHERE B.end_month = #{tgtDate}
 ORDER BY 2 desc
     </select>
 
+
+    <select id="selectSexRatio" resultType="Map">
+SELECT
+    B.site_name AS "category",
+    C.boy_cnt * -1 AS "boyCnt",
+    C.girl_cnt AS "girlCnt"
+FROM ems.ismart_bas AS A
+INNER JOIN ems.total_info AS B ON A.ismart_no = B.cust_no
+LEFT JOIN ems.school_bas AS C ON A.ismart_no = C.ismart_no
+<choose>
+    <when test="ismartList==null || ismartList.isEmpty()">
+        WHERE A.ismart_no = null
+    </when>
+    <otherwise>
+        WHERE A.ismart_no IN
+        <foreach item="item" open="(" separator="," close=")" collection="ismartList">
+            #{item.ismartId}
+        </foreach>
+    </otherwise>
+</choose>
+    </select>
+
 </mapper>

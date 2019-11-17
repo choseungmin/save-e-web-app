@@ -320,6 +320,22 @@ const bubbleChart = (param) => {
 
 const barChart = (param) => {
 
+  if(null == param || undefined == param) return nullChart;
+
+  const seriesData = {
+    boyCnt: [],
+    girlCnt: []
+  };
+  const categories = [];
+
+  if(null !== param && undefined !== param) {
+    param.map((v, i) => {
+      seriesData.boyCnt.push(v.boyCnt);
+      seriesData.girlCnt.push(v.girlCnt);
+      categories.push(v.category);
+    })
+  }
+
 
   return {
     chart: {
@@ -360,9 +376,7 @@ const barChart = (param) => {
       title: {
         text: ''
       },
-      categories: ['**초등학교' ,'**초등학교' ,'**초등학교' ,
-        '**초등학교' ,'**초등학교' ,'**초등학교' ,'**초등학교' ,
-        '**초등학교' ,'**초등학교' ,'**초등학교' ,]
+      categories: categories
     },
     exporting: {
       enabled: false
@@ -382,11 +396,11 @@ const barChart = (param) => {
     },
     series: [{
       name: '남성',
-      data: [-2,-8,-6,-1,-1,-3,-8,-6,-0,-2],
+      data: seriesData.boyCnt,
       color: '#4dc9f6'
     }, {
       name: '여성',
-      data: [8,2,4,9,9,7,2,4,10,8],
+      data: seriesData.girlCnt,
       color: '#ef534f'
     }]
   }

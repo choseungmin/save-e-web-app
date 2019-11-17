@@ -42,13 +42,16 @@ const ChartContainer = (props) => {
 
     //state
     totalBillPerClassList,
+    sexRatioList,
 
     //actions
-    selectTotalBillPerClass
+    selectTotalBillPerClass,
+    selectSexRatio,
   } = props;
 
   React.useEffect(() => {
     selectTotalBillPerClass(selectedSchoolList, selectedDate)
+    selectSexRatio(selectedSchoolList, selectedDate)
   },[selectedSchoolList, selectedDate]);
 
   return (
@@ -96,7 +99,7 @@ const ChartContainer = (props) => {
           <CardBody>
             <ReactHighcharts
               highcharts={ReactHighcharts.Highcharts}
-              config={barChart()}
+              config={barChart(sexRatioList)}
             />
           </CardBody>
         </Card>
@@ -121,7 +124,9 @@ export default useSchoolData(
   ({ state, actions }) => ({
     //state
     totalBillPerClassList: state.totalBillPerClassList,
+    sexRatioList: state.sexRatioList,
     //actions
     selectTotalBillPerClass: actions.selectTotalBillPerClass,
+    selectSexRatio: actions.selectSexRatio,
   })
 )(ChartContainer);
