@@ -3,6 +3,7 @@ import createUseConsumer from './lib/createUseConsumer';
 import {
   selectTotalBillPerClass,
   selectTotalBillByStudent,
+  selectTotalBillBySexRatio,
   selectSexRatio,
   selectTotalBillByArea,
 } from '../api/schoolDataApi';
@@ -22,6 +23,7 @@ class SchoolDataProvider extends Component {
   state = {
     totalBillPerClassList: [],
     totalBillByStudentList: [],
+    totalBillBySexRatioList: [],
     sexRatioList: [],
     totalBillByAreaList: [],
   };
@@ -41,6 +43,15 @@ class SchoolDataProvider extends Component {
             this.setState(() => ({totalBillByStudentList: [...result]}));
         } else {
           this.setState(() => ({totalBillByStudentList: []}));
+        }
+      });
+    },
+    selectTotalBillBySexRatio: async (selectedSchoolList, selectedDate) => {
+      await selectTotalBillBySexRatio(selectedSchoolList, selectedDate).then((result) => {
+        if(result &&result.length>0) {
+            this.setState(() => ({totalBillBySexRatioList: [...result]}));
+        } else {
+          this.setState(() => ({totalBillBySexRatioList: []}));
         }
       });
     },

@@ -26,7 +26,7 @@ import { useSchoolData } from '../../../contexts/schoolDataModule';
 import {
   totalBillPerClassChart,
   totalBillByStudentChart,
-  bubbleChart,
+  totalBillBySexRatioChart,
   sexRatioChart,
   totalBillByAreaChart
 } from "charts/Analysis/schoolDataCharts.js"
@@ -44,12 +44,14 @@ const ChartContainer = (props) => {
     //state
     totalBillPerClassList,
     totalBillByStudentList,
+    totalBillBySexRatioList,
     sexRatioList,
     totalBillByAreaList,
 
     //actions
     selectTotalBillPerClass,
     selectTotalBillByStudent,
+    selectTotalBillBySexRatio,
     selectSexRatio,
     selectTotalBillByArea,
   } = props;
@@ -59,6 +61,7 @@ const ChartContainer = (props) => {
     selectTotalBillByStudent(selectedSchoolList, selectedDate);
     selectSexRatio(selectedSchoolList, selectedDate);
     selectTotalBillByArea(selectedSchoolList, selectedDate);
+    selectTotalBillBySexRatio(selectedSchoolList, selectedDate);
   },[selectedSchoolList, selectedDate]);
 
   return (
@@ -94,7 +97,7 @@ const ChartContainer = (props) => {
           <CardBody>
             <ReactHighcharts
               highcharts={ReactHighcharts.Highcharts}
-              config={bubbleChart()}
+              config={totalBillBySexRatioChart(totalBillBySexRatioList)}
             />
           </CardBody>
         </Card>
@@ -132,11 +135,13 @@ export default useSchoolData(
     //state
     totalBillPerClassList: state.totalBillPerClassList,
     totalBillByStudentList: state.totalBillByStudentList,
+    totalBillBySexRatioList: state.totalBillBySexRatioList,
     sexRatioList: state.sexRatioList,
     totalBillByAreaList: state.totalBillByAreaList,
     //actions
     selectTotalBillPerClass: actions.selectTotalBillPerClass,
     selectTotalBillByStudent: actions.selectTotalBillByStudent,
+    selectTotalBillBySexRatio: actions.selectTotalBillBySexRatio,
     selectSexRatio: actions.selectSexRatio,
     selectTotalBillByArea: actions.selectTotalBillByArea,
   })

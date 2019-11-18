@@ -195,7 +195,6 @@ const totalBillByStudentChart = (param) => {
     series: [{
       name: '전기요금',
       type: 'column',
-      yAxis: 1,
       data: seriesData.column,
       color: '#dbdbdb',
       tooltip: {
@@ -206,6 +205,7 @@ const totalBillByStudentChart = (param) => {
 
     }, {
       name: '학생수',
+      yAxis: 1,
       type: 'spline',
       data: seriesData.line,
       tooltip: {
@@ -224,12 +224,28 @@ const totalBillByStudentChart = (param) => {
   }
 };
 
-const bubbleChart = (param) => {
+const totalBillBySexRatioChart = (param) => {
+
+  if(null == param || undefined == param || param.length < 1) return nullChart;
+
+  const seriesData = {
+    boyBill: [],
+    girlBill: []
+  };
+  const categories = [];
+
+  if(null !== param && undefined !== param) {
+    param.map((v, i) => {
+      seriesData.boyBill.push(v.boyBill);
+      seriesData.girlBill.push(v.girlBill);
+      categories.push(v.category);
+    })
+  }
 
   return {
 
     chart: {
-      type: 'bubble',
+      type: 'bar',
       plotBorderWidth: 1,
       marginBottom: 120,
       marginRight: 0,
@@ -248,7 +264,7 @@ const bubbleChart = (param) => {
     },
     legend: {
       enabled: true,
-      reversed: true,
+      reversed: false,
       align: 'right',
       layout: 'vertical',
       verticalAlign: 'top'
@@ -257,43 +273,33 @@ const bubbleChart = (param) => {
       title: {
         text: ''
       },
-      gridLineWidth: 1,
-      labels: {
-        format: '{value} kWh'
-      },
-      plotLines: [{
-        color: 'black',
-        dashStyle: 'line',
-        width: 1,
-        value: 0,
-        zIndex: 3
-      }]
+      categories: categories
     },
-
+    tooltip: {
+      shared: true,
+    },
     yAxis: {
       title: {
         text: ''
       },
+      labels: {
+        formatter: function() {
+          return `${this.value/10000} 만원`;
+        },
+        style: {
+          color: '#000'
+        }
+      },
       startOnTick: false,
       endOnTick: false,
-      labels: {
-        format: '{value} kWh'
-      },
       maxPadding: 0.2,
-      plotLines: [{
-        color: 'black',
-        dashStyle: 'line',
-        width: 1,
-        value: 0,
-        zIndex: 3
-      }]
     },
 
     plotOptions: {
       series: {
         dataLabels: {
           enabled: true,
-          format: '{point.name}'
+          format: '{point.name}',
         }
       }
     },
@@ -301,29 +307,21 @@ const bubbleChart = (param) => {
     series: [{
       name: '남성',
       color: '#4dc9f6',
-      data: [
-        { x: 7, y: 3, z: 5.8 },
-        { x: 3, y: -9, z: 9 },
-        { x: -12, y: 4, z: 7 },
-        { x: -9, y: -9, z: 15 },
-        { x: 10, y: -2, z: 4 },
-        { x: -5, y: -1, z: 9 },
-        { x: 0, y: 3, z: 3 },
-
-      ]
+      data: seriesData.boyBill,
+      tooltip: {
+        pointFormatter: function(value) {
+          return `<span style="color:${this.color}">●</span> 요금: <b>${Math.floor(this.y/10000)} 만원</b><br/>`
+        }
+      },
     },{
       name: '여성',
       color: '#ef534f',
-      data: [
-        { x: 3, y: 7, z: 13.8 },
-        { x: 5, y: -2, z: 5.8 },
-        { x: -4, y: 9, z: 8 },
-        { x: -5, y: -12, z: 6 },
-        { x: 10, y: -15, z: 20 },
-        { x: -7, y: -10, z: 4 },
-        { x: 9, y: 0, z: 8 },
-
-      ]
+      data: seriesData.girlBill,
+      tooltip: {
+        pointFormatter: function(value) {
+          return `<span style="color:${this.color}">●</span> 요금: <b>${Math.floor(this.y/10000)} 만원</b><br/>`
+        }
+      },
     }],
     exporting: {
       enabled: false
@@ -488,11 +486,19 @@ const totalBillByAreaChart = (param) => {
       name: '교사면적',
       color: '#4dc9f6',
       yAxis:1,
-      data: seriesData.sclArea
+      data: seriesData.sclArea,
+      tooltip: {
+        valueSuffix: 'm2'
+      }
     }, {
       name: '전기요금',
       color: '#ef534f',
-      data: seriesData.totalBill
+      data: seriesData.totalBill,
+      tooltip: {
+        pointFormatter: function(value) {
+          return `<span style="color:${this.color}">●</span> 요금: <b>${Math.floor(this.y/10000)} 만원</b><br/>`
+        }
+      },
     }],
     exporting: {
       enabled: false
@@ -553,7 +559,7 @@ const nullChart ={
 export {
   totalBillPerClassChart,
   totalBillByStudentChart,
-  bubbleChart,
+  totalBillBySexRatioChart,
   sexRatioChart,
   totalBillByAreaChart
 }

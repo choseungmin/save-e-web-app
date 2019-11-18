@@ -28,6 +28,20 @@ const selectTotalBillByStudent = async (selectedSchoolList, selectedDate) => {
   }
 };
 
+const selectTotalBillBySexRatio = async (selectedSchoolList, selectedDate) => {
+  try {
+    const param = {sclDiv: selectedSchoolList, tgtDate: selectedDate};
+    const response = await axios.post('/api/schoolData/selectTotalBillBySexRatio', param);
+    if(response.status === 200) {
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 const selectSexRatio = async (selectedSchoolList, selectedDate) => {
   try {
     const param = {sclDiv: selectedSchoolList, tgtDate: selectedDate};
@@ -62,6 +76,7 @@ const selectTotalBillByArea = async (selectedSchoolList, selectedDate) => {
 export {
   selectTotalBillPerClass,
   selectTotalBillByStudent,
+  selectTotalBillBySexRatio,
   selectSexRatio,
   selectTotalBillByArea,
 };
