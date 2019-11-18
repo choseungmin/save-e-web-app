@@ -21,7 +21,17 @@ public class SchoolDataRestServiceImpl implements SchoolDataRestService {
     }
 
     @Override
+    public List<Map<String, Object>> selectTotalBillByStudent(Map<String, Object> param) {
+        return mapper.selectTotalBillByStudent(param);
+    }
+
+    @Override
     public List<Map<String, Object>> selectSexRatio(Map<String, Object> param) {
         return mapper.selectSexRatio(param);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectTotalBillByArea(Map<String, Object> param) {
+        return mapper.selectTotalBillByArea(param);
     }
 }

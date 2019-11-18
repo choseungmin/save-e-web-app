@@ -2,7 +2,9 @@ import React, { Component, createContext } from 'react';
 import createUseConsumer from './lib/createUseConsumer';
 import {
   selectTotalBillPerClass,
+  selectTotalBillByStudent,
   selectSexRatio,
+  selectTotalBillByArea,
 } from '../api/schoolDataApi';
 
 import {
@@ -19,7 +21,9 @@ const {
 class SchoolDataProvider extends Component {
   state = {
     totalBillPerClassList: [],
+    totalBillByStudentList: [],
     sexRatioList: [],
+    totalBillByAreaList: [],
   };
   actions = {
     selectTotalBillPerClass: async (selectedSchoolList, selectedDate) => {
@@ -31,12 +35,30 @@ class SchoolDataProvider extends Component {
         }
       });
     },
+    selectTotalBillByStudent: async (selectedSchoolList, selectedDate) => {
+      await selectTotalBillByStudent(selectedSchoolList, selectedDate).then((result) => {
+        if(result &&result.length>0) {
+            this.setState(() => ({totalBillByStudentList: [...result]}));
+        } else {
+          this.setState(() => ({totalBillByStudentList: []}));
+        }
+      });
+    },
     selectSexRatio: async (selectedSchoolList, selectedDate) => {
       await selectSexRatio(selectedSchoolList, selectedDate).then((result) => {
         if(result &&result.length>0) {
           this.setState(() => ({sexRatioList: [...result]}));
         } else {
           this.setState(() => ({sexRatioList: []}));
+        }
+      });
+    },
+    selectTotalBillByArea: async (selectedSchoolList, selectedDate) => {
+      await selectTotalBillByArea(selectedSchoolList, selectedDate).then((result) => {
+        if(result &&result.length>0) {
+          this.setState(() => ({totalBillByAreaList: [...result]}));
+        } else {
+          this.setState(() => ({totalBillByAreaList: []}));
         }
       });
     },

@@ -31,6 +31,15 @@ public class SchoolDataRestController {
         return service.selectTotalBillPerClass(param);
     }
 
+    @PostMapping("/selectTotalBillByStudent")
+    public List<Map<String, Object>> selectTotalBillByStudent(@RequestBody Map<String, Object> request) {
+        List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
+        Map<String, Object> param = new HashMap<>();
+        param.put("ismartList", ismartList);
+        param.put("tgtDate", request.get("tgtDate"));
+        return service.selectTotalBillByStudent(param);
+    }
+
     @PostMapping("/selectSexRatio")
     public List<Map<String, Object>> selectSexRatio(@RequestBody Map<String, Object> request) {
         List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
@@ -38,5 +47,14 @@ public class SchoolDataRestController {
         param.put("ismartList", ismartList);
         param.put("tgtDate", request.get("tgtDate"));
         return service.selectSexRatio(param);
+    }
+
+    @PostMapping("/selectTotalBillByArea")
+    public List<Map<String, Object>> selectTotalBillByArea(@RequestBody Map<String, Object> request) {
+        List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
+        Map<String, Object> param = new HashMap<>();
+        param.put("ismartList", ismartList);
+        param.put("tgtDate", request.get("tgtDate"));
+        return service.selectTotalBillByArea(param);
     }
 }

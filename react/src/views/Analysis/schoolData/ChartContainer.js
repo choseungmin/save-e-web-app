@@ -25,12 +25,13 @@ import { useSchoolData } from '../../../contexts/schoolDataModule';
 
 import {
   totalBillPerClassChart,
-  columnLIneChart,
+  totalBillByStudentChart,
   bubbleChart,
-  barChart,
-  splineChart
+  sexRatioChart,
+  totalBillByAreaChart
 } from "charts/Analysis/schoolDataCharts.js"
 import {useDashboard} from "../../../contexts/dashboardModule";
+import {selectTotalBillByStudent} from "../../../api/schoolDataApi";
 
 const ChartContainer = (props) => {
 
@@ -42,16 +43,22 @@ const ChartContainer = (props) => {
 
     //state
     totalBillPerClassList,
+    totalBillByStudentList,
     sexRatioList,
+    totalBillByAreaList,
 
     //actions
     selectTotalBillPerClass,
+    selectTotalBillByStudent,
     selectSexRatio,
+    selectTotalBillByArea,
   } = props;
 
   React.useEffect(() => {
-    selectTotalBillPerClass(selectedSchoolList, selectedDate)
-    selectSexRatio(selectedSchoolList, selectedDate)
+    selectTotalBillPerClass(selectedSchoolList, selectedDate);
+    selectTotalBillByStudent(selectedSchoolList, selectedDate);
+    selectSexRatio(selectedSchoolList, selectedDate);
+    selectTotalBillByArea(selectedSchoolList, selectedDate);
   },[selectedSchoolList, selectedDate]);
 
   return (
@@ -75,7 +82,7 @@ const ChartContainer = (props) => {
           <CardBody>
             <ReactHighcharts
               highcharts={ReactHighcharts.Highcharts}
-              config={columnLIneChart()}
+              config={totalBillByStudentChart(totalBillByStudentList)}
             />
           </CardBody>
         </Card>
@@ -99,7 +106,7 @@ const ChartContainer = (props) => {
           <CardBody>
             <ReactHighcharts
               highcharts={ReactHighcharts.Highcharts}
-              config={barChart(sexRatioList)}
+              config={sexRatioChart(sexRatioList)}
             />
           </CardBody>
         </Card>
@@ -111,7 +118,7 @@ const ChartContainer = (props) => {
           <CardBody>
             <ReactHighcharts
               highcharts={ReactHighcharts.Highcharts}
-              config={splineChart()}
+              config={totalBillByAreaChart(totalBillByAreaList)}
             />
           </CardBody>
         </Card>
@@ -124,9 +131,13 @@ export default useSchoolData(
   ({ state, actions }) => ({
     //state
     totalBillPerClassList: state.totalBillPerClassList,
+    totalBillByStudentList: state.totalBillByStudentList,
     sexRatioList: state.sexRatioList,
+    totalBillByAreaList: state.totalBillByAreaList,
     //actions
     selectTotalBillPerClass: actions.selectTotalBillPerClass,
+    selectTotalBillByStudent: actions.selectTotalBillByStudent,
     selectSexRatio: actions.selectSexRatio,
+    selectTotalBillByArea: actions.selectTotalBillByArea,
   })
 )(ChartContainer);

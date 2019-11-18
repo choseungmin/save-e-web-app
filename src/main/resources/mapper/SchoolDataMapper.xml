@@ -5,10 +5,44 @@
 
     <select id="selectTotalBillPerClass" resultType="Map">
 SELECT
-       D.site_name AS "category",
-       ROUND(C.total_bill/A.class_cnt) AS "value"
+    D.site_name AS "category",
+    ROUND(C.total_bill/E.class_cnt) AS "value"
 FROM ems.ismart_bas A
-INNER JOIN ems.total_info D ON A.ismart_no = D.cust_no
+INNER JOIN ems.school_bas E
+    ON A.ismart_no = E.ismart_no
+INNER JOIN ems.total_info D
+    ON A.ismart_no = D.cust_no
+LEFT JOIN ems.cyber_kepco_info B
+    ON A.ismart_no = B.cust_no
+LEFT JOIN ems.cyber_kepco_cost C
+    ON A.ismart_no = C.cust_no
+    AND C.sel_cost = B.sel_cost
+WHERE B.end_month = #{tgtDate}
+  AND B.end_month = C.end_month
+<choose>
+    <when test="ismartList==null || ismartList.isEmpty()">
+        AND A.ismart_no = null
+    </when>
+    <otherwise>
+        AND A.ismart_no in
+        <foreach item="item" open="(" separator="," close=")" collection="ismartList">
+            #{item.ismartId}
+        </foreach>
+    </otherwise>
+</choose>
+ORDER BY 2 desc
+    </select>
+
+    <select id="selectTotalBillByStudent" resultType="Map">
+SELECT
+    D.site_name AS "category",
+    C.total_bill AS "columnValue",
+    E.student_cnt AS "lineValue"
+FROM ems.ismart_bas A
+INNER JOIN ems.school_bas E
+    ON A.ismart_no = E.ismart_no
+INNER JOIN ems.total_info D
+    ON A.ismart_no = D.cust_no
 LEFT JOIN ems.cyber_kepco_info B
     ON A.ismart_no = B.cust_no
 LEFT JOIN ems.cyber_kepco_cost C
@@ -38,7 +72,7 @@ SELECT
     C.girl_cnt AS "girlCnt"
 FROM ems.ismart_bas AS A
 INNER JOIN ems.total_info AS B ON A.ismart_no = B.cust_no
-LEFT JOIN ems.school_bas AS C ON A.ismart_no = C.ismart_no
+INNER JOIN ems.school_bas AS C ON A.ismart_no = C.ismart_no
 <choose>
     <when test="ismartList==null || ismartList.isEmpty()">
         WHERE A.ismart_no = null
@@ -52,4 +86,34 @@ LEFT JOIN ems.school_bas AS C ON A.ismart_no = C.ismart_no
 </choose>
     </select>
 
+    <select id="selectTotalBillByArea" resultType="Map">
+SELECT
+    D.site_name AS "category",
+    C.total_bill AS "totalBill",
+    E.scl_area AS "sclArea"
+FROM ems.ismart_bas A
+    INNER JOIN ems.school_bas E
+        ON A.ismart_no = E.ismart_no
+    INNER JOIN ems.total_info D
+        ON A.ismart_no = D.cust_no
+    LEFT JOIN ems.cyber_kepco_info B
+        ON A.ismart_no = B.cust_no
+    LEFT JOIN ems.cyber_kepco_cost C
+        ON A.ismart_no = C.cust_no
+    AND C.sel_cost = B.sel_cost
+WHERE B.end_month = #{tgtDate}
+    AND B.end_month = C.end_month
+<choose>
+    <when test="ismartList==null || ismartList.isEmpty()">
+        AND A.ismart_no = null
+    </when>
+    <otherwise>
+        AND A.ismart_no in
+        <foreach item="item" open="(" separator="," close=")" collection="ismartList">
+            #{item.ismartId}
+        </foreach>
+    </otherwise>
+</choose>
+ORDER BY 2 desc
+    </select>
 </mapper>

@@ -1,6 +1,6 @@
 const totalBillPerClassChart = (param) => {
 
-  if(null == param || undefined == param) return nullChart;
+  if(null == param || undefined == param || param.length < 1) return nullChart;
 
   const seriesData = [];
   const categories = [];
@@ -100,7 +100,28 @@ const totalBillPerClassChart = (param) => {
   }
 };
 
-const columnLIneChart = (param) => {
+const totalBillByStudentChart = (param) => {
+
+  if(null == param || undefined == param || param.length < 1) return nullChart;
+
+  const seriesData = {
+    column: [],
+    line: []
+  };
+  const categories = [];
+
+  if(null !== param && undefined !== param) {
+    param.map((v, i) => {
+      if(i<3) {
+        seriesData.column.push({y: v.columnValue, color: '#ef534f'});
+        seriesData.line.push(v.lineValue);
+      } else {
+        seriesData.column.push(v.columnValue);
+        seriesData.line.push(v.lineValue);
+      }
+      categories.push(v.category);
+    })
+  }
 
   return {
     chart: {
@@ -120,10 +141,7 @@ const columnLIneChart = (param) => {
       y: -10
     },
     xAxis: [{
-      categories: ['**초등학교', '**초등학교', '**초등학교',
-        '**초등학교', '**초등학교', '**초등학교', '**초등학교',
-        '**초등학교', '**초등학교', '**초등학교'
-      ],
+      categories: categories,
       crosshair: true
     }],
     yAxis: [{ // Primary yAxis
@@ -175,26 +193,25 @@ const columnLIneChart = (param) => {
       }
     },
     series: [{
-      name: '학생수',
+      name: '전기요금',
       type: 'column',
       yAxis: 1,
-      data: [{y: 150, color: '#ef534f'}, {y: 138, color: '#ef534f'}, {y: 132, color: '#ef534f'},
-        127, 115, 101, 97, 85, 75, 69
-      ],
+      data: seriesData.column,
       color: '#dbdbdb',
+      tooltip: {
+        pointFormatter: function(value) {
+          return `<span style="color:${this.color}">●</span> 요금: <b>${Math.floor(this.y/10000)} 만원</b><br/>`
+        }
+      },
+
+    }, {
+      name: '학생수',
+      type: 'spline',
+      data: seriesData.line,
       tooltip: {
         valueSuffix: ' 명'
       },
 
-    }, {
-      name: '전기요금',
-      type: 'spline',
-      data: [159000, 138000, 133000, 130000, 120000, 110000, 98000, 95000, 83000, 70000],
-      tooltip: {
-        pointFormatter: function(value) {
-          return `<span style="color:${this.color}">●</span> 요금: <b>${Math.floor(this.y/10000)} 만원</b>`
-        }
-      },
       lineWidth: 1,
       color: '#000'
     }],
@@ -318,9 +335,9 @@ const bubbleChart = (param) => {
   }
 };
 
-const barChart = (param) => {
+const sexRatioChart = (param) => {
 
-  if(null == param || undefined == param) return nullChart;
+  if(null == param || undefined == param || param.length < 1) return nullChart;
 
   const seriesData = {
     boyCnt: [],
@@ -406,7 +423,23 @@ const barChart = (param) => {
   }
 };
 
-const splineChart = (param) => {
+const totalBillByAreaChart = (param) => {
+
+  if(null == param || undefined == param || param.length < 1) return nullChart;
+
+  const seriesData = {
+    totalBill: [],
+    sclArea: []
+  };
+  const categories = [];
+
+  if(null !== param && undefined !== param) {
+    param.map((v, i) => {
+      seriesData.totalBill.push(v.totalBill);
+      seriesData.sclArea.push(v.sclArea);
+      categories.push(v.category);
+    })
+  }
 
   return {
     chart: {
@@ -415,7 +448,7 @@ const splineChart = (param) => {
       marginRight: 0,
     },
     title: {
-      text: '<b>학교 별 남녀성비</b>',
+      text: '<b>면적 당 연간 전기요금</b>',
       align: 'center',
       verticalAlign: 'bottom',
       y: -30
@@ -427,7 +460,7 @@ const splineChart = (param) => {
       y: -10
     },
     xAxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      categories: categories
     },
     yAxis: [{
       title: {
@@ -448,15 +481,18 @@ const splineChart = (param) => {
       layout: 'vertical',
       verticalAlign: 'top'
     },
+    tooltip: {
+      shared: true
+    },
     series: [{
       name: '교사면적',
       color: '#4dc9f6',
       yAxis:1,
-      data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+      data: seriesData.sclArea
     }, {
       name: '전기요금',
       color: '#ef534f',
-      data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+      data: seriesData.totalBill
     }],
     exporting: {
       enabled: false
@@ -516,8 +552,8 @@ const nullChart ={
 
 export {
   totalBillPerClassChart,
-  columnLIneChart,
+  totalBillByStudentChart,
   bubbleChart,
-  barChart,
-  splineChart
+  sexRatioChart,
+  totalBillByAreaChart
 }
