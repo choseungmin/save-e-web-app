@@ -65,7 +65,7 @@ const SchoolData = (props) => {
 
         <GridItem xs={12} sm={12} md={12} lg={12}>
           <GridContainer>
-            <GridItem xs={12} sm={6} md={12} lg={8}>
+            <GridItem xs={12} sm={12} md={12} lg={8}>
               <Card>
                 <CardHeader className={classes.textRight} color="info" icon>
                   <CardIcon color="info">
