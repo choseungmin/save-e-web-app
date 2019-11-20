@@ -1,7 +1,6 @@
 import React, {Fragment} from "react";
 
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
@@ -215,11 +214,11 @@ const SummaryHeader = (props) => {
               9WATT 관리 시<br/>줄일 수 있는 연간 전기요금
             </p>
             <h3 className={`${classes.cardTitle} ${classes.whiteText}`}>
-              {
+              {/*{
                 headerSummaryInfo[0] && headerSummaryInfo[0].savingTotalBill
                   ? comma(headerSummaryInfo[0].savingTotalBill)
                   : '-'
-              }
+              }*/}
               {' 원'}
             </h3>
           </CardFooter>

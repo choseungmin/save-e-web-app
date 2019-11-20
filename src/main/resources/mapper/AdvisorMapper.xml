@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ninewatt.ems.advisor.mapper.AdvisorMapper">
+
+    <select id="selectAdvisorInfoTable" resultType="Map">
+SELECT
+    B.site_name AS "siteName",
+    C.cntr_pwr AS "cntrPwr",
+    C.cntr_knd AS "cntrKnd",
+    C.reading_date AS "readingDate",
+    C.transmission_date AS "transmissionDate"
+FROM ems.ismart_bas A
+INNER JOIN ems.total_info B ON A.ismart_no = B.cust_no
+INNER JOIN ems.equip_ab C ON A.ismart_no = c.cust_no
+<choose>
+    <when test="ismartList==null || ismartList.isEmpty()">
+        AND A.ismart_no = null
+    </when>
+    <otherwise>
+        AND A.ismart_no in
+        <foreach item="item" open="(" separator="," close=")" collection="ismartList">
+            #{item.ismartId}
+        </foreach>
+    </otherwise>
+</choose>
+ORDER BY B.site_name ASC
+    </select>
+
+</mapper>

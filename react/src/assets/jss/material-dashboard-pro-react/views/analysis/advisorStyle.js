@@ -128,6 +128,16 @@ const dashboardStyle = {
       marginTop: "0px"
     }
   },
+  borderTop: {
+    borderTop: "1px solid #dddddd"
+  },
+  borderBottom: {
+    borderBottom: "1px solid #dddddd"
+  },
+  tableComment: {
+    marginLeft: "15px",
+    padding: "0px",
+  }
 };
 
 export default dashboardStyle;

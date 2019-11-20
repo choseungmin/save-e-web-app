@@ -124,7 +124,8 @@ const dashboardStyle = {
       height: "20px",
       paddingLeft: "5px",
     }
-  }
+  },
+
 
 };
 

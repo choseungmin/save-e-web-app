@@ -40,6 +40,15 @@ module.exports = function(app) {
         changeOrigin: true
       })
     );
+    app.use(
+      proxy('/api/advisor', {
+        target: 'http://localhost:8090',
+        onProxyReq: function(proxyReq, req, res) {
+          proxyReq.setHeader('Origin','http://localhost:8090')
+        },
+        changeOrigin: true
+      })
+    );
   }
 };
 
