@@ -2,6 +2,7 @@ import React, { Component, createContext } from 'react';
 import createUseConsumer from './lib/createUseConsumer';
 import {
   selectDashboardHeaderSummary,
+  selectDashboardHeaderSummaryTotal,
   selectDashboardServiceRanking,
   selectDashboardChart
 } from '../api/dashboardApi';
@@ -20,6 +21,7 @@ const {
 class DashboardProvider extends Component {
   state = {
     headerSummaryInfo: [],
+    headerSummaryTotalInfo: [],
     serviceRanking: [],
     dashboardChart: null,
     analysisTargetList: [],
@@ -31,6 +33,15 @@ class DashboardProvider extends Component {
           this.setState(() => ({headerSummaryInfo: [...result]}));
         } else {
           this.setState(() => ({headerSummaryInfo: []}));
+        }
+      });
+    },
+    selectDashboardHeaderSummaryTotal: async (selectedSchoolList, selectedDate) => {
+      await selectDashboardHeaderSummaryTotal(selectedSchoolList, selectedDate).then((result) => {
+        if(result &&result.length>0) {
+          this.setState(() => ({headerSummaryTotalInfo: [...result]}));
+        } else {
+          this.setState(() => ({headerSummaryTotalInfo: []}));
         }
       });
     },

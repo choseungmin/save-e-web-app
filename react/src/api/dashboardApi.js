@@ -14,6 +14,20 @@ const selectDashboardHeaderSummary = async (selectedSchoolList, selectedDate) =>
   }
 };
 
+const selectDashboardHeaderSummaryTotal = async (selectedSchoolList, selectedDate) => {
+  try {
+    const param = {sclDiv: selectedSchoolList, tgtDate: selectedDate};
+    const response = await axios.post('/api/dashboard/selectDashboardHeaderSummaryTotal', param);
+    if(response.status === 200) {
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 const selectDashboardServiceRanking = async (selectedSchoolList, selectedDate) => {
   try {
     const param = {sclDiv: selectedSchoolList, tgtDate: selectedDate};
@@ -46,6 +60,7 @@ const selectDashboardChart = async (selectedSchoolList, selectedDate) => {
 
 export {
   selectDashboardHeaderSummary,
+  selectDashboardHeaderSummaryTotal,
   selectDashboardServiceRanking,
   selectDashboardChart,
 };

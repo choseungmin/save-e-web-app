@@ -20,6 +20,7 @@ import SearchInfoButton from "views/Analysis/SearchInfoButton.js";
 // context API
 import {useDashboard} from "../../../contexts/dashboardModule";
 
+import {comma} from "util/commonUtil.js"
 
 const AdvisorSummaryHeader = (props) => {
 
@@ -31,19 +32,21 @@ const AdvisorSummaryHeader = (props) => {
 
     //state
     headerSummaryInfo,
+    headerSummaryTotalInfo,
 
     //actions
     selectDashboardHeaderSummary,
+    selectDashboardHeaderSummaryTotal,
   } = props;
 
   React.useEffect(() => {
     if(selectedSchoolList !== null && selectedDate !== '') {
       selectDashboardHeaderSummary(selectedSchoolList, selectedDate);
+      selectDashboardHeaderSummaryTotal(selectedSchoolList, selectedDate);
     }
 
   },[selectedSchoolList, selectedDate]);
 
-  console.log('headerSummaryInfo', headerSummaryInfo)
 
   return (
     <Fragment>
@@ -54,7 +57,14 @@ const AdvisorSummaryHeader = (props) => {
               <OfflineBoltOutlined/>
             </CardIcon>
             <h6 className={classes.cardCategory}>최근 1년간 전기요금</h6>
-            <h4 className={`${classes.cardTitle}`}>5,000,000원</h4>
+            <h4 className={`${classes.cardTitle}`}>
+              {
+                headerSummaryInfo[0]
+                  ? comma(headerSummaryInfo.map(v => (v.totalBill)).reduce((a,b) => (a+b)))
+                  : '-'
+              }
+              {' 원'}
+            </h4>
           </CardHeader>
           <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
             <div className={`${classes.stats} ${classes.roseText} percent`}>
@@ -77,7 +87,14 @@ const AdvisorSummaryHeader = (props) => {
               <Icon>highlight</Icon>
             </CardIcon>
             <h6 className={classes.cardCategory}>최근 1년간 전기 사용량</h6>
-            <h4 className={`${classes.cardTitle}`}>5,000,000kWh</h4>
+            <h4 className={`${classes.cardTitle}`}>
+              {
+                headerSummaryInfo[0]
+                  ? comma(headerSummaryInfo.map(v => (v.pwrQty)).reduce((a,b) => (a+b)))
+                  : '-'
+              }
+              {' kWh'}
+            </h4>
           </CardHeader>
           <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
             <div className={`${classes.stats} ${classes.infoText} percent`}>
@@ -101,16 +118,15 @@ const AdvisorSummaryHeader = (props) => {
             </CardIcon>
             <h5 className={`${classes.cardCategory} ${classes.fontWeight500} ${classes.saveTitle}`}>9WATT 관리시<br/>줄일 수 있는 절감액</h5>
           </CardHeader>
-          <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems}`} stats >
+          <CardFooter className={`${classes.displayInlineBlock} ${classes.cardFooterItems} ${classes.headerSummaryTotal}`} stats >
             <div className={`${classes.stats} ${classes.infoText} percent`}>
-              {/*<ArrowUpward className={classes.upArrowCardCategory} />*/}
-              <div className="arrowUp">
-                <Icon>keyboard_arrow_up</Icon>
-              </div>
-              20%
-            </div>
-            <div className={classes.stats}>
-              전월동월대비<br/>(2019.09)
+              {
+                headerSummaryTotalInfo.length> 0
+                  ? comma(headerSummaryTotalInfo.map(v => (v.savingTotalBill)).reduce((a,b) => (a+b)))
+
+                  : '-'
+              }
+              {' 원'}
             </div>
           </CardFooter>
         </Card>
@@ -123,7 +139,9 @@ export default useDashboard(
   ({ state, actions }) => ({
     //state
     headerSummaryInfo: state.headerSummaryInfo,
+    headerSummaryTotalInfo: state.headerSummaryTotalInfo,
     //actions
     selectDashboardHeaderSummary: actions.selectDashboardHeaderSummary,
+    selectDashboardHeaderSummaryTotal: actions.selectDashboardHeaderSummaryTotal,
   })
 )(AdvisorSummaryHeader);

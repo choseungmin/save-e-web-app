@@ -32,17 +32,20 @@ const SummaryHeader = (props) => {
 
     //state
     headerSummaryInfo,
+    headerSummaryTotalInfo,
     analysisTargetList,
     serviceRanking,
 
     //actions
     selectDashboardHeaderSummary,
+    selectDashboardHeaderSummaryTotal,
     selectAnalysisTargetList,
   } = props;
 
   React.useEffect(() => {
     if(selectedSchoolList!=null && selectedDate != '') {
       selectDashboardHeaderSummary(selectedSchoolList, selectedDate);
+      selectDashboardHeaderSummaryTotal(selectedSchoolList, selectedDate);
       selectAnalysisTargetList(selectedSchoolList)
     }
 
@@ -214,11 +217,11 @@ const SummaryHeader = (props) => {
               9WATT 관리 시<br/>줄일 수 있는 연간 전기요금
             </p>
             <h3 className={`${classes.cardTitle} ${classes.whiteText}`}>
-              {/*{
-                headerSummaryInfo[0] && headerSummaryInfo[0].savingTotalBill
-                  ? comma(headerSummaryInfo[0].savingTotalBill)
+              {
+                headerSummaryTotalInfo.length> 0
+                  ? comma(headerSummaryTotalInfo.filter(v => (v.tgtMonth == selectedDate.substring(4,6)))[0].savingTotalBill)
                   : '-'
-              }*/}
+              }
               {' 원'}
             </h3>
           </CardFooter>
@@ -232,10 +235,12 @@ export default useDashboard(
   ({ state, actions }) => ({
     //state
     headerSummaryInfo: state.headerSummaryInfo,
+    headerSummaryTotalInfo: state.headerSummaryTotalInfo,
     analysisTargetList: state.analysisTargetList,
     serviceRanking: state.serviceRanking, //ServiceRanking 에서 api call
     //actions
     selectDashboardHeaderSummary: actions.selectDashboardHeaderSummary,
+    selectDashboardHeaderSummaryTotal: actions.selectDashboardHeaderSummaryTotal,
     selectAnalysisTargetList: actions.selectAnalysisTargetList,
   })
 )(SummaryHeader);

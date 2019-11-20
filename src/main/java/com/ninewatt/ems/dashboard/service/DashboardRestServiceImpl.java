@@ -22,6 +22,11 @@ public class DashboardRestServiceImpl implements DashboardRestService {
     }
 
     @Override
+    public List<Map<String, Object>> selectDashboardHeaderSummaryTotal(Map<String, Object> param) {
+        return mapper.selectDashboardHeaderSummaryTotal(param);
+    }
+
+    @Override
     public List<Map<String, Object>> selectDashboardServiceRanking(Map<String, Object> param) {
         return mapper.selectDashboardServiceRanking(param);
     }

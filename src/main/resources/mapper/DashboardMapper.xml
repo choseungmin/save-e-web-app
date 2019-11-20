@@ -4,44 +4,37 @@
 <mapper namespace="com.ninewatt.ems.dashboard.mapper.DashboardMapper">
 
     <select id="selectDashboardHeaderSummary" resultType="Map">
-SELECT *
-FROM (<include refid="selectDashboardHeaderSummaryEach"/>) AS AAA
-INNER JOIN (<include refid="selectDashboardSummarySummaryTotal"/> ) BBB
-    ON BBB.tgt_month = substr(AAA.end_month,5,2)
-    </select>
-
-    <sql id="selectDashboardHeaderSummaryEach" >
 SELECT
     DISTINCT(A.end_month),
-            SUM(D.pwr_qty) AS "pwrQty",
-            SUM(D.total_bill) AS "totalBill",
-            SUM(C.max_power) AS "maxPower"
+    SUM(D.pwr_qty) AS "pwrQty",
+    SUM(D.total_bill) AS "totalBill",
+    SUM(C.max_power) AS "maxPower"
 FROM ems.cyber_kepco_cost A
-       INNER JOIN ems.cyber_kepco_info B
-         ON A.cust_no = B.cust_no AND B.end_month = A.end_month AND B.sel_cost = A.sel_cost
-       LEFT JOIN ems.real_time_info C
-         ON A.cust_no = C.cust_no AND mr_ym = A.end_month
-       LEFT JOIN ems.cyber_kepco_cost_detail D
-         ON A.cust_no = D.cust_no AND bill_ym = A.end_month AND D.sel_cost like '%'||A.sel_cost||'%'
+    INNER JOIN ems.cyber_kepco_info B
+    ON A.cust_no = B.cust_no AND B.end_month = A.end_month AND B.sel_cost = A.sel_cost
+    LEFT JOIN ems.real_time_info C
+    ON A.cust_no = C.cust_no AND mr_ym = A.end_month
+    LEFT JOIN ems.cyber_kepco_cost_detail D
+    ON A.cust_no = D.cust_no AND bill_ym = A.end_month AND D.sel_cost like '%'||A.sel_cost||'%'
 WHERE A.end_month between TO_CHAR(TO_DATE(#{tgtDate},'YYYYMM') - INTERVAL '12 MONTH', 'YYYYMM') and #{tgtDate}
-        <choose>
-            <when test="ismartList==null || ismartList.isEmpty()">
-                AND A.cust_no = null
-            </when>
-            <otherwise>
-                AND A.cust_no in
-                <foreach item="item" open="(" separator="," close=")" collection="ismartList">
-                    #{item.ismartId}
-                </foreach>
-            </otherwise>
-        </choose>
+<choose>
+    <when test="ismartList==null || ismartList.isEmpty()">
+        AND A.cust_no = null
+    </when>
+    <otherwise>
+        AND A.cust_no in
+        <foreach item="item" open="(" separator="," close=")" collection="ismartList">
+            #{item.ismartId}
+        </foreach>
+    </otherwise>
+</choose>
 GROUP BY A.end_month
 ORDER BY 1 desc
-    </sql>
+    </select>
 
-    <sql id="selectDashboardSummarySummaryTotal">
+    <select id="selectDashboardHeaderSummaryTotal" resultType="Map">
 SELECT
-    distinct tgt_month,
+    distinct tgt_month "tgtMonth",
     ROUND(sum(saving_cost)+sum(saving_cpower)+sum(total_cost)+sum(opt_cost_save)+sum(lagg_pwrfact)+sum(lead_pwrfact)) AS "savingTotalBill"
 FROM (
     SELECT
@@ -87,7 +80,7 @@ FROM (
             AND H.end_month = (select max(end_month) from ems.cyber_kepco_cost where cust_no = A.ismart_no)
 ) AA
 GROUP BY tgt_month
-    </sql>
+    </select>
 
     <select id="selectDashboardServiceRanking" resultType="Map">
 SELECT

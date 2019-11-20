@@ -137,6 +137,10 @@ const dashboardStyle = {
   tableComment: {
     marginLeft: "15px",
     padding: "0px",
+  },
+  headerSummaryTotal: {
+    paddingTop: "26px",
+    textAlign: "right",
   }
 };
 
