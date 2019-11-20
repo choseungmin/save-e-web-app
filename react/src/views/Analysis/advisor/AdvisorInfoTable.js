@@ -5,6 +5,8 @@ import AssessmentOutlined from "@material-ui/icons/AssessmentOutlined";
 import Favorite from "@material-ui/icons/Favorite";
 import Clear from "@material-ui/icons/Clear";
 import Dvr from "@material-ui/icons/Dvr";
+import Description from "@material-ui/icons/Description";
+import EventNote from "@material-ui/icons/EventNote";
 
 
 // core components
@@ -49,7 +51,14 @@ const AdvisorInfoTable = (props) => {
       tableData={
         advisorInfoList && advisorInfoList.length >0
           ? advisorInfoList.map((v) => {
-            return [v.siteName, v.cntrPwr+' kWh', v.cntrKnd, v.readingDate+ '일', nextDateFormat(v.transmissionDate), ,<AssessmentOutlined/>, <Fragment><Favorite style={{color:"#03bcd4"}}/><Dvr style={{color:"#fe9f15"}}/><Clear style={{color:"#f44638"}}/></Fragment>]
+            return [
+              v.siteName,
+              v.cntrPwr+' kWh',
+              v.cntrKnd,
+              v.readingDate+ '일',
+              nextDateFormat(v.transmissionDate),
+              <a target={"_blank"} href={"https://ninewatt-report.s3.ap-northeast-2.amazonaws.com/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%A5%E1%86%AB%E1%84%80%E1%85%AE%E1%84%8B%E1%85%AF%E1%86%AF%E1%84%8E%E1%85%A9%E1%84%83%E1%85%B3%E1%86%BC%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%AD+%E1%84%8B%E1%85%A6%E1%84%82%E1%85%A5%E1%84%8C%E1%85%B5%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8+%E1%84%87%E1%85%A9%E1%84%80%E1%85%A9%E1%84%89%E1%85%A5.pdf"}><EventNote style={{color:"#f44638", cursor:"pointer"}}/></a>,
+              <Fragment><Favorite style={{color:"#03bcd4"}}/><Dvr style={{color:"#fe9f15"}}/><Clear style={{color:"#f44638"}}/></Fragment>]
           })
           : []
       }
