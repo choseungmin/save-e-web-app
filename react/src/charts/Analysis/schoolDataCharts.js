@@ -100,7 +100,7 @@ const totalBillPerClassChart = (param) => {
   }
 };
 
-const totalBillByStudentChart = (param) => {
+const totalBillByStudentChart = (param, studentChartSort) => {
 
   if(null == param || undefined == param || param.length < 1) return nullChart;
 
@@ -109,6 +109,14 @@ const totalBillByStudentChart = (param) => {
     line: []
   };
   const categories = [];
+
+  param.sort((a,b) => {
+    if(studentChartSort){
+      return b.columnValue-a.columnValue
+    }else{
+      return b.lineValue-a.lineValue
+    }
+  });
 
   if(null !== param && undefined !== param) {
     param.map((v, i) => {
@@ -421,7 +429,7 @@ const sexRatioChart = (param) => {
   }
 };
 
-const totalBillByAreaChart = (param) => {
+const totalBillByAreaChart = (param, areaChartSort) => {
 
   if(null == param || undefined == param || param.length < 1) return nullChart;
 
@@ -430,6 +438,14 @@ const totalBillByAreaChart = (param) => {
     sclArea: []
   };
   const categories = [];
+
+  param.sort((a,b) => {
+    if(areaChartSort){
+      return b.totalBill-a.totalBill
+    }else{
+      return b.sclArea-a.sclArea
+    }
+  });
 
   if(null !== param && undefined !== param) {
     param.map((v, i) => {

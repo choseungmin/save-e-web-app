@@ -39,13 +39,20 @@ const Advisor = (props) => {
   const classes = useStyles();
 
   const {
+    //state
+    analysisDateList,
     selectedSchoolList,
-    selectedDate
+    selectedDate,
+    //actions
+    setSelectedDate
   } = props;
 
 
   React.useEffect(() => {
-
+    //advisor는 항상 최근 달을 사용 해야함
+    if(selectedDate !== analysisDateList[0].value) {
+      setSelectedDate(analysisDateList[0].value);
+    }
   },[selectedSchoolList, selectedDate]);
 
   return (
@@ -117,7 +124,11 @@ const Advisor = (props) => {
 }
 export default useAnalysis(
   ({ state, actions }) => ({
+    //state
+    analysisDateList: state.analysisDateList,
     selectedSchoolList: state.selectedSchoolList,
     selectedDate: state.selectedDate,
+    //actions
+    setSelectedDate: actions.setSelectedDate
   })
 )(Advisor);

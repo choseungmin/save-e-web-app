@@ -52,7 +52,10 @@ const columnChart = (param, division, chartType) => {
     series: [{
       name: '전기 사용량',
       data: seriesData,
-      color: '#fff'
+      color: '#fff',
+      tooltip: {
+        valueSuffix: ' kWh'
+      }
     }],
 
     responsive: {

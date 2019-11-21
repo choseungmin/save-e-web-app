@@ -56,12 +56,15 @@ const ChartContainer = (props) => {
     selectTotalBillByArea,
   } = props;
 
+  const [areaChartSort, setAreaChartSort] = React.useState(true);
+  const [studentChartSort, setStudentChartSort] = React.useState(true);
+
   React.useEffect(() => {
     selectTotalBillPerClass(selectedSchoolList, selectedDate);
     selectTotalBillByStudent(selectedSchoolList, selectedDate);
     selectSexRatio(selectedSchoolList, selectedDate);
-    selectTotalBillByArea(selectedSchoolList, selectedDate);
     selectTotalBillBySexRatio(selectedSchoolList, selectedDate);
+    selectTotalBillByArea(selectedSchoolList, selectedDate);
   },[selectedSchoolList, selectedDate]);
 
   return (
@@ -83,9 +86,13 @@ const ChartContainer = (props) => {
           <CardHeader color="info" icon>
           </CardHeader>
           <CardBody>
+            <button
+              onClick={() => {setStudentChartSort(!studentChartSort)}}
+              className={classes.chartSortBtn}
+            >sort</button>
             <ReactHighcharts
               highcharts={ReactHighcharts.Highcharts}
-              config={totalBillByStudentChart(totalBillByStudentList)}
+              config={totalBillByStudentChart(totalBillByStudentList, studentChartSort)}
             />
           </CardBody>
         </Card>
@@ -119,9 +126,13 @@ const ChartContainer = (props) => {
           <CardHeader color="info" icon>
           </CardHeader>
           <CardBody>
+            <button
+              onClick={() => {setAreaChartSort(!areaChartSort)}}
+              className={classes.chartSortBtn}
+            >sort</button>
             <ReactHighcharts
               highcharts={ReactHighcharts.Highcharts}
-              config={totalBillByAreaChart(totalBillByAreaList)}
+              config={totalBillByAreaChart(totalBillByAreaList, areaChartSort)}
             />
           </CardBody>
         </Card>

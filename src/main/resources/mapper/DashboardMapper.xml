@@ -11,11 +11,12 @@ SELECT
     SUM(C.max_power) AS "maxPower"
 FROM ems.cyber_kepco_cost A
     INNER JOIN ems.cyber_kepco_info B
-    ON A.cust_no = B.cust_no AND B.end_month = A.end_month AND B.sel_cost = A.sel_cost
+        ON A.cust_no = B.cust_no AND B.end_month = A.end_month AND B.sel_cost = A.sel_cost
+        AND B.cret_dt = (SELECT MAX(cret_dt) FROM ems.cyber_kepco_info WHERE cust_no = B.cust_no AND end_month = B.end_month)
     LEFT JOIN ems.real_time_info C
-    ON A.cust_no = C.cust_no AND mr_ym = A.end_month
+        ON A.cust_no = C.cust_no AND mr_ym = A.end_month
     LEFT JOIN ems.cyber_kepco_cost_detail D
-    ON A.cust_no = D.cust_no AND bill_ym = A.end_month AND D.sel_cost like '%'||A.sel_cost||'%'
+        ON A.cust_no = D.cust_no AND bill_ym = A.end_month AND D.sel_cost like '%'||A.sel_cost||'%'
 WHERE A.end_month between TO_CHAR(TO_DATE(#{tgtDate},'YYYYMM') - INTERVAL '12 MONTH', 'YYYYMM') and #{tgtDate}
 <choose>
     <when test="ismartList==null || ismartList.isEmpty()">
@@ -102,16 +103,18 @@ FROM (
                END AS "pwrPerClass"
     FROM  ems.ismart_bas D
         LEFT JOIN ems.total_info E
-            ON E.cust_no = D.ismart_no
+            ON D.ismart_no = E.cust_no
         LEFT JOIN ems.user_bas F
-            ON F.ismart_id = D.ismart_no
+            ON D.ismart_no = F.ismart_id
         LEFT JOIN ems.cyber_kepco_info G
             ON D.ismart_no = G.cust_no
             AND G.end_month = #{tgtDate}
+            AND G.cret_dt = (SELECT MAX(cret_dt) from ems.cyber_kepco_info WHERE cust_no = D.ismart_no AND end_month = G.end_month)
         LEFT JOIN ems.cyber_kepco_cost H
             ON D.ismart_no = H.cust_no
             AND H.sel_cost = G.sel_cost
             AND H.end_month = #{tgtDate}
+            AND H.cret_dt = (SELECT MAX(cret_dt) FROM ems.cyber_kepco_cost WHERE cust_no = D.ismart_no AND sel_cost = G.sel_cost AND end_month = H.end_month)
     WHERE F.user_id NOT LIKE '%test%'
     <choose>
         <when test="ismartList==null || ismartList.isEmpty() ">

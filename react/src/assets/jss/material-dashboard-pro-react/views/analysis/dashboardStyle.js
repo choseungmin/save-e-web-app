@@ -125,7 +125,12 @@ const dashboardStyle = {
       paddingLeft: "5px",
     }
   },
-
+  chartSortBtn: {
+    position: 'absolute',
+    top: '0px',
+    right: '50px',
+    zIndex: '2'
+  }
 
 };
 
