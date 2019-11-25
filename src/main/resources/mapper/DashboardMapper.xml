@@ -25,7 +25,9 @@ WHERE A.end_month between TO_CHAR(TO_DATE(#{tgtDate},'YYYYMM') - INTERVAL '12 MO
     <otherwise>
         AND A.cust_no in
         <foreach item="item" open="(" separator="," close=")" collection="ismartList">
-            #{item.ismartId}
+            <if test="item.svcTgt == true">
+                #{item.ismartId}
+            </if>
         </foreach>
     </otherwise>
 </choose>
@@ -47,15 +49,27 @@ FROM (
         ((95-G.lagg_pwrfact)*0.002)*H.base_bill AS lagg_pwrfact,
         ((95-G.lead_pwrfact)*0.002)*H.base_bill AS lead_pwrfact
     FROM ems.ismart_bas A
-        LEFT JOIN ems.opt_peak B ON A.ismart_no = B.cust_no
-        LEFT JOIN ems.opt_cpower C ON A.ismart_no = C.cust_no
-        LEFT JOIN ems.equip_ab D ON A.ismart_no = D.cust_no
-        LEFT JOIN ems.opt_readday E ON A.ismart_no = E.cust_no
-        LEFT JOIN ems.opt_readday E2 ON A.ismart_no = E2.cust_no
-        LEFT JOIN ems.opt_guide F ON A.ismart_no = F.cust_no
-        LEFT JOIN ems.opt_pwrfact G ON A.ismart_no = G.cust_no
-        LEFT JOIN ems.cyber_kepco_cost H ON A.ismart_no = H.cust_no
-        INNER JOIN  ems.cyber_kepco_info I ON A.ismart_no = I.cust_no AND H.end_month = I.end_month AND H.sel_cost = I.sel_cost
+    LEFT JOIN ems.opt_peak B ON A.ismart_no = B.cust_no
+        AND B.anals_date = (SELECT MAX(anals_date) from ems.opt_peak WHERE cust_no = A.ismart_no)
+    LEFT JOIN ems.opt_cpower C ON A.ismart_no = C.cust_no
+        AND C.anals_date = (SELECT MAX(anals_date) from ems.opt_cpower WHERE cust_no = A.ismart_no)
+        AND C.tgt_month = B.tgt_month
+    LEFT JOIN ems.equip_ab D ON A.ismart_no = D.cust_no
+        AND D.scrap_date = (SELECT MAX(scrap_date) from ems.equip_ab WHERE cust_no = A.ismart_no)
+    LEFT JOIN ems.opt_readday E ON A.ismart_no = E.cust_no
+        AND E.anals_date = (SELECT MAX(anals_date) from ems.opt_readday WHERE cust_no = A.ismart_no)
+        AND E.read_day = D.reading_date::NUMERIC
+    LEFT JOIN ems.opt_readday E2 ON A.ismart_no = E2.cust_no
+        AND E2.anals_date = (SELECT MAX(anals_date) from ems.opt_readday WHERE cust_no = A.ismart_no)
+        AND E2.total_cost = (SELECT MIN(total_cost) FROM ems.opt_readday WHERE cust_no= A.ismart_no)
+    LEFT JOIN ems.opt_guide F ON A.ismart_no = F.cust_no
+        AND F.anals_date = (SELECT MAX(anals_date) from ems.opt_guide WHERE cust_no = A.ismart_no)
+    LEFT JOIN ems.opt_pwrfact G ON A.ismart_no = G.cust_no
+        AND G.anals_date = (SELECT MAX(anals_date) from ems.opt_pwrfact WHERE cust_no = A.ismart_no)
+        AND G.tgt_month = LPAD(B.tgt_month,2,'0')
+    LEFT JOIN ems.cyber_kepco_cost H ON A.ismart_no = H.cust_no
+        AND H.end_month = (select max(end_month) from ems.cyber_kepco_cost where cust_no = A.ismart_no)
+    INNER JOIN ems.cyber_kepco_info I ON A.ismart_no = I.cust_no AND H.end_month = I.end_month AND H.sel_cost = I.sel_cost
 <choose>
     <when test="ismartList==null || ismartList.isEmpty()">
         WHERE A.ismart_no = null
@@ -63,7 +77,9 @@ FROM (
     <otherwise>
         WHERE A.ismart_no in
         <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-            #{item.ismartId}
+            <if test="item.svcTgt == true">
+                #{item.ismartId}
+            </if>
         </foreach>
     </otherwise>
 </choose>
@@ -97,6 +113,7 @@ FROM (
            D.latt AS "latt",
            D.lngt AS "lngt",
            H.pwr_qty AS "pwrQty",
+           D.scl_div AS "sclDiv",
            CASE
                   WHEN D.class_cnt is null THEN null
                   ELSE ROUND(H.pwr_qty / D.class_cnt,2)
@@ -145,7 +162,9 @@ WHERE mr_ymd like #{tgtDate} || '%'
         <otherwise>
             AND cust_no in
             <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                #{item.ismartId}
+                <if test="item.svcTgt == true">
+                    #{item.ismartId}
+                </if>
             </foreach>
         </otherwise>
     </choose>
@@ -191,7 +210,9 @@ FROM (
             <otherwise>
                 AND cust_no in
                 <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                    #{item.ismartId}
+                    <if test="item.svcTgt == true">
+                        #{item.ismartId}
+                    </if>
                 </foreach>
             </otherwise>
         </choose>
@@ -216,7 +237,9 @@ WHERE substring(mr_ymd, 1, 6) &lt; #{tgtDate} || '%'
         <otherwise>
             AND cust_no in
             <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                #{item.ismartId}
+                <if test="item.svcTgt == true">
+                    #{item.ismartId}
+                </if>
             </foreach>
         </otherwise>
     </choose>

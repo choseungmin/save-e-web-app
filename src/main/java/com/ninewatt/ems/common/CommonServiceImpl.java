@@ -1,5 +1,6 @@
 package com.ninewatt.ems.common;
 
+import com.ninewatt.ems.login.vo.UserVO;
 import com.ninewatt.ems.security.UserAuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
-@Service
+@Service("package com.ninewatt.ems.common.CommonService")
 public class CommonServiceImpl implements CommonService {
 
     @Value("${spring.profiles.active}")
@@ -23,7 +27,8 @@ public class CommonServiceImpl implements CommonService {
     UserAuthenticationProvider auth;
 
     public void autoLogin() {
-        String username = "동부교육지원청";
+//        String username = "동부교육지원청"; // GROUP_USER
+        String username = "송명초등학교"; // BASIC_USER
         String password = "1234";
         if(serverEnv.equals("dev")) {
 
@@ -35,5 +40,33 @@ public class CommonServiceImpl implements CommonService {
                 auth.devAuthenticate(username, password);
             }
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> maskingSiteName(List<Map<String, Object>> list) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        UserVO vo = (UserVO) authentication.getPrincipal();
+
+        if(vo.getRoleName().equals("BASIC_USER") && list.size() > 0) {
+            HashMap tmpMap = (HashMap) list.get(0);
+            if(tmpMap.containsKey("siteName")) {
+                for(Map<String, Object> map : list) {
+                    if(vo.getIsmartId().equals(map.get("ismartId"))) {
+                        continue;
+                    }
+                    String sclDiv = (String) map.get("sclDiv");
+                    if(sclDiv.equals("1")) {
+                        map.put("siteName", "**초등학교");
+                    } else if(sclDiv.equals("2")) {
+                        map.put("siteName", "**중학교");
+                    } else {
+                        map.put("siteName", "**고등학교");
+                    }
+                }
+            }
+        }
+
+        return list;
     }
 }
