@@ -15,6 +15,10 @@ import styles from "assets/jss/material-dashboard-pro-react/components/tableStyl
 const useStyles = makeStyles(styles);
 
 export default function CustomTable(props) {
+
+  const [orderBy, setOrderBy] = React.useState(0);
+  const [asc, setAsc] = React.useState(true);
+
   const classes = useStyles();
   const {
     tableHead,
@@ -33,6 +37,16 @@ export default function CustomTable(props) {
     height,
     colgroup,
   } = props;
+
+  const useTableData = tableData.sort((a,b) => {
+    if(asc) {
+      return a[orderBy] - b[orderBy]
+    } else {
+      return b[orderBy] - a[orderBy]
+    }
+
+  })
+
   return (
     <div className={classes.tableResponsive}>
       <div className={classes.tableHead}>
@@ -64,7 +78,7 @@ export default function CustomTable(props) {
                       [classes.tableHeadFontSize]: !tableShopping
                     });
                   return (
-                    <TableCell className={tableCellClasses} key={key}>
+                    <TableCell className={tableCellClasses} key={key} onClick={() => {key===orderBy? setAsc(!asc) : setOrderBy(key)}}>
                       {prop}
                     </TableCell>
                   );
@@ -87,7 +101,7 @@ export default function CustomTable(props) {
             </colgroup>
           ) : null}
           <TableBody>
-            {tableData.map((prop, key) => {
+            {useTableData.map((prop, key) => {
               var rowColor = "";
               var rowColored = false;
               if (prop.color !== undefined) {

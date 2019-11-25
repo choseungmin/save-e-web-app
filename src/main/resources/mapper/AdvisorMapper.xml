@@ -9,10 +9,12 @@ SELECT
     C.cntr_pwr AS "cntrPwr",
     C.cntr_knd AS "cntrKnd",
     C.reading_date AS "readingDate",
-    C.transmission_date AS "transmissionDate"
+    C.transmission_date AS "transmissionDate",
+    D.report_url AS "reportUrl"
 FROM ems.ismart_bas A
 INNER JOIN ems.total_info B ON A.ismart_no = B.cust_no
 INNER JOIN ems.equip_ab C ON A.ismart_no = c.cust_no
+LEFT JOIN ems.school_bas D ON A.ismart_no = D.ismart_no
 <choose>
     <when test="ismartList==null || ismartList.isEmpty()">
         AND A.ismart_no = null

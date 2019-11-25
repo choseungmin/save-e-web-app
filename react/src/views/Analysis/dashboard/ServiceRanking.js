@@ -58,8 +58,8 @@ const ServiceRanking = (props) => {
                 tableHead={["순위", "학교명", "학급당 전기사용량(kwh)", "학교전체 전기사용량(kwh)"]}
                 tableData={
                   serviceRanking && serviceRanking.length >0
-                    ? serviceRanking.map((v) => {
-                      return [v.rnum, v.siteName, v.pwrQty, v.pwrPerClass]
+                    ? serviceRanking.map((v, i) => {
+                      return [i+1, v.siteName, v.pwrQty, v.pwrPerClass]
                     })
                     : []
                   }

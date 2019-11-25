@@ -1,6 +1,7 @@
 package com.ninewatt.ems.schoolData.controller;
 
 import com.ninewatt.ems.analysis.service.AnalysisRestService;
+import com.ninewatt.ems.common.CommonService;
 import com.ninewatt.ems.schoolData.service.SchoolDataRestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -19,51 +20,36 @@ public class SchoolDataRestController {
     @Resource(name="com.ninewatt.ems.schoolData.service.SchoolDataRestService")
     SchoolDataRestService service;
 
-    @Resource(name="com.ninewatt.ems.analysis.service.AnalysisRestService")
-    private AnalysisRestService analysisService;
+    @Resource(name="com.ninewatt.ems.common.service.CommonRestService")
+    private CommonService commonService;
 
     @PostMapping("/selectTotalBillPerClass")
     public List<Map<String, Object>> selectTotalBillPerClass(@RequestBody Map<String, Object> request) {
-        List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
-        Map<String, Object> param = new HashMap<>();
-        param.put("ismartList", ismartList);
-        param.put("tgtDate", request.get("tgtDate"));
+        Map<String, Object> param = commonService.setParamByRequest(request);
         return service.selectTotalBillPerClass(param);
     }
 
     @PostMapping("/selectTotalBillByStudent")
     public List<Map<String, Object>> selectTotalBillByStudent(@RequestBody Map<String, Object> request) {
-        List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
-        Map<String, Object> param = new HashMap<>();
-        param.put("ismartList", ismartList);
-        param.put("tgtDate", request.get("tgtDate"));
+        Map<String, Object> param = commonService.setParamByRequest(request);
         return service.selectTotalBillByStudent(param);
     }
 
     @PostMapping("/selectTotalBillBySexRatio")
     public List<Map<String, Object>> selectTotalBillBySexRatio(@RequestBody Map<String, Object> request) {
-        List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
-        Map<String, Object> param = new HashMap<>();
-        param.put("ismartList", ismartList);
-        param.put("tgtDate", request.get("tgtDate"));
+        Map<String, Object> param = commonService.setParamByRequest(request);
         return service.selectTotalBillBySexRatio(param);
     }
 
     @PostMapping("/selectSexRatio")
     public List<Map<String, Object>> selectSexRatio(@RequestBody Map<String, Object> request) {
-        List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
-        Map<String, Object> param = new HashMap<>();
-        param.put("ismartList", ismartList);
-        param.put("tgtDate", request.get("tgtDate"));
+        Map<String, Object> param = commonService.setParamByRequest(request);
         return service.selectSexRatio(param);
     }
 
     @PostMapping("/selectTotalBillByArea")
     public List<Map<String, Object>> selectTotalBillByArea(@RequestBody Map<String, Object> request) {
-        List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
-        Map<String, Object> param = new HashMap<>();
-        param.put("ismartList", ismartList);
-        param.put("tgtDate", request.get("tgtDate"));
+        Map<String, Object> param = commonService.setParamByRequest(request);
         return service.selectTotalBillByArea(param);
     }
 }

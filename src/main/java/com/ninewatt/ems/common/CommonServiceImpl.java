@@ -1,5 +1,6 @@
 package com.ninewatt.ems.common;
 
+import com.ninewatt.ems.analysis.service.AnalysisRestService;
 import com.ninewatt.ems.security.UserAuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
-@Service
+@Service("com.ninewatt.ems.common.service.CommonRestService")
 public class CommonServiceImpl implements CommonService {
 
     @Value("${spring.profiles.active}")
     private String serverEnv;
+
+
+    @Resource(name="com.ninewatt.ems.analysis.service.AnalysisRestService")
+    private AnalysisRestService analysisService;
 
     @Autowired
     UserAuthenticationProvider auth;
@@ -35,5 +44,16 @@ public class CommonServiceImpl implements CommonService {
                 auth.devAuthenticate(username, password);
             }
         }
+    }
+
+    @Override
+    public Map<String, Object> setParamByRequest(Map<String, Object> request) {
+
+        List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
+        Map<String, Object> param = new HashMap<>();
+        param.put("ismartList", ismartList);
+        param.put("tgtDate", request.get("tgtDate"));
+
+        return param;
     }
 }

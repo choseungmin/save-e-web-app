@@ -2,6 +2,7 @@ package com.ninewatt.ems.advisor.controller;
 
 import com.ninewatt.ems.advisor.service.AdvisorService;
 import com.ninewatt.ems.analysis.service.AnalysisRestService;
+import com.ninewatt.ems.common.CommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,15 +20,12 @@ public class AdvisorRestController {
     @Resource(name="com.ninewatt.ems.advisor.service.AdvisorService")
     AdvisorService service;
 
-    @Resource(name="com.ninewatt.ems.analysis.service.AnalysisRestService")
-    private AnalysisRestService analysisService;
+    @Resource(name="com.ninewatt.ems.common.service.CommonRestService")
+    private CommonService commonService;
 
     @PostMapping("/selectAdvisorInfoTable")
     public List<Map<String, Object>> selectAdvisorInfoTable(@RequestBody Map<String, Object> request) {
-        List<Map<String, Object>> ismartList = analysisService.selectAnalysisTargetList(request);
-        Map<String, Object> param = new HashMap<>();
-        param.put("ismartList", ismartList);
-        param.put("tgtDate", request.get("tgtDate"));
+        Map<String, Object> param = commonService.setParamByRequest(request);
         return service.selectAdvisorInfoTable(param);
     }
 
