@@ -9,9 +9,9 @@ SELECT DISTINCT(B.end_month),
     SUM(E.total_bill) AS "totalBill",
     SUM(D.max_power) AS "maxPower"
 FROM ems.ismart_bas A
-INNER JOIN ems.cyber_kepco_info B -- SELECT * FROM ems.cyber_kepco_info WHERE cust_no =  '1112498047'
+INNER JOIN ems.cyber_kepco_info B
     ON A.ismart_no = B.cust_no
-    AND B.end_month = (SELECT MAX(end_month) FROM ems.cyber_kepco_info AA WHERE AA.cust_no = A.ismart_no)
+    AND B.cret_dt = (SELECT MAX(cret_dt) FROM ems.cyber_kepco_info AA WHERE AA.cust_no = A.ismart_no AND AA.end_month = B.end_month)
 INNER JOIN ems.cyber_kepco_cost C
     ON A.ismart_no = C.cust_no
     AND C.sel_cost = B.sel_cost

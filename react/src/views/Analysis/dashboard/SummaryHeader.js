@@ -71,7 +71,11 @@ const SummaryHeader = (props) => {
           <GridItem xs={12} sm={12} md={12} lg={12}>
             <div className={classes.targetCount}>
               <div className="totalCount">전체 학교 수 { serviceRanking ? serviceRanking.length : '-' }</div>
-              <Muted>( 데이터 수집 { serviceRanking ? serviceRanking.length : '-' }개 학교 / 미수집 { serviceRanking ? serviceRanking.filter((v) => {return v.pwrQty == null}).length : '-' }개 학교 )</Muted>
+              <Muted>
+                ( 데이터 수집 { serviceRanking ? serviceRanking.length - serviceRanking.filter((v) => {return v.pwrQty == null}).length : '-' }개 학교
+                /
+                미수집 { serviceRanking ? serviceRanking.filter((v) => {return v.pwrQty == null}).length : '-' }개 학교 )
+              </Muted>
             </div>
           </GridItem>
           <GridItem xs={12} sm={6} md={6} lg={3}>
