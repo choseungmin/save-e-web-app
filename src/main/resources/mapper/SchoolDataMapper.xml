@@ -5,7 +5,7 @@
 
     <select id="selectTotalBillPerClass" resultType="Map">
 SELECT
-    D.site_name AS "category",
+    D.site_name AS "siteName",
     ROUND(C.total_bill/E.class_cnt) AS "value"
 FROM ems.ismart_bas A
 INNER JOIN ems.school_bas E
@@ -35,7 +35,7 @@ ORDER BY 2 desc
 
     <select id="selectTotalBillByStudent" resultType="Map">
 SELECT
-    D.site_name AS "category",
+    D.site_name AS "siteName",
     C.total_bill AS "columnValue",
     E.student_cnt AS "lineValue"
 FROM ems.ismart_bas A
@@ -66,7 +66,7 @@ ORDER BY 2 desc
 
     <select id="selectTotalBillBySexRatio" resultType="Map">
 SELECT
-    D.site_name AS "category",
+    D.site_name AS "siteName",
     C.total_bill AS "totalBill",
     FLOOR(C.total_bill * (E.boy_cnt / E.student_cnt)) AS "boyBill",
     FLOOR(C.total_bill * (E.girl_cnt / E.student_cnt)) AS "girlBill"
@@ -99,7 +99,7 @@ ORDER BY 2 desc
 
     <select id="selectSexRatio" resultType="Map">
 SELECT
-    B.site_name AS "category",
+    B.site_name AS "siteName",
     C.boy_cnt * -1 AS "boyCnt",
     C.girl_cnt AS "girlCnt",
     C.student_cnt
@@ -122,7 +122,7 @@ ORDER BY student_cnt
 
     <select id="selectTotalBillByArea" resultType="Map">
 SELECT
-    D.site_name AS "category",
+    D.site_name AS "siteName",
     C.total_bill AS "totalBill",
     E.scl_area AS "sclArea"
 FROM ems.ismart_bas A

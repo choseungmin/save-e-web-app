@@ -12,7 +12,7 @@ const totalBillPerClassChart = (param) => {
       } else {
         seriesData.push(v.value);
       }
-      categories.push(v.category);
+      categories.push(v.siteName);
     })
   }
 
@@ -127,7 +127,7 @@ const totalBillByStudentChart = (param, studentChartSort) => {
         seriesData.column.push(v.columnValue);
         seriesData.line.push(v.lineValue);
       }
-      categories.push(v.category);
+      categories.push(v.siteName);
     })
   }
 
@@ -246,7 +246,7 @@ const totalBillBySexRatioChart = (param) => {
     param.map((v, i) => {
       seriesData.boyBill.push(v.boyBill);
       seriesData.girlBill.push(v.girlBill);
-      categories.push(v.category);
+      categories.push(v.siteName);
     })
   }
 
@@ -355,7 +355,7 @@ const sexRatioChart = (param) => {
     param.map((v, i) => {
       seriesData.boyCnt.push(v.boyCnt);
       seriesData.girlCnt.push(v.girlCnt);
-      categories.push(v.category);
+      categories.push(v.siteName);
     })
   }
 
@@ -451,7 +451,7 @@ const totalBillByAreaChart = (param, areaChartSort) => {
     param.map((v, i) => {
       seriesData.totalBill.push(v.totalBill);
       seriesData.sclArea.push(v.sclArea);
-      categories.push(v.category);
+      categories.push(v.siteName);
     })
   }
 

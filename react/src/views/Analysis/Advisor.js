@@ -1,25 +1,16 @@
-import React, {Fragment} from "react";
+import React from "react";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
 import AssignmentOutlined from "@material-ui/icons/AssignmentOutlined";
-import OfflineBoltOutlined from "@material-ui/icons/OfflineBoltOutlined";
-import AssessmentOutlined from "@material-ui/icons/AssessmentOutlined";
-import Favorite from "@material-ui/icons/Favorite";
-import Clear from "@material-ui/icons/Clear";
-import Dvr from "@material-ui/icons/Dvr";
-
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import SearchInfoButton from "views/Analysis/SearchInfoButton.js";
@@ -30,7 +21,6 @@ import { useAnalysis } from '../../contexts/analysisModule';
 import styles from "assets/jss/material-dashboard-pro-react/views/analysis/advisorStyle.js";
 import extendedStyles from "assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.js";
 import AdvisorInfoTable from "./advisor/AdvisorInfoTable";
-import UsageCharts from "./dashboard/UsageCharts";
 import AdvisorSummaryHeader from "./advisor/AdvisorSummaryHeader";
 
 const useStyles = makeStyles({ ...extendedStyles, ...styles });

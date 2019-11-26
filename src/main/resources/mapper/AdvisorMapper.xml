@@ -22,7 +22,9 @@ LEFT JOIN ems.school_bas D ON A.ismart_no = D.ismart_no
     <otherwise>
         AND A.ismart_no in
         <foreach item="item" open="(" separator="," close=")" collection="ismartList">
-            #{item.ismartId}
+            <if test="item.svcTgt == true">
+                #{item.ismartId}
+            </if>
         </foreach>
     </otherwise>
 </choose>

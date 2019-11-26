@@ -51,31 +51,18 @@ const SummaryHeader = (props) => {
 
   },[selectedSchoolList, selectedDate]);
 
-  const ratioPerPastValue = (data, name) => {
-    if(!data[0]) return 0;
-    return Math.round(100 - (data[0][name] / data[1][name]) * 100)
-  };
-
-  const incrementArrow = (data, name) => {
-    if(!data[0]) return '';
-    if(data[0][name] > data[1][name]) {
-      return (
-        <div className="arrowDown">
-          <Icon>keyboard_arrow_down</Icon>
-        </div>
-      );
-    } else {
-      return (
-        <div className="arrowUp">
-          <Icon>keyboard_arrow_up</Icon>
-        </div>
-      );
-    }
-  };
-
   const dateFormat = (selectedDate) => {
     return `${selectedDate.substring(0,4)}.${selectedDate.substring(4,6)}`
   };
+
+  const getSavingTotalBill =(headerSummaryTotalInfo) => {
+    const matchDateTotalInfo = headerSummaryTotalInfo.filter(v => (v.tgtMonth == selectedDate.substring(4,6)));
+    if(matchDateTotalInfo.length > 0) {
+      return comma(matchDateTotalInfo[0].savingTotalBill);
+    } else {
+      return '-';
+    }
+  }
 
   return (
     <Fragment>
@@ -219,7 +206,7 @@ const SummaryHeader = (props) => {
             <h3 className={`${classes.cardTitle} ${classes.whiteText}`}>
               {
                 headerSummaryTotalInfo.length> 0
-                  ? comma(headerSummaryTotalInfo.filter(v => (v.tgtMonth == selectedDate.substring(4,6)))[0].savingTotalBill)
+                  ? getSavingTotalBill(headerSummaryTotalInfo)
                   : '-'
               }
               {' 원'}

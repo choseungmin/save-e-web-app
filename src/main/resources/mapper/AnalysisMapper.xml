@@ -2,7 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ninewatt.ems.analysis.mapper.AnalysisMapper">
-    <select id="selectAnalysisTargetList" resultType="Map">
+    <select id="selectAnalysisTargetListForBasicUser" resultType="Map">
+SELECT
+    A.ismart_no AS "ismartId",
+    B.site_name AS "siteName",
+    C.latt AS "latt",
+    C.lngt AS "lngt",
+    C.scl_div AS "sclDiv",
+    true AS "svcTgt"
+FROM ems.ismart_bas A
+INNER JOIN ems.total_info B ON A.ismart_no = B.cust_no
+LEFT JOIN ems.school_bas C ON A.ismart_no = C.ismart_no
+WHERE A.ismart_no = #{ismartId}
+<choose>
+    <when test="sclDiv==null || sclDiv.isEmpty() ">
+        AND C.scl_div = null
+    </when>
+    <otherwise>
+        AND C.scl_div in
+        <foreach collection="sclDiv" item="item"  open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </otherwise>
+</choose>
+
+UNION
+
+SELECT
+    A.ismart_no AS "ismartId",
+    B.site_name AS "siteName",
+    C.latt AS "latt",
+    C.lngt AS "lngt",
+    C.scl_div AS "sclDiv",
+    false AS "svcTgt"
+FROM ems.ismart_bas A
+         INNER JOIN ems.total_info B ON A.ismart_no = B.cust_no
+         LEFT JOIN ems.school_bas C ON A.ismart_no = C.ismart_no
+WHERE C.scl_div = (SELECT scl_div FROM ems.school_bas WHERE ismart_no = #{ismartId})
+<choose>
+    <when test="sclDiv==null || sclDiv.isEmpty() ">
+        AND C.scl_div = null
+    </when>
+    <otherwise>
+        AND C.scl_div in
+        <foreach collection="sclDiv" item="item"  open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </otherwise>
+</choose>
+    </select>
+
+    <select id="selectAnalysisTargetListForGroupUser" resultType="Map">
 SELECT
     *
 FROM (
@@ -14,7 +64,8 @@ FROM (
                  END AS "siteName",
              D.latt AS "latt",
              D.lngt AS "lngt",
-             D.scl_div AS "sclDiv"
+             D.scl_div AS "sclDiv",
+             true AS "svcTgt"
          FROM ems.group_bas A
                   INNER JOIN ems.group_ismart_rel B ON B.group_no = A.group_no
                   INNER JOIN ems.group_user_rel C ON C.group_no = A.group_no

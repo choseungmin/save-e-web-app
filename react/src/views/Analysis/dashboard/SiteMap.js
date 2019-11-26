@@ -1,26 +1,28 @@
-import React, {Fragment} from "react";
+import React from "react";
 import { mapMakrer } from "./MapMarker";
 
 
 const SiteMap = (props) => {
 
   const { serviceRanking, classes } = props;
-
-  let naverMap=null;
+  const [naverMap, setNaverMap] = React.useState(null);
+  // let naverMap=null;
   let markers=[];
   let infoWindows=[];
 
   React.useEffect(() => {
 
+    markers=[];
+
     // init naver map
     if(!!window.naver && !naverMap) {
-      var position = new window.naver.maps.LatLng(37.41595810,126.68029040);
-      naverMap = new window.naver.maps.Map('map', {
+      const position = new window.naver.maps.LatLng(37.41595810,126.68029040);
+      setNaverMap(new window.naver.maps.Map('map', {
         center: position,
         zoom: 7,
         minZoom: 7,
         maxZoom: 12
-      });
+      }));
     }
 
     if(naverMap) {
@@ -86,6 +88,7 @@ const SiteMap = (props) => {
 
     window.naver.maps.Event.addListener(naverMap, 'idle', function() {
       if(this===null) return ;
+      console.log('markers', markers)
       updateMarkers(naverMap, markers);
     });
 

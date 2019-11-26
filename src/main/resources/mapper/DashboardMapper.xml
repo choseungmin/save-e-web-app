@@ -4,81 +4,106 @@
 <mapper namespace="com.ninewatt.ems.dashboard.mapper.DashboardMapper">
 
     <select id="selectDashboardHeaderSummary" resultType="Map">
-SELECT
-    DISTINCT(A.end_month),
-    SUM(D.pwr_qty) AS "pwrQty",
-    SUM(D.total_bill) AS "totalBill",
-    SUM(C.max_power) AS "maxPower"
-FROM ems.cyber_kepco_cost A
-    INNER JOIN ems.cyber_kepco_info B
-        ON A.cust_no = B.cust_no AND B.end_month = A.end_month AND B.sel_cost = A.sel_cost
-        AND B.cret_dt = (SELECT MAX(cret_dt) FROM ems.cyber_kepco_info WHERE cust_no = B.cust_no AND end_month = B.end_month)
-    LEFT JOIN ems.real_time_info C
-        ON A.cust_no = C.cust_no AND mr_ym = A.end_month
-    LEFT JOIN ems.cyber_kepco_cost_detail D
-        ON A.cust_no = D.cust_no AND bill_ym = A.end_month AND D.sel_cost like '%'||A.sel_cost||'%'
-WHERE A.end_month between TO_CHAR(TO_DATE(#{tgtDate},'YYYYMM') - INTERVAL '12 MONTH', 'YYYYMM') and #{tgtDate}
+SELECT DISTINCT(B.end_month),
+    SUM(E.pwr_qty) AS "pwrQty",
+    SUM(E.total_bill) AS "totalBill",
+    SUM(D.max_power) AS "maxPower"
+FROM ems.ismart_bas A
+INNER JOIN ems.cyber_kepco_info B -- SELECT * FROM ems.cyber_kepco_info WHERE cust_no =  '1112498047'
+    ON A.ismart_no = B.cust_no
+    AND B.end_month = (SELECT MAX(end_month) FROM ems.cyber_kepco_info AA WHERE AA.cust_no = A.ismart_no)
+INNER JOIN ems.cyber_kepco_cost C
+    ON A.ismart_no = C.cust_no
+    AND C.sel_cost = B.sel_cost
+    AND C.end_month = B.end_month
+LEFT JOIN ems.real_time_info D
+    ON A.ismart_no = D.cust_no
+    AND D.mr_ym = B.end_month
+LEFT JOIN ems.cyber_kepco_cost_detail E
+    ON E.cust_no = A.ismart_no
+    AND E.bill_ym = B.end_month
+    AND E.sel_cost like B.sel_cost||'%'
+WHERE B.end_month between TO_CHAR(TO_DATE(#{tgtDate},'YYYYMM') - INTERVAL '12 MONTH', 'YYYYMM') and #{tgtDate}
 <choose>
     <when test="ismartList==null || ismartList.isEmpty()">
-        AND A.cust_no = null
+        AND A.ismart_no = null
     </when>
     <otherwise>
-        AND A.cust_no in
+        AND A.ismart_no in
         <foreach item="item" open="(" separator="," close=")" collection="ismartList">
-            #{item.ismartId}
+            <if test="item.svcTgt == true">
+                #{item.ismartId}
+            </if>
         </foreach>
     </otherwise>
 </choose>
-GROUP BY A.end_month
+GROUP BY B.end_month
 ORDER BY 1 desc
     </select>
 
     <select id="selectDashboardHeaderSummaryTotal" resultType="Map">
 SELECT
-    distinct tgt_month "tgtMonth",
-    ROUND(sum(saving_cost)+sum(saving_cpower)+sum(total_cost)+sum(opt_cost_save)+sum(lagg_pwrfact)+sum(lead_pwrfact)) AS "savingTotalBill"
+    distinct tgt_month AS "tgtMonth",
+    ROUND(sum(saving_cost)
+        +sum(saving_cpower)
+        +sum(total_cost)
+        +sum(opt_cost_save)
+        +sum(lagg_pwrfact)
+        +sum(lead_pwrfact)) AS "savingTotalBill"
 FROM (
     SELECT
         LPAD(B.tgt_month,2,'0') AS tgt_month,
-        A.ismart_no, B.saving_cost,
-        C.saving_cpower, D.reading_date,
-        (E.total_cost-E2.total_cost) AS total_cost,
-        F.opt_cost_save,
-        ((95-G.lagg_pwrfact)*0.002)*H.base_bill AS lagg_pwrfact,
-        ((95-G.lead_pwrfact)*0.002)*H.base_bill AS lead_pwrfact
+        B.saving_cost,
+        C.saving_cpower,
+        (D1.total_cost - D2.total_cost) AS total_cost,
+        E.opt_cost_save,
+        ((95-F.lagg_pwrfact)*0.002)*H.base_bill AS lagg_pwrfact,
+        ((95-F.lead_pwrfact)*0.002)*H.base_bill AS lead_pwrfact
     FROM ems.ismart_bas A
-        LEFT JOIN ems.opt_peak B ON A.ismart_no = B.cust_no
-        LEFT JOIN ems.opt_cpower C ON A.ismart_no = C.cust_no
-        LEFT JOIN ems.equip_ab D ON A.ismart_no = D.cust_no
-        LEFT JOIN ems.opt_readday E ON A.ismart_no = E.cust_no
-        LEFT JOIN ems.opt_readday E2 ON A.ismart_no = E2.cust_no
-        LEFT JOIN ems.opt_guide F ON A.ismart_no = F.cust_no
-        LEFT JOIN ems.opt_pwrfact G ON A.ismart_no = G.cust_no
-        LEFT JOIN ems.cyber_kepco_cost H ON A.ismart_no = H.cust_no
-        INNER JOIN  ems.cyber_kepco_info I ON A.ismart_no = I.cust_no AND H.end_month = I.end_month AND H.sel_cost = I.sel_cost
-<choose>
-    <when test="ismartList==null || ismartList.isEmpty()">
-        WHERE A.ismart_no = null
-    </when>
-    <otherwise>
-        WHERE A.ismart_no in
-        <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-            #{item.ismartId}
-        </foreach>
-    </otherwise>
-</choose>
-            AND B.anals_date = (SELECT MAX(anals_date) from ems.opt_peak WHERE cust_no = A.ismart_no)
-            AND C.anals_date = (SELECT MAX(anals_date) from ems.opt_cpower WHERE cust_no = A.ismart_no)
-            AND C.tgt_month = B.tgt_month
-            AND D.scrap_date = (SELECT MAX(scrap_date) from ems.equip_ab WHERE cust_no = A.ismart_no)
-            AND E.anals_date = (SELECT MAX(anals_date) from ems.opt_readday WHERE cust_no = A.ismart_no)
-            AND E.read_day = D.reading_date::NUMERIC
-            AND E2.anals_date = (SELECT MAX(anals_date) from ems.opt_readday WHERE cust_no = A.ismart_no)
-            AND E2.total_cost = (SELECT MIN(total_cost) FROM ems.opt_readday WHERE cust_no= A.ismart_no)
-            AND F.anals_date = (SELECT MAX(anals_date) from ems.opt_guide WHERE cust_no = A.ismart_no)
-            AND G.anals_date = (SELECT MAX(anals_date) from ems.opt_pwrfact WHERE cust_no = A.ismart_no)
-            AND G.tgt_month = LPAD(B.tgt_month,2,'0')
-            AND H.end_month = (select max(end_month) from ems.cyber_kepco_cost where cust_no = A.ismart_no)
+    LEFT JOIN ems.opt_peak B
+        ON A.ismart_no = B.cust_no
+        AND B.anals_date = (SELECT MAX(anals_date) from ems.opt_peak AA WHERE AA.cust_no = A.ismart_no)
+    LEFT JOIN ems.opt_cpower C
+        ON A.ismart_no = C.cust_no
+        AND C.anals_date = B.anals_date
+        AND B.tgt_month = C.tgt_month
+    LEFT JOIN ems.opt_readday D1
+        ON A.ismart_no = D1.cust_no
+        AND D1.anals_date = B.anals_date
+        AND D1.read_day = (SELECT MAX(reading_date)::NUMERIC FROM ems.equip_ab AA WHERE AA.cust_no = A.ismart_no)
+    LEFT JOIN ems.opt_readday D2
+        ON A.ismart_no = D2.cust_no
+        AND D2.anals_date = B.anals_date
+        AND D2.total_cost = (SELECT MIN(total_cost) FROM ems.opt_readday AA WHERE AA.cust_no = A.ismart_no)
+    LEFT JOIN ems.opt_guide E
+        ON A.ismart_no = E.cust_no
+        AND E.anals_date = B.anals_date
+    LEFT JOIN ems.opt_pwrfact F
+        ON A.ismart_no = F.cust_no
+        AND F.anals_date = B.anals_date
+        AND F.tgt_month = LPAD(B.tgt_month,2,'0')
+    LEFT JOIN ems.cyber_kepco_info G
+        ON A.ismart_no = G.cust_no
+        AND G.end_month = (SELECT MAX(end_month) FROM ems.cyber_kepco_info AA WHERE AA.cust_no = A.ismart_no)
+        AND G.cret_dt = (SELECT MAX(cret_dt) FROM ems.cyber_kepco_info AA WHERE AA.cust_no = A.ismart_no)
+    LEFT JOIN ems.cyber_kepco_cost H
+        ON A.ismart_no = H.cust_no
+        AND H.end_month = (SELECT MAX(end_month) FROM ems.cyber_kepco_cost AA WHERE AA.cust_no = A.ismart_no)
+        AND H.sel_cost = G.sel_cost
+    <choose>
+        <when test="ismartList==null || ismartList.isEmpty()">
+            WHERE A.ismart_no = null
+        </when>
+        <otherwise>
+            WHERE A.ismart_no in
+            <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
+                <if test="item.svcTgt == true">
+                    #{item.ismartId}
+                </if>
+            </foreach>
+        </otherwise>
+    </choose>
+    AND B.tgt_month NOTNULL
 ) AA
 GROUP BY tgt_month
     </select>
@@ -97,6 +122,7 @@ FROM (
            D.latt AS "latt",
            D.lngt AS "lngt",
            H.pwr_qty AS "pwrQty",
+           D.scl_div AS "sclDiv",
            CASE
                   WHEN D.class_cnt is null THEN null
                   ELSE ROUND(H.pwr_qty / D.class_cnt,2)
@@ -145,7 +171,9 @@ WHERE mr_ymd like #{tgtDate} || '%'
         <otherwise>
             AND cust_no in
             <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                #{item.ismartId}
+                <if test="item.svcTgt == true">
+                    #{item.ismartId}
+                </if>
             </foreach>
         </otherwise>
     </choose>
@@ -191,7 +219,9 @@ FROM (
             <otherwise>
                 AND cust_no in
                 <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                    #{item.ismartId}
+                    <if test="item.svcTgt == true">
+                        #{item.ismartId}
+                    </if>
                 </foreach>
             </otherwise>
         </choose>
@@ -216,7 +246,9 @@ WHERE substring(mr_ymd, 1, 6) &lt; #{tgtDate} || '%'
         <otherwise>
             AND cust_no in
             <foreach item="item" index="index" collection="ismartList" separator="," open="(" close=")">
-                #{item.ismartId}
+                <if test="item.svcTgt == true">
+                    #{item.ismartId}
+                </if>
             </foreach>
         </otherwise>
     </choose>

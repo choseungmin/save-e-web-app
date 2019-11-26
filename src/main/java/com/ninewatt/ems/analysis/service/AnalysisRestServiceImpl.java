@@ -60,8 +60,12 @@ public class AnalysisRestServiceImpl implements AnalysisRestService {
         UserVO vo = (UserVO) authentication.getPrincipal();
 
         request.put("ismartId", vo.getIsmartId());
+        if(vo.getRoleName().equals("GROUP_USER")) {
+            return mapper.selectAnalysisTargetListForGroupUser(request);
+        } else {
+            return mapper.selectAnalysisTargetListForBasicUser(request);
+        }
 
-        return mapper.selectAnalysisTargetList(request);
     }
 
     @Override

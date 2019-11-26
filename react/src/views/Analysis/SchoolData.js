@@ -16,7 +16,6 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
-import CardBody from "components/Card/CardBody.js";
 
 import SearchInfoButton from "views/Analysis/SearchInfoButton.js";
 import ChartContainer from "./schoolData/ChartContainer";
@@ -24,16 +23,7 @@ import ChartContainer from "./schoolData/ChartContainer";
 // context API
 import { useAnalysis } from '../../contexts/analysisModule';
 
-import {
-  columnChart,
-  columnLIneChart,
-  bubbleChart,
-  barChart,
-  splineChart
-} from "charts/Analysis/schoolDataCharts.js"
-
 import styles from "assets/jss/material-dashboard-pro-react/views/analysis/dashboardStyle.js";
-import UsageCharts from "./dashboard/UsageCharts";
 
 
 HighchartsMore(ReactHighcharts.Highcharts);
