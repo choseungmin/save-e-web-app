@@ -19,21 +19,13 @@ const totalBillPerClassChart = (param) => {
   return {
     chart: {
       zoomType: 'xy',
-      marginBottom: 100,
+      // marginBottom: 50,
       marginRight: 0,
     },
     title: {
-      text: '<b>최근 1년간 학급 당 전기요금</b>',
+      text: '',
       align: 'center',
       verticalAlign: 'bottom',
-      y: -30
-    },
-    subtitle: {
-      text: '( 2018.09 ~ 2019.08 )',
-      align: 'center',
-      layout: 'vertical',
-      verticalAlign: 'bottom',
-      y: -10
     },
     xAxis: [{
       categories: categories,
@@ -133,20 +125,13 @@ const totalBillByStudentChart = (param, studentChartSort) => {
 
   return {
     chart: {
-      marginBottom: 100,
+      // marginBottom: 50,
       marginRight: 0,
     },
     title: {
-      text: '<b>최근 1년간 학생 당 전기요금</b>',
+      text: '',
       align: 'center',
       verticalAlign: 'bottom',
-      y: -30
-    },
-    subtitle: {
-      text: '( 2018.09 ~ 2019.08 )',
-      align: 'center',
-      verticalAlign: 'bottom',
-      y: -10
     },
     xAxis: [{
       categories: categories,
@@ -255,20 +240,13 @@ const totalBillBySexRatioChart = (param) => {
     chart: {
       type: 'bar',
       plotBorderWidth: 1,
-      marginBottom: 120,
+      // marginBottom: 50,
       marginRight: 0,
     },
     title: {
-      text: '<b>남녀성비에 따른 전기사용량</b>',
+      text: '',
       align: 'center',
       verticalAlign: 'bottom',
-      y: -30
-    },
-    subtitle: {
-      text: '( 2018.09 ~ 2019.08 )',
-      align: 'center',
-      verticalAlign: 'bottom',
-      y: -10
     },
     legend: {
       enabled: true,
@@ -363,20 +341,13 @@ const sexRatioChart = (param) => {
   return {
     chart: {
       type: 'bar',
-      marginBottom: 120,
+      marginBottom: 50,
       marginRight: 0,
     },
     title: {
-      text: '<b>학교 별 남녀성비</b>',
+      text: '',
       align: 'center',
       verticalAlign: 'bottom',
-      y: -30
-    },
-    subtitle: {
-      text: '( 2018.09 ~ 2019.08 )',
-      align: 'center',
-      verticalAlign: 'bottom',
-      y: -10
     },
     legend: {
       enabled: true,
@@ -458,20 +429,13 @@ const totalBillByAreaChart = (param, areaChartSort) => {
   return {
     chart: {
       type: 'spline',
-      marginBottom: 120,
+      marginBottom: 50,
       marginRight: 0,
     },
     title: {
-      text: '<b>면적 당 연간 전기요금</b>',
+      text: '',
       align: 'center',
       verticalAlign: 'bottom',
-      y: -30
-    },
-    subtitle: {
-      text: '( 2018.09 ~ 2019.08 )',
-      align: 'center',
-      verticalAlign: 'bottom',
-      y: -10
     },
     xAxis: {
       categories: categories
@@ -527,13 +491,12 @@ const totalBillByAreaChart = (param, areaChartSort) => {
 
 const nullChart ={
   chart: {
-    marginBottom: 100,
+    // marginBottom: 50,
   },
   title: {
     text: '',
     align: 'center',
     verticalAlign: 'bottom',
-    y: -30
   },
   subtitle: {
     text: '',

@@ -5,8 +5,10 @@
 
     <select id="selectTotalBillPerClass" resultType="Map">
 SELECT
+    A.ismart_no AS "ismartId",
     D.site_name AS "siteName",
-    ROUND(C.total_bill/E.class_cnt) AS "value"
+    ROUND(C.total_bill/E.class_cnt) AS "value",
+    E.scl_div AS "sclDiv"
 FROM ems.ismart_bas A
 INNER JOIN ems.school_bas E
     ON A.ismart_no = E.ismart_no
@@ -35,9 +37,11 @@ ORDER BY 2 desc
 
     <select id="selectTotalBillByStudent" resultType="Map">
 SELECT
+    A.ismart_no AS "ismartId",
     D.site_name AS "siteName",
     C.total_bill AS "columnValue",
-    E.student_cnt AS "lineValue"
+    E.student_cnt AS "lineValue",
+    E.scl_div AS "sclDiv"
 FROM ems.ismart_bas A
 INNER JOIN ems.school_bas E
     ON A.ismart_no = E.ismart_no
@@ -66,10 +70,12 @@ ORDER BY 2 desc
 
     <select id="selectTotalBillBySexRatio" resultType="Map">
 SELECT
+    A.ismart_no AS "ismartId",
     D.site_name AS "siteName",
     C.total_bill AS "totalBill",
     FLOOR(C.total_bill * (E.boy_cnt / E.student_cnt)) AS "boyBill",
-    FLOOR(C.total_bill * (E.girl_cnt / E.student_cnt)) AS "girlBill"
+    FLOOR(C.total_bill * (E.girl_cnt / E.student_cnt)) AS "girlBill",
+    E.scl_div AS "sclDiv"
 FROM ems.ismart_bas A
 INNER JOIN ems.school_bas E
     ON A.ismart_no = E.ismart_no
@@ -99,10 +105,12 @@ ORDER BY 2 desc
 
     <select id="selectSexRatio" resultType="Map">
 SELECT
+    A.ismart_no AS "ismartId",
     B.site_name AS "siteName",
     C.boy_cnt * -1 AS "boyCnt",
     C.girl_cnt AS "girlCnt",
-    C.student_cnt
+    C.student_cnt,
+    C.scl_div AS "sclDiv"
 FROM ems.ismart_bas AS A
 INNER JOIN ems.total_info AS B ON A.ismart_no = B.cust_no
 INNER JOIN ems.school_bas AS C ON A.ismart_no = C.ismart_no
@@ -122,9 +130,11 @@ ORDER BY student_cnt
 
     <select id="selectTotalBillByArea" resultType="Map">
 SELECT
+    A.ismart_no AS "ismartId",
     D.site_name AS "siteName",
     C.total_bill AS "totalBill",
-    E.scl_area AS "sclArea"
+    E.scl_area AS "sclArea",
+    E.scl_div AS "sclDiv"
 FROM ems.ismart_bas A
     INNER JOIN ems.school_bas E
         ON A.ismart_no = E.ismart_no

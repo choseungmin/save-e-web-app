@@ -47,7 +47,6 @@ const AdvisorSummaryHeader = (props) => {
 
   },[selectedSchoolList, selectedDate]);
 
-
   return (
     <Fragment>
       <GridItem xs={12} sm={6} md={4} lg={3}>

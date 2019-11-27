@@ -40,3 +40,14 @@ export const nextDateFormat = (param) => {
     return param.substring(0,4) +'.'+ param.substring(4,6);
   }
 };
+export const prevDateFormat = (param) => {
+  param = (parseInt(param)-99).toString();
+  if(param.substring(6,8) == '13') {
+    param = param+88 // 201813 201901
+  }
+  if(param.length >6) {
+    return param.substring(0,4) +'.'+ param.substring(4,6) +'.'+ param.substring(6,8);
+  } else {
+    return param.substring(0,4) +'.'+ param.substring(4,6);
+  }
+};

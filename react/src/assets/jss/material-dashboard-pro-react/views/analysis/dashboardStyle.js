@@ -130,6 +130,12 @@ const dashboardStyle = {
     top: '0px',
     right: '50px',
     zIndex: '2'
+  },
+  chartTitle: {
+    textAlign: "center",
+    "& p": {
+      marginTop: "-10px"
+    }
   }
 
 };

@@ -31,8 +31,8 @@ public class CommonServiceImpl implements CommonService {
     UserAuthenticationProvider auth;
 
     public void autoLogin() {
-        String username = "동부교육지원청"; // GROUP_USER
-//        String username = "송명초등학교"; // BASIC_USER
+//        String username = "동부교육지원청"; // GROUP_USER
+        String username = "송명초등학교"; // BASIC_USER
         String password = "1234";
         if(serverEnv.equals("dev")) {
 

@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 import OfflineBoltOutlined from "@material-ui/icons/OfflineBoltOutlined";
 
+import {dateFormat, prevDateFormat} from "util/commonUtil.js"
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -78,6 +79,10 @@ const ChartContainer = (props) => {
               highcharts={ReactHighcharts.Highcharts}
               config={totalBillPerClassChart(totalBillPerClassList)}
             />
+            <div className={classes.chartTitle}>
+              <h4 className={classes.cardTitle}>최근 1년간 학급 당 전기요금</h4>
+              <p className={classes.cardCategory}>{`( ${prevDateFormat(selectedDate)} ~ ${dateFormat(selectedDate)})`}</p>
+            </div>
           </CardBody>
         </Card>
       </GridItem>
@@ -94,6 +99,10 @@ const ChartContainer = (props) => {
               highcharts={ReactHighcharts.Highcharts}
               config={totalBillByStudentChart(totalBillByStudentList, studentChartSort)}
             />
+            <div className={classes.chartTitle}>
+              <h4 className={classes.cardTitle}>최근 1년간 학생 당 전기요금</h4>
+              <p className={classes.cardCategory}>{`( ${prevDateFormat(selectedDate)} ~ ${dateFormat(selectedDate)})`}</p>
+            </div>
           </CardBody>
         </Card>
       </GridItem>
@@ -106,6 +115,10 @@ const ChartContainer = (props) => {
               highcharts={ReactHighcharts.Highcharts}
               config={totalBillBySexRatioChart(totalBillBySexRatioList)}
             />
+            <div className={classes.chartTitle}>
+              <h4 className={classes.cardTitle}>남녀성비에 따른 전기사용량</h4>
+              <p className={classes.cardCategory}>{`( ${prevDateFormat(selectedDate)} ~ ${dateFormat(selectedDate)})`}</p>
+            </div>
           </CardBody>
         </Card>
       </GridItem>
@@ -118,6 +131,9 @@ const ChartContainer = (props) => {
               highcharts={ReactHighcharts.Highcharts}
               config={sexRatioChart(sexRatioList)}
             />
+            <div className={classes.chartTitle}>
+              <h4 className={classes.cardTitle}>학교 별 남녀성비</h4>
+            </div>
           </CardBody>
         </Card>
       </GridItem>
@@ -134,6 +150,10 @@ const ChartContainer = (props) => {
               highcharts={ReactHighcharts.Highcharts}
               config={totalBillByAreaChart(totalBillByAreaList, areaChartSort)}
             />
+            <div className={classes.chartTitle}>
+              <h4 className={classes.cardTitle}>면적 당 연간 전기요금</h4>
+              <p className={classes.cardCategory}>{`( ${prevDateFormat(selectedDate)} ~ ${dateFormat(selectedDate)})`}</p>
+            </div>
           </CardBody>
         </Card>
       </GridItem>
