@@ -59,7 +59,7 @@ const ServiceRanking = (props) => {
                 tableData={
                   serviceRanking && serviceRanking.length >0
                     ? serviceRanking.map((v, i) => {
-                      return [i+1, v.siteName, v.pwrQty, v.pwrPerClass]
+                      return [i+1, v.siteName, v.pwrPerClass, v.pwrQty]
                     })
                     : []
                   }
