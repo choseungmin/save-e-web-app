@@ -5,8 +5,8 @@ import { mapMakrer } from "./MapMarker";
 const SiteMap = (props) => {
 
   const { serviceRanking, classes } = props;
-  const [naverMap, setNaverMap] = React.useState(null);
-  // let naverMap=null;
+  // const [naverMap, setNaverMap] = React.useState(null);
+  let naverMap=null;
   let markers=[];
   let infoWindows=[];
 
@@ -17,12 +17,12 @@ const SiteMap = (props) => {
     // init naver map
     if(!!window.naver && !naverMap) {
       const position = new window.naver.maps.LatLng(37.41595810,126.68029040);
-      setNaverMap(new window.naver.maps.Map('map', {
+      naverMap = new window.naver.maps.Map('map', {
         center: position,
         zoom: 7,
         minZoom: 7,
         maxZoom: 12
-      }));
+      });
     }
 
     if(naverMap) {
