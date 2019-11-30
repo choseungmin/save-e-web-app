@@ -32,7 +32,7 @@ WHERE B.end_month = #{tgtDate}
         </foreach>
     </otherwise>
 </choose>
-ORDER BY 2 desc
+ORDER BY 3 desc
     </select>
 
     <select id="selectTotalBillByStudent" resultType="Map">
@@ -65,16 +65,16 @@ WHERE B.end_month = #{tgtDate}
         </foreach>
     </otherwise>
 </choose>
-ORDER BY 2 desc
+ORDER BY C.total_bill desc
     </select>
 
     <select id="selectTotalBillBySexRatio" resultType="Map">
 SELECT
     A.ismart_no AS "ismartId",
     D.site_name AS "siteName",
-    C.total_bill AS "totalBill",
-    FLOOR(C.total_bill * (E.boy_cnt / E.student_cnt)) AS "boyBill",
-    FLOOR(C.total_bill * (E.girl_cnt / E.student_cnt)) AS "girlBill",
+    C.pwr_qty AS "pwrQty",
+    FLOOR(C.pwr_qty * (E.boy_cnt / E.student_cnt)) AS "boyBill",
+    FLOOR(C.pwr_qty * (E.girl_cnt / E.student_cnt)) AS "girlBill",
     E.scl_div AS "sclDiv"
 FROM ems.ismart_bas A
 INNER JOIN ems.school_bas E
@@ -99,7 +99,7 @@ WHERE B.end_month = #{tgtDate}
         </foreach>
     </otherwise>
 </choose>
-ORDER BY 2 desc
+ORDER BY C.total_bill desc
     </select>
 
 
@@ -158,6 +158,6 @@ WHERE B.end_month = #{tgtDate}
         </foreach>
     </otherwise>
 </choose>
-ORDER BY 2 desc
+ORDER BY C.total_bill desc
     </select>
 </mapper>

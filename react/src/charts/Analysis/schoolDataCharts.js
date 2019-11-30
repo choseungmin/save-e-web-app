@@ -126,6 +126,7 @@ const totalBillByStudentChart = (param, studentChartSort) => {
   return {
     chart: {
       // marginBottom: 50,
+      zoomType: 'xy',
       marginRight: 0,
     },
     title: {
@@ -242,6 +243,7 @@ const totalBillBySexRatioChart = (param) => {
       plotBorderWidth: 1,
       // marginBottom: 50,
       marginRight: 0,
+      zoomType: 'xy',
     },
     title: {
       text: '',
@@ -270,7 +272,7 @@ const totalBillBySexRatioChart = (param) => {
       },
       labels: {
         formatter: function() {
-          return `${this.value/10000} 만원`;
+          return `${this.value/10000} kWh`;
         },
         style: {
           color: '#000'
@@ -296,7 +298,7 @@ const totalBillBySexRatioChart = (param) => {
       data: seriesData.boyBill,
       tooltip: {
         pointFormatter: function(value) {
-          return `<span style="color:${this.color}">●</span> 요금: <b>${Math.floor(this.y/10000)} 만원</b><br/>`
+          return `<span style="color:${this.color}">●</span> 남학생 1명당 사용량: <b>${Math.floor(this.y/10000)} kWh</b><br/>`
         }
       },
     },{
@@ -305,7 +307,7 @@ const totalBillBySexRatioChart = (param) => {
       data: seriesData.girlBill,
       tooltip: {
         pointFormatter: function(value) {
-          return `<span style="color:${this.color}">●</span> 요금: <b>${Math.floor(this.y/10000)} 만원</b><br/>`
+          return `<span style="color:${this.color}">●</span> 여항생 1명당 사용량: <b>${Math.floor(this.y/10000)} kWh</b><br/>`
         }
       },
     }],
@@ -343,6 +345,7 @@ const sexRatioChart = (param) => {
       type: 'bar',
       marginBottom: 50,
       marginRight: 0,
+      zoomType: 'xy',
     },
     title: {
       text: '',
@@ -429,8 +432,9 @@ const totalBillByAreaChart = (param, areaChartSort) => {
   return {
     chart: {
       type: 'spline',
-      marginBottom: 50,
+      marginBottom: 70,
       marginRight: 0,
+      zoomType: 'xy',
     },
     title: {
       text: '',
