@@ -31,7 +31,7 @@ const Dashboard = (props) => {
 
   React.useEffect(() => {
 
-  },[selectedSchoolList, selectedDate]);
+  },[]);
 
   return (
     <div>

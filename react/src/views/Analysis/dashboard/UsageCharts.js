@@ -90,16 +90,6 @@ const UsageCharts =(props) => {
                 <Refresh className={classes.underChartIcons} />
               </Button>
             </Tooltip>
-            <Tooltip
-              id="tooltip-top"
-              title="Change Date"
-              placement="bottom"
-              classes={{ tooltip: classes.tooltip }}
-            >
-              <Button color="transparent" simple justIcon>
-                <Edit className={classes.underChartIcons} />
-              </Button>
-            </Tooltip>
           </div>
           <h4 className={classes.cardTitle}>시간별 전기 사용량 ({selectedDate})</h4>
           <p className={classes.cardCategory}>
@@ -133,16 +123,6 @@ const UsageCharts =(props) => {
                   <Refresh className={classes.underChartIcons} />
                 </Button>
               </Tooltip>
-              <Tooltip
-                id="tooltip-top"
-                title="Change Date"
-                placement="bottom"
-                classes={{ tooltip: classes.tooltip }}
-              >
-                <Button color="transparent" simple justIcon>
-                  <Edit className={classes.underChartIcons} />
-                </Button>
-              </Tooltip>
             </div>
             <h4 className={classes.cardTitle}>요일별 전기 사용량 ({selectedDate})</h4>
             <p className={classes.cardCategory}>
@@ -174,16 +154,6 @@ const UsageCharts =(props) => {
               >
                 <Button simple color="info" justIcon>
                   <Refresh className={classes.underChartIcons} />
-                </Button>
-              </Tooltip>
-              <Tooltip
-                id="tooltip-top"
-                title="Change Date"
-                placement="bottom"
-                classes={{ tooltip: classes.tooltip }}
-              >
-                <Button color="transparent" simple justIcon>
-                  <Edit className={classes.underChartIcons} />
                 </Button>
               </Tooltip>
             </div>

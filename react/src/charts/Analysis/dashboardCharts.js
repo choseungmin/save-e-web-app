@@ -57,7 +57,11 @@ const columnChart = (param, division, chartType) => {
         valueSuffix: ' kWh'
       }
     }],
-
+    plotOptions: {
+      [chartType]: {
+        animation: false
+      }
+    },
     responsive: {
       rules: [{
         condition: {
