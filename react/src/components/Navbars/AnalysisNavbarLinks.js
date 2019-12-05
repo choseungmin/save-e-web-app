@@ -135,7 +135,7 @@ export default function HeaderLinks(props) {
                     </MenuItem>
                     <Divider light />
                     <MenuItem
-                      onClick={handleCloseProfile}
+                      onClick={() => {window.location = "/logout"}}
                       className={dropdownItem}
                     >
                       {"Log out"}

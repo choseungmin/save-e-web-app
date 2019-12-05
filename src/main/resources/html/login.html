@@ -6,6 +6,13 @@
     <link href="static/lib/material-dashboard.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
+    <script>
+        setTimeout(() => {
+          if(window.location.href.includes('?error')) {
+            document.getElementById('loginMsg').innerHTML = '올바른 계정 정보가 아닙니다.'
+          }
+        })
+    </script>
 </head>
 <body>
 <div class="wrapper wrapper-full-page">
@@ -47,11 +54,12 @@
                                th:field="*{password}">
                     </div>
                   </span>
-                                <span class="bmd-form-group">
+                  <span class="bmd-form-group">
                     <div class="input-group">
                       <button class="btn login-btn">LOGIN</button>
                     </div>
                   </span>
+                                <p id="loginMsg" style="text-align: center; color:#fff; padding-left: 50px;"></span>
                             </div>
                         </div>
                     </form>

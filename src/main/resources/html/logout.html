@@ -2,15 +2,23 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Logout</title>
+    <link href="static/lib/material-dashboard.css" rel="stylesheet"/>
+    <script>
+        setTimeout(() => {
+          document.getElementById('logoutBtn').click();
+        })
+    </script>
 </head>
 <body>
-<form action="#" th:action="@{/logout}" method="post">
-    <p>Are you sure you want to Log out?</p>
-    <div>
-        <input type="submit" value="Log out" />
-    </div>
-    <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
-</form>
+<div class="page-header login-page header-filter" filter-color="black" style="background: linear-gradient(#7f73dc, #5b64be); background-size: cover; background-position: top center;">
+    <form action="#" th:action="@{/logout}" method="post">
+<!--        <p>Are you sure you want to Log out?</p>-->
+        <div hidden>
+            <input id="logoutBtn" type="submit" value="Log Out"/>
+        </div>
+        <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+    </form>
+</div>
 </body>
 </html>
