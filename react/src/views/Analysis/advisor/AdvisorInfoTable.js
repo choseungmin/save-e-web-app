@@ -57,7 +57,7 @@ const AdvisorInfoTable = (props) => {
               v.cntrKnd,
               v.readingDate+ '일',
               nextDateFormat(v.transmissionDate),
-              <a target={"_blank"} href={v.reportUrl}><EventNote style={{color:"#f44638", cursor:"pointer"}}/></a>,
+              v.reportUrl ? <a target={"_blank"} href={v.reportUrl}><EventNote style={{color:"#f44638", cursor:"pointer"}}/></a> : null,
               <Fragment>
                 <Favorite style={{color:"#03bcd4"}}/>
                 <Dvr style={{color:"#fe9f15"}}/>
