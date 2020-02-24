@@ -14,7 +14,7 @@ import CardBody from "components/Card/CardBody.js";
 
 // context API
 import {useDashboard} from "../../../contexts/dashboardModule";
-import SiteMap from "./SiteMap";
+import KakaoSiteMap from "./KakaoSiteMap";
 
 
 
@@ -68,7 +68,7 @@ const ServiceRanking = (props) => {
               />
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
-              <SiteMap
+              <KakaoSiteMap
                 serviceRanking={serviceRanking}
                 classes={classes}
               />
