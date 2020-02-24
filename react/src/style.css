@@ -1,4 +1,6 @@
 /* HTML Marker */
-.customoverlay {text-align: center; width:15px;}
-.customoverlay .title{color: #6773e2; font-weight: bold; position: relative; top:-12px; left: 4px;}
+.cs_mapbridge .map_group .map_marker .ico{position:absolute;background:url(assets/img/ninewatt/dashboard/sp_mapbridge5.png) no-repeat;background-size:400px 450px;-webkit-background-size:400px 450px;z-index:10}
+.customoverlay {text-align: center; width: 29px; height: 42px;}
+.customoverlay .marker {height: 42px; padding-top:4px; background:url("assets/img/ninewatt/dashboard/map-marker.png") no-repeat; background-size: 29px 42px; -webkit-background-size: 29px 42px; z-index: 10; position: relative;}
+.customoverlay .title{color: #6773e2; font-weight: bold;}
 /* HTML Marker */
